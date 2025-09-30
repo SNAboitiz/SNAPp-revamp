@@ -37,7 +37,10 @@ return [
     'google_cloud' => [
         'project_id' => env('GOOGLE_CLOUD_PROJECT_ID'),
         'bucket'     => env('GOOGLE_CLOUD_STORAGE_BUCKET'),
-        'key_file'   => env('GOOGLE_CLOUD_KEY_PATH'), // storage_path('app/credentials/snap-csg-229610-f2bb5c5c6b21.json'),
+        'key_file'   => env('GOOGLE_CLOUD_KEY_PATH'),
+
+        // TODO: remove this and use env variable instead
+        // storage_path('app/credentials/snap-csg-229610-f2bb5c5c6b21.json'),
     ],
 
     'oracle' => [
