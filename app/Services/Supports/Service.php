@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Support;
+namespace App\Services\Supports;
 
 abstract class Service
 {

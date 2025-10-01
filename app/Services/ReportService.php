@@ -3,9 +3,9 @@
 namespace App\Services;
 
 use App\Services\Contracts\ReportServiceInterface;
-use App\Services\Support\BigQueryService as BaseService;
+use App\Services\Supports\Service;
 
-class ReportService extends BaseService implements ReportServiceInterface
+class ReportService extends Service implements ReportServiceInterface
 {
     // ReportService specific methods can be added here
 }
