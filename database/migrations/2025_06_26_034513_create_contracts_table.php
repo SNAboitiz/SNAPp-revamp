@@ -21,6 +21,8 @@ return new class extends Migration
                 $table->date('contract_end');
                 $table->string('document');
                 $table->boolean('status')->default(1);
+                $table->string('contract_period')->nullable();
+                $table->unsignedBigInteger('created_by')->nullable();
                 $table->timestamps();
             });
         }
