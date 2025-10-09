@@ -14,42 +14,47 @@ abstract class BigQueryModel
      *
      * @var string
      */
-    protected $table;
+    protected static $table;
 
     /**
      * The BigQuery dataset name.
      *
      * @var string
      */
-    private string $dataset;
+    private static $dataset;
 
     /**
      * The BigQuery client instance.
      *
      * @var BigQueryClient
      */
-    private BigQueryClient $bigQuery;
+    private static $bigQuery;
 
     /**
      * Filters for WHERE clause
      *
      * @var array
      */
-    protected $filters = [];
+    protected static $filters = [];
 
     /**
      * Orders for ORDER BY clause
      *
      * @var array
      */
-    protected $orders = [];
+    protected static $orders = [];
 
     /**
      * Limit for the number of results
      *
      * @var int|null
      */
-    protected $limit = null;
+    protected static $limit = null;
+
+    /**
+     * The SQL query to be executed.
+     */
+    private static $query;
 
     /**
      * Create a new BigQueryService instance.
@@ -58,19 +63,46 @@ abstract class BigQueryModel
      */
     public function __construct()
     {
+        self::init();
+    }
+
+    /**
+     * Initialize BigQuery client and dataset
+     *
+     * @return static
+     */
+    private static function init()
+    {
+        $keyFilePath = config('database.connections.bigquery.key_file_path');
+        $keyFile = config('database.connections.bigquery.key_file');
+
         $config = [
-            'projectId' => config('database.connections.bigquery.project_id'),
-            'keyFile' => config('database.connections.bigquery.key_file'),
-            'keyFilePath' => config('database.connections.bigquery.key_file_path', null),
+            'projectId' => config('database.connections.bigquery.project_id')
         ];
 
-        $this->bigQuery = new BigQueryClient($config);
-
-        $this->dataset = config('database.connections.bigquery.dataset');
-
-        if (!$this->table) {
-            $this->table = Str::snake(class_basename(static::class));
+        if ($keyFilePath && file_exists($keyFilePath)) {
+            $config['keyFilePath'] = $keyFilePath;
+        } elseif ($keyFile && is_array($keyFile)) {
+            $config['keyFile'] = $keyFile;
         }
+
+        self::$bigQuery = new BigQueryClient($config);
+
+        self::$dataset = config('database.connections.bigquery.dataset');
+
+        if (!self::$table) {
+            self::$table = Str::snake(class_basename(static::class));
+        }
+    }
+
+    /**
+     * Execute the prepared query.
+     *
+     * @return QueryResults The results of the query.
+     */
+    private static function execute(): QueryResults
+    {
+        return self::$bigQuery->runQuery(self::$query);
     }
 
     /**
@@ -78,81 +110,66 @@ abstract class BigQueryModel
      *
      * @param string $sql The SQL query to execute.
      * @param array $parameters Optional parameters for the query.
-     * @return QueryResults The results of the query.
      */
-    public function query(string $sql, array $parameters = []): QueryResults
+    public static function query(?string $sql = null, ?array $parameters = [])
     {
-        $jobConfig = $this->bigQuery->query($sql);
+        if (is_null(self::$bigQuery)) self::init();
 
-        if (!empty($parameters)) {
-            $jobConfig->parameters($parameters);
-        }
+        if ($sql) {
+            $jobConfig = self::$bigQuery->query($sql);
 
-        return $this->bigQuery->runQuery($jobConfig);
-    }
-
-    /**
-     * Query a table with optional filters and return the results as an array.
-     *
-     * @param string $table The table to query.
-     * @param array $filters Optional associative array of filters (field => value).
-     * @param array $columns Optional array of columns to select (default is all).
-     * @param int $limit Optional limit on the number of results (default is 1000).
-     * @return array The query results as an array.
-     */
-    public function queryWithFilters(string $table, array $filters = [], array $columns = ['*'], int $limit = 1000): array
-    {
-        $selectColumns = implode(', ', $columns);
-        $sql = "SELECT {$selectColumns} FROM `{$table}`";
-
-        $whereConditions = [];
-        $parameters = [];
-
-        foreach ($filters as $field => $value) {
-            if (is_array($value)) {
-                $placeholders = [];
-                foreach ($value as $index => $item) {
-                    $paramName = $field . '_' . $index;
-                    $placeholders[] = '@' . $paramName;
-                    $parameters[$paramName] = $item;
-                }
-                $whereConditions[] = "{$field} IN (" . implode(', ', $placeholders) . ")";
-            } else {
-                $whereConditions[] = "{$field} = @{$field}";
-                $parameters[$field] = $value;
+            if (!empty($parameters)) {
+                $jobConfig->parameters($parameters);
             }
+        } else {
+            $dataset = self::$dataset;
+            $table = self::$table;
+
+            $query = "SELECT * FROM `{$dataset}.{$table}`";
+
+            // WHERE clause
+            if (!empty(self::$filters)) {
+                $query .= " WHERE " . self::compileFilters(self::$filters);
+            }
+
+            // ORDER BY
+            if (!empty(self::$orders)) {
+                $orders = array_map(fn($o) => "{$o[0]} {$o[1]}", self::$orders);
+                $query .= " ORDER BY " . implode(', ', $orders);
+            }
+
+            // LIMIT
+            if (self::$limit) {
+                $query .= " LIMIT " . self::$limit;
+            }
+
+            $jobConfig = self::$bigQuery->query($query);
         }
 
-        if (!empty($whereConditions)) {
-            $sql .= " WHERE " . implode(' AND ', $whereConditions);
-        }
+        self::$query = $jobConfig;
 
-        $sql .= " LIMIT {$limit}";
-
-        $results = $this->query($sql, $parameters);
-
-        $rows = [];
-        foreach ($results as $row) {
-            $rows[] = $row;
-        }
-
-        return $rows;
+        return new static;
     }
 
     /**
      * WHERE condition (supports closures for nested conditions)
      */
-    public function where($field, $operator = null, $value = null)
+    public static function where($field, $operator = null, $value = null)
     {
         if ($field instanceof Closure) {
             $nested = new static;
             $field($nested); // run closure on new builder
-            $this->filters[] = [
+            self::$filters[] = [
                 'type' => 'and',
                 'nested' => $nested->filters,
             ];
         } else {
-            $this->filters[] = [
+            if ($operator !== null && $value === null) {
+                $value = $operator;
+                $operator = '=';
+            }
+
+            self::$filters[] = [
                 'type' => 'and',
                 'field' => $field,
                 'operator' => $operator,
@@ -160,23 +177,28 @@ abstract class BigQueryModel
             ];
         }
 
-        return $this;
+        return new static;
     }
 
     /**
      * OR WHERE condition (supports closures for nested conditions)
      */
-    public function orWhere($field, $operator = null, $value = null)
+    public static function orWhere($field, $operator = null, $value = null)
     {
         if ($field instanceof Closure) {
             $nested = new static;
             $field($nested);
-            $this->filters[] = [
+            self::$filters[] = [
                 'type' => 'or',
                 'nested' => $nested->filters,
             ];
         } else {
-            $this->filters[] = [
+            if ($operator !== null && $value === null) {
+                $value = $operator;
+                $operator = '=';
+            }
+
+            self::$filters[] = [
                 'type' => 'or',
                 'field' => $field,
                 'operator' => $operator,
@@ -184,65 +206,53 @@ abstract class BigQueryModel
             ];
         }
 
-        return $this;
+        return new static;
     }
 
     /**
      * ORDER BY
      */
-    public function orderBy($field, $direction = 'asc')
+    public static function orderBy($field, $direction = 'asc')
     {
-        $this->orders[] = [$field, strtoupper($direction)];
-        return $this;
+        self::$orders[] = [$field, strtoupper($direction)];
+
+        return new static;
     }
 
     /**
      * Return only the first row
      */
-    public function first()
+    public static function first()
     {
-        $this->limit = 1;
-        $rows = $this->get();
+        self::$limit = 1;
+
+        $rows = self::get();
+
         return $rows->first();
     }
 
     /**
      * Run the query
      */
-    public function get()
+    public static function get()
     {
-        $query = "SELECT * FROM `{$this->dataset}.{$this->table}`";
+        self::query();
 
-        // WHERE clause
-        if (!empty($this->filters)) {
-            $query .= " WHERE " . $this->compileFilters($this->filters);
-        }
+        $job = self::execute();
 
-        // ORDER BY
-        if (!empty($this->orders)) {
-            $orders = array_map(fn($o) => "{$o[0]} {$o[1]}", $this->orders);
-            $query .= " ORDER BY " . implode(', ', $orders);
-        }
-
-        // LIMIT
-        if ($this->limit) {
-            $query .= " LIMIT {$this->limit}";
-        }
-
-        $job = $this->bigQuery->query($query)->run();
         return collect(iterator_to_array($job));
     }
 
     /**
      * Compile filters into SQL
      */
-    protected function compileFilters($filters)
+    private static function compileFilters($filters)
     {
         $sqlParts = [];
 
         foreach ($filters as $filter) {
             if (isset($filter['nested'])) {
-                $nestedSql = $this->compileFilters($filter['nested']);
+                $nestedSql = self::compileFilters($filter['nested']);
                 $sqlParts[] = ($filter['type'] === 'or' ? 'OR' : 'AND') . " ($nestedSql)";
             } else {
                 $value = is_numeric($filter['value'])
