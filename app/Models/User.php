@@ -73,10 +73,17 @@ class User extends Authenticatable
 
     public function profile(): BelongsTo
     {
-        // This tells Eloquent: 
-        // "Match the `customer_id` on this User model with the 
+        // This tells Eloquent:
+        // "Match the `customer_id` on this User model with the
         // `customer_id` on the Profile model."
         return $this->belongsTo(Profile::class, 'customer_id', 'customer_id');
     }
 
+    /**
+     * Get the inquiries for the user.
+     */
+    public function inquiries()
+    {
+        return $this->hasMany(Inquiry::class);
+    }
 }
