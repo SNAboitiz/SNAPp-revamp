@@ -115,18 +115,18 @@ abstract class BigQueryModel
     {
         if (is_null(self::$bigQuery)) self::init();
 
+        $dataset = self::$dataset;
+        $table = self::$table;
+
+        $query = "SELECT * FROM `{$dataset}.{$table}`";
+
         if ($sql) {
-            $jobConfig = self::$bigQuery->query($sql);
+            $jobConfig = self::$bigQuery->query($query . ' ' . $sql);
 
             if (!empty($parameters)) {
                 $jobConfig->parameters($parameters);
             }
         } else {
-            $dataset = self::$dataset;
-            $table = self::$table;
-
-            $query = "SELECT * FROM `{$dataset}.{$table}`";
-
             // WHERE clause
             if (!empty(self::$filters)) {
                 $query .= " WHERE " . self::compileFilters(self::$filters);
