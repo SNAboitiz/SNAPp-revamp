@@ -179,7 +179,7 @@
             </div>
         </div>
 
-        <iframe src="http://localhost:8000/app" class="w-full h-[600px] rounded-xl border-none" frameborder="0"
+        <iframe src="{{ config('app.url') }}/app" class="w-full h-[600px] rounded-xl border-none" frameborder="0"
             allowFullScreen="true"></iframe>
     </div>
 </x-layouts.app>
