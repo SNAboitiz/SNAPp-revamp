@@ -45,4 +45,8 @@ return [
         'password' => env('API_PASSWORD'),
         'url'      => 'https://fa-evjn-saasfaprod1.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05/'
     ],
+
+    'kissflow' => [
+        'url' => env('KISSFLOW_URL'),
+    ],
 ];

@@ -79,10 +79,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('profiles', [ProfileController::class, 'profileList'])->name('admin.profiles.list');
         Route::post('profiles', [ProfileController::class, 'createProfile'])->name('admin.profiles.store');
         Route::put('profiles/{profile}', [ProfileController::class, 'updateProfile'])->name('admin.profiles.update');
-        
+
         Route::get('/bills/manage', [BillController::class, 'showManageBillsPage'])->name('bills.manage');
         Route::post('/bills/upload', [BillController::class, 'uploadBills'])->name('bills.upload');
     });
 });
 
 require __DIR__ . '/auth.php';
+
+Route::webhooks('webhook/inquiry');
