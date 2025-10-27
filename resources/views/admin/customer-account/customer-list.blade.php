@@ -46,7 +46,9 @@
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Customer ID</th>
+                        <th>Customer</th>
+                        <th>Facility</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -58,13 +60,16 @@
                         data-name="{{ $user->name }}"
                         data-email="{{ $user->email }}"
                         data-customer-id="{{ $user->customer_id }}"
-
-                        data-account-name="{{ $user->profile?->account_name }}"
+                        data-facility-id="{{ $user->facility_id }}"
+                        data-account-name="{{ $user->customer?->account_name }}"
+                        data-facility-name="{{ $user->facility?->name }}"
                         onclick="document.getElementById('open-edit-modal').click()">
 
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->profile?->account_name ?? '-' }}</td>
+                        <td>{{ $user->customer?->account_name ?? '-' }}</td>
+                        <td>{{ $user->facility?->name ?? '-' }}</td>
+
                     </tr>
                     @endforeach
                 </tbody>

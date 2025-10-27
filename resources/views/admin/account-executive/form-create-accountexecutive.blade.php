@@ -57,11 +57,11 @@
                     placeholder="— Select account —"
                     required
                     :error="$errors->first('customer_id')">
-                    @foreach ($profiles as $profile)
-                    <option value="{{ $profile->customer_id }}"
+                    @foreach ($customers as $customer)
+                    <option value="{{ $customer->id }}"
                         class="text-black"
-                        @selected(old('customer_id')==$profile->customer_id)>
-                        {{ $profile->account_name }} ({{ $profile->short_name }})
+                        @selected(old('customer_id')==$customer->id)>
+                        {{ $customer->account_name }} ({{ $customer->short_name }})
                     </option>
                     @endforeach
                 </flux:select>

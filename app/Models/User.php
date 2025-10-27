@@ -27,6 +27,7 @@ class User extends Authenticatable
         'email',
         'password',
         'customer_id',
+        'facility_id',
         'active'
     ];
 
@@ -73,10 +74,26 @@ class User extends Authenticatable
 
     public function profile(): BelongsTo
     {
-        // This tells Eloquent: 
-        // "Match the `customer_id` on this User model with the 
-        // `customer_id` on the Profile model."
         return $this->belongsTo(Profile::class, 'customer_id', 'customer_id');
     }
 
+    /**
+     * Get the customer associated with the user.
+     *
+     * @return belongsTo<Customer>
+     */
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+    /**
+     * Get the facilities associated with the user.
+     *
+     * @return belongsTo<Facility>
+     */
+    public function facility(): BelongsTo
+    {
+        return $this->belongsTo(Facility::class);
+    }
 }

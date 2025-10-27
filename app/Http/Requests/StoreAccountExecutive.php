@@ -39,7 +39,8 @@ class StoreAccountExecutive extends FormRequest
             
             'customer_id' => [
                 'required',
-                'numeric', 
+                'numeric',
+                'exists:customers,id' 
             ],
 
         ];

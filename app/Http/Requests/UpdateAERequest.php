@@ -36,7 +36,8 @@ class UpdateAERequest extends FormRequest
             'edit_customer_id' => 
             [
                 'sometimes', 
-                'numeric'
+                'numeric',
+                'exists:customers,id'
             ],
             'edit_email' => 
             [

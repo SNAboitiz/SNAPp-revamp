@@ -19,9 +19,7 @@
                 <flux:heading size="lg">
                     Create New Customer Account
                 </flux:heading>
-                <flux:text class="mt-2">
-                    Fill in the required user details and choose an existing profile.
-                </flux:text>
+
             </div>
 
             <flux:field>
@@ -47,23 +45,46 @@
                 @enderror
             </flux:field>
 
-            <flux:field label="Assign Profile" for="customer_id" required>
+            <!-- Assign Customer -->
+            <flux:field>
+            <flux:label badge="Required">Customer</flux:label>
                 <flux:select
                     id="customer_id"
                     name="customer_id"
-                    placeholder="— Select account —"
+                    placeholder="— Select customer —"
                     required
                     :error="$errors->first('customer_id')">
-                    @foreach ($profiles as $profile)
-                    <option value="{{ $profile->customer_id }}"
+                    @foreach ($customers as $customer)
+                    <option
+                        value="{{ $customer->id }}"
                         class="text-black"
-                        @selected(old('customer_id')==$profile->customer_id)>
-                        {{ $profile->account_name }} ({{ $profile->short_name }})
+                        @selected(old('customer_id')==$customer->id)>
+                        {{ $customer->account_name }} ({{ $customer->short_name ?? '—' }})
                     </option>
-
                     @endforeach
                 </flux:select>
             </flux:field>
+
+            <!-- Assign Facility -->
+            <flux:field label="Assign Facility" for="facility_id">
+                <flux:label>Facility</flux:label>
+
+                <flux:select
+                    id="facility_id"
+                    name="facility_id"
+                    placeholder="— Select facility —"
+                    :error="$errors->first('facility_id')">
+                    @foreach ($facilities as $facility)
+                    <option
+                        value="{{ $facility->id }}"
+                        class="text-black"
+                        @selected(old('facility_id')==$facility->id)>
+                        {{ $facility->name }}
+                    </option>
+                    @endforeach
+                </flux:select>
+            </flux:field>
+
 
 
             <div class="flex">

@@ -29,30 +29,42 @@ class EditCustomerRequest extends FormRequest
         $user = $this->route('user');
 
         return [
-            'edit_name' => 
+            'edit_name' =>
             [
-                'sometimes', 
-                'string', 
+                'sometimes',
+                'string',
                 'max:255'
             ],
-            'edit_customer_id' => 
+
+            'edit_email' =>
             [
-                'sometimes', 
-                'numeric'
-            ],
-            'edit_email' => 
-            [
-                'sometimes', 
+                'sometimes',
                 'email',
                 Rule::unique('users', 'email')->ignore($user->id),
-            ], 
-            
+            ],
+
+            'edit_customer_id' =>
+            [
+                'sometimes',
+                'numeric',
+                'exists:customers,id'
+
+            ],
+
+            'edit_facility_id' =>
+            [
+                'sometimes',
+                'numeric',
+                'exists:facilities,id'
+
+            ],
+
         ];
     }
     protected function failedValidation(Validator $validator)
     {
-        session()->flash('show_modal', 'edit-customer-modal'); // 👈 Add this
-    
+        session()->flash('show_modal', 'edit-customer-modal');
+
         throw new HttpResponseException(
             redirect()
                 ->back()
