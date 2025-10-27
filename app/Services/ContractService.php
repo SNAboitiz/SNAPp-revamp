@@ -35,7 +35,7 @@ class ContractService
             return [
                 'reference_number' => $c->reference_number,
                 'contract_name'    => $c->description,
-                'shortname'        => $c->shortname,
+                'short_name'        => $c->short_name,
                 'contract_period'  => $c->contract_period,
                 'contract_end'     => $c->contract_end,
                 'upload_date'      => $c->created_at->format('d-M-Y'),
@@ -58,8 +58,8 @@ class ContractService
 
         $disk = config('filesystems.default');
 
-        // Get DB contracts filtered by shortname, ordered newest first
-        $dbContracts = Contract::where('shortname', $short)
+        // Get DB contracts filtered by short_name, ordered newest first
+        $dbContracts = Contract::where('short_name', $short)
             ->orderBy('created_at', 'desc')
             ->paginate(5); // Pagination (5 per page)
 
@@ -74,7 +74,7 @@ class ContractService
             return [
                 'reference_number' => $c->reference_number,
                 'contract_name'    => $c->description,
-                'shortname'        => $c->shortname,
+                'short_name'        => $c->short_name,
                 'contract_period'  => $c->contract_period,
                 'contract_end'     => $c->contract_end,
                 'upload_date'      => $c->created_at->format('d-M-Y'),
@@ -95,7 +95,7 @@ class ContractService
                 $legacyContract = [
                     'reference_number' => null,
                     'contract_name'    => "Legacy Contract for {$short}",
-                    'shortname'        => $short,
+                    'short_name'        => $short,
                     'contract_period'  => null,
                     'contract_end'     => null,
                     'upload_date'      => Carbon::now()->format('d-M-Y'),

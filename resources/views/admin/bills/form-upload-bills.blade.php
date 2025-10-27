@@ -21,23 +21,22 @@
                 </flux:text>
             </div>
 
-            <flux:field class="md:col-span-2">
-                <flux:label badge="Required">Select Profile (Shortname)</flux:label>
-                <select
+            <flux:field>
+                <flux:label badge="Required">Select Customer</flux:label>
+                <flux:select
                     name="customer_id"
-                    class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                    required>
-                    <option value="">— Select profile —</option>
-                    @foreach ($profiles as $profile)
-                    <option value="{{ $profile->customer_id }}"
-                        {{ old('customer_id') == $profile->customer_id ? 'selected' : '' }}>
-                        {{ $profile->account_name }} ({{ $profile->short_name }})
+                    placeholder="— Select customer —"
+                    required
+                    :error="$errors->first('customer_id')">
+                    @foreach ($customers as $customer)
+                    <option
+                        value="{{ $customer->id }}"
+                        class="text-black"
+                        {{ old('customer_id') == $customer->customer_id ? 'selected' : '' }}>
+                        {{ $customer->account_name }} ({{ $customer->short_name }})
                     </option>
                     @endforeach
-                </select>
-                @error('customer_id')
-                <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
-                @enderror
+                </flux:select>
             </flux:field>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">

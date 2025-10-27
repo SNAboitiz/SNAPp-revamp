@@ -37,10 +37,6 @@
                     <td>{{ $item['billNumber'] }}</td>
                     <td>{{ $item['uploadedAt'] }}</td>
                 </tr>
-                @empty
-                <tr>
-                    <td colspan="4" class="text-center py-4 text-gray-500">No bills found.</td>
-                </tr>
                 @endforelse
             </tbody>
 

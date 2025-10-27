@@ -20,23 +20,23 @@
           Contract upload accepts pdf, doc, and docx formats.
         </flux:text>
       </div>
-      <flux:field class="md:col-span-2">
-        <flux:label badge="Required">Select Profile (Shortname)</flux:label>
-        <select
+
+      <flux:field>
+        <flux:label badge="Required">Select Customer (Shortname)</flux:label>
+        <flux:select
           name="shortname"
-          class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-          required>
-          <option value="">— Select profile —</option>
-          @foreach ($profiles as $profile)
-          <option value="{{ $profile->short_name }}"
-            {{ old('shortname') == $profile->short_name ? 'selected' : '' }}>
-            {{ $profile->account_name }} ({{ $profile->short_name }})
+          placeholder="— Select customer —"
+          required
+          :error="$errors->first('shortname')">
+          @foreach ($customers as $customer)
+          <option
+            value="{{ $customer->short_name }}"
+            class="text-black"
+            {{ old('shortname') == $customer->short_name ? 'selected' : '' }}>
+            {{ $customer->account_name }} ({{ $customer->short_name }})
           </option>
           @endforeach
-        </select>
-        @error('shortname')
-        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
-        @enderror
+        </flux:select>
       </flux:field>
 
       {{-- two-column body --}}

@@ -25,8 +25,8 @@ class UploadBillRequest extends FormRequest
             'customer_id' =>
             [
                 'required',
-                'string',
-                'max:255'
+                'numeric',
+                'exists:customers,id'
             ],
             'billing_start_date' =>
             [

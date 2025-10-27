@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreContractRequest;
 use App\Models\Contract;
-use App\Models\Profile;
+use App\Models\customer;
 use App\Services\ContractService;
 use Illuminate\Support\Carbon;
 
@@ -17,6 +17,7 @@ class ContractController extends Controller
         $user = auth()->user();
 
         if ($user->hasRole('admin')) {
+            
             // Admin: see all contracts
             $contracts = $this->contractService->getAllContracts();
         } else {
@@ -24,9 +25,9 @@ class ContractController extends Controller
             $contracts = $this->contractService->getContractForUser($user);
         }
 
-        $profiles = Profile::orderBy('account_name')->get();
+        $customers = customer::orderBy('account_name')->get();
 
-        return view('my-contracts', compact('contracts', 'profiles'));
+        return view('my-contracts', compact('contracts', 'customers'));
     }
 
 
@@ -35,7 +36,7 @@ class ContractController extends Controller
         $validated = $request->validated();
         $user = auth()->user();
 
-        $short = $validated['shortname'];
+        $short = $validated['short_name'];
 
         // format period
         $start  = Carbon::parse($validated['contract_start']);
