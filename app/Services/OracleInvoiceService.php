@@ -38,15 +38,15 @@ class OracleInvoiceService
      * Fetches invoice data and consistently sorts it by the latest billing period (descending).
      * This ensures the most recent invoice is always at index [0] of the returned array.
      *
-     * @param string $customerId
+     * @param string $customerNumber
      * @return array
      */
-       public function fetchInvoiceData($customerId)
+       public function fetchInvoiceData($customerNumber)
     {
         $url = $this->baseUrl . 'receivablesInvoices';
 
         $queryParams = [
-            'finder' => "invoiceSearch;TransactionSource=SNAP AUTOINVOICE,TransactionType=TRADE-RES,BusinessUnit=SNAPR BU,BillToCustomerNumber={$customerId}",
+            'finder' => "invoiceSearch;TransactionSource=SNAP AUTOINVOICE,TransactionType=TRADE-RES,BusinessUnit=SNAPR BU,BillToCustomerNumber={$customerNumber}",
             'totalResults' => 'true'
             // No 'orderBy' parameter, as we are doing the reliable chronological sorting in PHP.
         ];
@@ -82,13 +82,10 @@ class OracleInvoiceService
             // Cut off to only the top 5 most recent items ---
             $limitedItems = array_slice($items, 0, 5);
 
-            // You can add a dd() here temporarily to verify the final list:
-            // dd($limitedItems); 
-
             return $limitedItems; // Return the sorted and limited list of invoices
         }
 
-        return []; // Return empty array if the API call was not successful
+        return []; 
     }
 
     public function fetchConsumption($transactionId)

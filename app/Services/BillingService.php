@@ -3,7 +3,8 @@
 namespace App\Services;
 
 use App\Models\Bill;
-use App\Models\Profile;
+use App\Models\Customer;
+use App\Models\Facility;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
@@ -23,18 +24,18 @@ class BillingService
     {
         $disk = config('filesystems.default');
 
-        $dbBills = Bill::with('profile')
+        $dbBills = Bill::with('customer')
             ->orderBy('created_at', 'desc')
             ->paginate(5);
 
         $dbBills->getCollection()->transform(function (Bill $bill) use ($disk) {
             return [
                 'billNumber'    => $bill->bill_number,
-                'accountName'   => $bill->profile?->account_name ?? 'No Profile',
+                'accountName'   => $bill->customer?->account_name ?? 'No Customer',
                 'billingPeriod' => $bill->billing_period,
                 'uploadedAt'    => $bill->created_at->format('d-M-Y'),
                 'gcsPdfUrl' => $this->resolveFileUrl(
-                    "snapp_bills/{$bill->profile?->short_name}_{$bill->billing_period}_{$bill->bill_number}.pdf",
+                    "snapp_bills/{$bill->customer?->short_name}_{$bill->billing_period}_{$bill->bill_number}.pdf",
                     $disk
                 ),
             ];
@@ -48,26 +49,36 @@ class BillingService
 
     public function getPaginatedBillsForUser($user, Request $request): LengthAwarePaginator
     {
-        $customerId = $user->hasRole('admin') && $request->has('customer_id')
-            ? $request->query('customer_id')
-            : $user->customer_id;
+        $customerNumber = $user->hasRole('admin') && $request->has('customer_number')
+            ? $request->query('customer_number')
+            : $user->customer->customer_number;
 
-        if (!$customerId) {
-            session()->flash('info_message', 'No customer selected.');
+        if (!$customerNumber && $user->customer_id) {
+            $customerNumber = Customer::find($user->customer_id)?->customer_number;
+        }
+
+        $customer = Customer::where('customer_number', $customerNumber)->first();
+        if (!$customer) {
+            session()->flash('info_message', 'Selected customer has no customer.');
             return $this->paginate(collect(), 5, $request, 'bills.show');
         }
 
-        $profile = Profile::where('customer_id', $customerId)->first();
-        if (!$profile) {
-            session()->flash('info_message', 'Selected customer has no profile.');
-            return $this->paginate(collect(), 5, $request, 'bills.show');
-        }
-
-        $customerShortname = $profile->short_name;
+        $customerShortname = $customer->short_name;
 
         // Fetch and format invoice data
-        $rawOracleItems = $this->oracleService->fetchInvoiceData($customerId);
-        $allBills = $this->prepareBillData(collect($rawOracleItems), $customerShortname);
+        $rawOracleItems = $this->oracleService->fetchInvoiceData($customerNumber);
+
+        $allOracleItems = collect($rawOracleItems);
+
+        // Backend facility filtering for security (customer users only)
+        if (!$user->hasRole('admin') && $user->facility_id && $user->facility) {
+            $facilitySein = $user->facility->sein;
+            $allOracleItems = $allOracleItems->filter(function ($item) use ($facilitySein) {
+                return ($item['SpecialInstructions'] ?? null) === $facilitySein;
+            });
+        }
+
+        $allBills = $this->prepareBillData($allOracleItems, $customerShortname);
 
         // Optional search filter
         if ($search = strtolower($request->input('search'))) {
@@ -153,7 +164,7 @@ class BillingService
             // 1. Splits "26-Oct-22 to 25-Nov-22" into two parts
             $parts = explode(' to ', $oracleComments);
             if (count($parts) !== 2) {
-                return $oracleComments; 
+                return $oracleComments;
             }
 
             $startDate = Carbon::parse(trim($parts[0]));
@@ -170,9 +181,27 @@ class BillingService
 
     public function getPaginatedPaymentHistoryForUser($user, Request $request): LengthAwarePaginator
     {
-        $rawOracleItems = $this->oracleService->fetchInvoiceData($user->customer_id);
+        $customerNumber = $user->customer->customer_number;
 
-        $allPayments = collect($rawOracleItems)->map(function ($item) {
+        $rawOracleItems = $this->oracleService->fetchInvoiceData($customerNumber);
+
+        $allOracleItems = collect($rawOracleItems);
+
+        // Backend facility filtering for customer users
+        if (!$user->hasRole('admin') && $user->facility_id && $user->facility) {
+            $facilitySein = $user->facility->sein;
+            $allOracleItems = $allOracleItems->filter(function ($item) use ($facilitySein) {
+                return ($item['SpecialInstructions'] ?? null) === $facilitySein;
+            });
+
+            \Log::debug('Payment history facility filtering applied', [
+                'facility_sein' => $facilitySein,
+                'items_before' => count($rawOracleItems),
+                'items_after' => $allOracleItems->count()
+            ]);
+        }
+
+        $allPayments = collect($allOracleItems)->map(function ($item) {
             return [
                 'Payment Reference'      => $item['DocumentNumber'] ?? '',
                 'Payment Reference Date' => isset($item['AccountingDate']) ? \Carbon\Carbon::parse($item['AccountingDate'])->format('m/d/Y') : '',

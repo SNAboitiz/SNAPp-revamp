@@ -19,7 +19,7 @@
                     <th>Posting Date</th>
                     <th>Status</th>
                     <th>Total Amount</th>
-                    <th>Actions</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>

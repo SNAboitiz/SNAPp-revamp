@@ -25,11 +25,11 @@
                         </svg>
                     </button>
                     <flux:menu class="w-48">
-                        @foreach ($profiles as $profile)
+                        @foreach ($customers as $customer)
                         <flux:menu.item
-                            href="{{ route('bills.show', ['customer_id' => $profile->customer_id]) }}"
+                            href="{{ route('bills.show', ['customer_id' => $customer->customer_id]) }}"
                             icon="user">
-                            {{ $profile->account_name }}
+                            {{ $customer->account_name }}
                         </flux:menu.item>
                         @endforeach
 
@@ -54,11 +54,11 @@
                         </svg>
                     </button>
                     <flux:menu class="w-48">
-                        @foreach ($profiles as $profile)
+                        @foreach ($customers as $customer)
                         <flux:menu.item
-                            href="{{ route('bills.show', ['customer_id' => $profile->customer_id]) }}"
+                            href="{{ route('bills.show', ['customer_id' => $customer->customer_id]) }}"
                             icon="user">
-                            {{ $profile->account_name }}
+                            {{ $customer->account_name }}
                         </flux:menu.item>
                         @endforeach
 
