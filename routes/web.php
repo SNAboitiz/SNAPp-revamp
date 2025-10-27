@@ -3,7 +3,9 @@
 use App\Http\Controllers\AdvisoryController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\GhgController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Security\PermissionController;
@@ -79,9 +81,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('profiles', [ProfileController::class, 'profileList'])->name('admin.profiles.list');
         Route::post('profiles', [ProfileController::class, 'createProfile'])->name('admin.profiles.store');
         Route::put('profiles/{profile}', [ProfileController::class, 'updateProfile'])->name('admin.profiles.update');
-        
+
         Route::get('/bills/manage', [BillController::class, 'showManageBillsPage'])->name('bills.manage');
         Route::post('/bills/upload', [BillController::class, 'uploadBills'])->name('bills.upload');
+        //this is the cutomers route
+        Route::resource('customers', CustomerController::class);
+        Route::resource('facilities', FacilityController::class);
     });
 });
 
