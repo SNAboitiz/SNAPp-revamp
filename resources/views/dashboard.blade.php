@@ -43,9 +43,9 @@
                     <template x-for="(advisory, index) in moreAdvisories" :key="advisory.id">
                         <div @click="activeAdvisory = advisory; showModal = true"
                             class="cursor-pointer group hover:bg-blue-50 p-3 rounded-lg transition border border-gray-100">
-                            <h4 class="text-md font-semibold text-[#1443e0] group-hover:text-[#0d3ab9]"
-                                x-text="advisory.headline"></h4>
-                            <p class="text-sm text-[#1443e0] mt-1 line-clamp-2" x-text="advisory.description"></p>
+                            <h4 class="text-md font-semibold group-hover:text-[#0d3ab9]" x-text="advisory.headline">
+                            </h4>
+                            <p class="text-sm mt-1 line-clamp-2" x-text="advisory.description"></p>
                             <div class="text-xs text-gray-500 mt-1"
                                 x-text="new Date(advisory.created_at).toLocaleDateString()"></div>
                             <hr class="border-t border-gray-200 my-2">
@@ -59,7 +59,7 @@
 
                 <button @click="loadMore()" :disabled="loading"
                     class="mt-6 flex items-center justify-center w-full py-2 border border-[#1443e0] rounded-lg text-sm font-medium text-[#1443e0] hover:bg-blue-50 transition">
-                    <span x-text="loading ? 'Loading...' : 'Load More'" class="mr-2"></span>
+                    <span x-text="loading ? 'Loading...' : 'Load More'" class="mr-2 text-black"></span>
                     <svg x-show="!loading" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -97,7 +97,7 @@
                     <!-- Total Amount -->
                     <div class="flex-1 text-center min-w-[120px]">
                         <span class="text-xs font-medium text-[#1443e0]">Total Amount</span>
-                        <div class="text-2xl font-bold text-[#1443e0] mt-1 truncate">₱{{ $currentAmount }}</div>
+                        <div class="text-2xl font-bold mt-1 truncate">₱{{ $currentAmount }}</div>
                     </div>
 
                     <!-- Divider -->
@@ -106,7 +106,7 @@
                     <!-- Due Date -->
                     <div class="flex-1 text-center min-w-[120px]">
                         <span class="text-xs font-medium text-[#1443e0]">Due Date</span>
-                        <div class="text-2xl font-bold text-[#1443e0] mt-1 truncate">{{ $dueDate }}</div>
+                        <div class="text-2xl font-bold mt-1 truncate">{{ $dueDate }}</div>
                     </div>
                 </div>
             </div>
