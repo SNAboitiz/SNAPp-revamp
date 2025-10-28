@@ -89,9 +89,10 @@ new #[Layout('components.layouts.auth')] class extends Component {
     <div class="mb-3">
         <img src="{{ asset('images/new-logo.png') }}" alt="Logo" class="mx-auto d-block h-10 w-auto"
             style="height: 50px !important;">
-    </div>
 
-    {{-- TODO: add logo --}}
+        <img src="{{ asset('images/SNAPp.png') }}" alt="Logo" class="mx-auto d-block h-10 w-auto"
+            style="height: 30px !important;">
+    </div>
 
     <x-auth-header :title="__('SNAP Customer Portal')" :description="__('Enter your account details to log in')" />
 

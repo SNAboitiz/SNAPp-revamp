@@ -26,8 +26,8 @@
                     <div class="flex items-center h-10 w-full">
                         <!-- Full Logo -->
                         <template x-if="!collapsed">
-                            <img src="{{ asset('images/snapp-logo-white.PNG') }}" alt="SnaPp Logo"
-                                class="h-10 w-auto object-contain transition-all duration-300 ease-in-out" x-cloak />
+                            <img src="{{ asset('images/snapp-logo-white.png') }}" alt="SnaPp Logo"
+                                class="w-auto object-contain transition-all duration-300 ease-in-out" x-cloak />
                         </template>
 
                         <!-- Abbreviation (SN) -->
