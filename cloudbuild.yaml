@@ -1,36 +1,15 @@
 steps:
-  - name: "composer:latest"
-    args:
-      - install
-      - --no-dev
-      - --no-interaction
-      - --prefer-dist
-      - --optimize-autoloader
-      - --ignore-platform-req=ext-intl
-    id: InstallComposerDependencies
-
-  - name: "node:lts"
-    entrypoint: "bash"
-    args:
-      - "-c"
-      - |
-        npm ci
-        npm run build
-    id: BuildAssets
-  - name: gcr.io/k8s-skaffold/pack
+  - name: gcr.io/cloud-builders/docker
     args:
       - build
+      - "--no-cache"
+      - "-t"
       - >-
         $_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
-      - "--builder=gcr.io/buildpacks/builder:latest"
-      - "--network=cloudbuild"
-      - "--path=."
-      - "--env=GOOGLE_RUNTIME_VERSION=8.2"
-      - "--env=DOCUMENT_ROOT=public"
-      - "--env=APP_URL=https://snapp-revamp-713782974164.us-central1.run.app"
-      - "--env=APP_ENV=production"
-    id: Buildpack
-    entrypoint: pack
+      - .
+      - "-f"
+      - Dockerfile
+    id: Build
   - name: gcr.io/cloud-builders/docker
     args:
       - push
@@ -59,14 +38,14 @@ options:
   substitutionOption: ALLOW_LOOSE
   logging: CLOUD_LOGGING_ONLY
 substitutions:
-  _AR_HOSTNAME: us-central1-docker.pkg.dev
   _AR_REPOSITORY: cloud-run-source-deploy
   _AR_PROJECT_ID: snap-csg-229610
   _PLATFORM: managed
   _SERVICE_NAME: snapp-revamp-staging
   REPO_NAME: snapp-revamp
+  _TRIGGER_ID: 20b36183-33e1-4a1f-b862-2a9a15d3524e
   _DEPLOY_REGION: us-central1
-  _TRIGGER_ID: 7c827b39-0dc2-4e3b-8ce5-b4f8014d0ec2
+  _AR_HOSTNAME: us-central1-docker.pkg.dev
 tags:
   - gcp-cloud-build-deploy-cloud-run
   - gcp-cloud-build-deploy-cloud-run-managed
