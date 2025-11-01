@@ -31,11 +31,13 @@
                         </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-center">
-                        @if (array_key_exists('gcsPdfUrl', $item) && $item['gcsPdfUrl'])
-                            <div class="inline-flex items-center justify-center h-8 w-8 text-blue-600"
-                                title="View Contract">
-                                <flux:icon name="document-text" class="h-5 w-5" />
-                            </div>
+                        @if ($item['gcsPdfUrl'])
+                            <button type="button" @click.stop="window.open('{{ $item['gcsPdfUrl'] }}', '_blank')"
+                                title="View/Download Bill"
+                                class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-[#1443e0] text-white hover:bg-[#0d3ab9] transition-colors">
+
+                                <flux:icon name="download" class="h-4 w-4" />
+                            </button>
                         @endif
                     </td>
                 </tr>

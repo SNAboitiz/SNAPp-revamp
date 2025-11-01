@@ -32,10 +32,7 @@
 
                         <!-- Abbreviation (SN) -->
                         <template x-if="collapsed">
-                            <span class="text-white text-xl font-semibold transition-all duration-300 ease-in-out"
-                                x-cloak>
-                                SN
-                            </span>
+                            <flux:icon name="bars-3" class="text-white" />
                         </template>
                     </div>
                 </a>
