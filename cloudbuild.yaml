@@ -28,7 +28,7 @@ steps:
       - "--env=GOOGLE_RUNTIME_VERSION=8.2"
       - "--env=DOCUMENT_ROOT=public"
       - "--env=APP_URL=https://snapp-revamp-713782974164.us-central1.run.app"
-      - "--env=APP_ENV=staging"
+      - "--env=APP_ENV=production"
     id: Buildpack
     entrypoint: pack
   - name: gcr.io/cloud-builders/docker
