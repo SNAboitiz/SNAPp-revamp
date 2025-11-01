@@ -6,6 +6,7 @@ steps:
       - --no-interaction
       - --prefer-dist
       - --optimize-autoloader
+      - --ignore-platform-req=ext-intl
     id: InstallComposerDependencies
 
   - name: "node:lts"
