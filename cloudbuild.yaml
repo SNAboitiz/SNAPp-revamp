@@ -1,4 +1,13 @@
 steps:
+  - name: "composer:latest"
+    args:
+      - install
+      - --no-dev
+      - --no-interaction
+      - --prefer-dist
+      - --optimize-autoloader
+    id: InstallComposerDependencies
+
   - name: "node:lts"
     entrypoint: "bash"
     args:
