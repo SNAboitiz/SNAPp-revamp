@@ -1,0 +1,39 @@
+# This file specifies files that are *not* uploaded to Google Cloud
+# using gcloud. It follows the same syntax as .gitignore.
+
+.git
+.gitignore
+README.md
+tests/
+.phpunit.result.cache
+.env.example
+.editorconfig
+.styleci.yml
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Laravel
+storage/logs/*
+!storage/logs/.gitignore
+storage/framework/cache/*
+!storage/framework/cache/.gitignore
+storage/framework/sessions/*
+!storage/framework/sessions/.gitignore
+storage/framework/views/*
+!storage/framework/views/.gitignore
+bootstrap/cache/*
+!bootstrap/cache/.gitignore
+
+# Development
+.docker/
+docker-compose.yml
+Makefile
+.vscode/
+.idea/
+
+# Testing
+phpunit.xml
+.phpunit.cache
