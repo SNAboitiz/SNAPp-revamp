@@ -22,7 +22,7 @@ echo "Queue worker started with PID: $QUEUE_PID"
 
 echo "Starting Web Server on port $PORT..."
 # Start the web server in background
-php -S 0.0.0.0:$PORT -t public/ public/router.php &
+php -S 0.0.0.0:$PORT -t public/ &
 WEB_PID=$!
 echo "Web server started with PID: $WEB_PID"
 
@@ -37,7 +37,7 @@ check_processes() {
 
     if ! kill -0 $WEB_PID 2>/dev/null; then
         echo "Web server died, restarting..."
-        php -S 0.0.0.0:$PORT -t public/ public/router.php &
+        php -S 0.0.0.0:$PORT -t public/ &
         WEB_PID=$!
         echo "Web server restarted with PID: $WEB_PID"
     fi
