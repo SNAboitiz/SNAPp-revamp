@@ -3,9 +3,15 @@
 # Set default port if not provided
 export PORT=${PORT:-8080}
 
-# Force HTTPS URLs in production
-export APP_URL=${APP_URL:-https://bims-274131154077.us-central1.run.app}
-export FORCE_HTTPS=true
+# Only set if explicitly provided
+export APP_URL=${APP_URL:-""}
+
+# Force HTTPS in production environments
+if [ "$APP_ENV" = "production" ] || [ "$APP_ENV" = "staging" ]; then
+    export FORCE_HTTPS=true
+else
+    export FORCE_HTTPS=false
+fi
 
 # Ensure storage directories exist and are writable
 mkdir -p storage/logs
