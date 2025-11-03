@@ -1,3 +1,0 @@
-export GOOGLE_RUNTIME_VERSION=8.2
-export DOCUMENT_ROOT=public
-export PORT=${PORT:-8080}
