@@ -1,40 +1,4 @@
 steps:
-  # Install Composer dependencies
-  - name: composer:2
-    args:
-      - install
-      - --no-dev
-      - --optimize-autoloader
-      - --no-interaction
-      - --prefer-dist
-    id: Composer Install
-
-  # Install NPM dependencies and build assets
-  - name: node:20
-    entrypoint: npm
-    args:
-      - ci
-    id: NPM Install
-
-  - name: node:20
-    entrypoint: npm
-    args:
-      - run
-      - build
-    id: NPM Build
-
-  # Copy environment file and generate app key
-  - name: php:8.2-cli
-    entrypoint: bash
-    args:
-      - -c
-      - |
-        cp .env.example .env || true
-        php artisan key:generate --force
-        cat .env | grep APP_KEY
-    id: Generate App Key
-
-  # Build image with buildpack
   - name: gcr.io/k8s-skaffold/pack
     args:
       - build
@@ -43,21 +7,14 @@ steps:
       - "--builder=gcr.io/buildpacks/builder:latest"
       - "--network=cloudbuild"
       - "--path=."
-      - "--env=BP_PHP_VERSION=8.2.*"
-      - "--env=BP_PHP_SERVER=apache"
-      - "--env=BP_PHP_WEB_DIR=public"
     id: Buildpack
     entrypoint: pack
-
-  # Push image to Artifact Registry
   - name: gcr.io/cloud-builders/docker
     args:
       - push
       - >-
         $_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
     id: Push
-
-  # Deploy to Cloud Run with environment variables
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk:slim"
     args:
       - run
@@ -70,18 +27,6 @@ steps:
       - >-
         --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID
       - "--region=$_DEPLOY_REGION"
-      - "--set-env-vars=APP_ENV=production"
-      - "--set-env-vars=APP_DEBUG=false"
-      - "--set-env-vars=LOG_CHANNEL=stderr"
-      - "--set-env-vars=LOG_LEVEL=info"
-      - "--set-env-vars=SESSION_DRIVER=cookie"
-      - "--set-env-vars=CACHE_STORE=file"
-      - "--set-env-vars=QUEUE_CONNECTION=database"
-      - "--allow-unauthenticated"
-      - "--memory=512Mi"
-      - "--cpu=1"
-      - "--timeout=300"
-      - "--max-instances=10"
       - "--quiet"
     id: Deploy
     entrypoint: gcloud
@@ -92,7 +37,6 @@ options:
   substitutionOption: ALLOW_LOOSE
   logging: CLOUD_LOGGING_ONLY
 substitutions:
-  _DEPLOY_REGION: us-central1
   _TRIGGER_ID: 4ad25b0e-7aa3-4f46-a4e7-d2f869c2f675
   _AR_HOSTNAME: us-central1-docker.pkg.dev
   _AR_REPOSITORY: cloud-run-source-deploy
@@ -100,6 +44,7 @@ substitutions:
   _PLATFORM: managed
   _SERVICE_NAME: snapp-revamp
   REPO_NAME: snapp-revamp
+  _DEPLOY_REGION: us-central1
 tags:
   - gcp-cloud-build-deploy-cloud-run
   - gcp-cloud-build-deploy-cloud-run-managed
