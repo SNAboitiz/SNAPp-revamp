@@ -41,7 +41,7 @@ substitutions:
   _AR_REPOSITORY: cloud-run-source-deploy
   _AR_PROJECT_ID: snap-csg-229610
   _PLATFORM: managed
-  _SERVICE_NAME: snapp-revamp-staging
+  _SERVICE_NAME: snapp-revamp
   REPO_NAME: snapp-revamp
   _TRIGGER_ID: 20b36183-33e1-4a1f-b862-2a9a15d3524e
   _DEPLOY_REGION: us-central1
@@ -49,4 +49,4 @@ substitutions:
 tags:
   - gcp-cloud-build-deploy-cloud-run
   - gcp-cloud-build-deploy-cloud-run-managed
-  - snapp-revamp-staging
+  - snapp-revamp
