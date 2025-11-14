@@ -15,7 +15,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //code here
+        // code here
     }
 
     /**
@@ -27,10 +27,10 @@ class RoleController extends Controller
     {
         return view('role-permissions.form-create-role');
     }
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -38,12 +38,13 @@ class RoleController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|unique:roles,name', // Adjust if 'title' is a separate column
         ]);
-    
+
         Role::create([
             'name' => $validated['title'], // Use 'title' as 'name' if no separate title column
             'guard_name' => 'web',
         ]);
         session()->flash('message', 'Post successfully updated.');
+
         return redirect()->route('role.permission.list')->with('success', 'Role created successfully.');
     }
 
@@ -55,7 +56,7 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-       //code here
+        // code here
     }
 
     /**
@@ -69,14 +70,13 @@ class RoleController extends Controller
         $role = Role::findOrFail($id);
         // Load the edit form from resources/views/admin.role-permission/form-edit-role.blade.php
         $view = view('admin.role-permission.form-edit-role', compact('role'))->render();
+
         return response()->json(['data' => $view, 'status' => true]);
     }
-    
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -84,25 +84,24 @@ class RoleController extends Controller
     {
         // Retrieve the role or fail if not found
         $role = Role::findOrFail($id);
-    
+
         // Validate the input; ignore the current role when checking for unique names
         $validated = $request->validate([
-            'title'  => "required|string|unique:roles,name,{$id}",
+            'title' => "required|string|unique:roles,name,{$id}",
             'status' => 'required|boolean',
         ]);
-    
+
         // Update the role with the new title (and handle status if needed)
         $role->update([
             'name' => $validated['title'],
             // If you have a column for status, update it accordingly:
             // 'status' => $validated['status'],
         ]);
-    
+
         // Redirect back to the admin.role-permission list with a success message
         return redirect()->route('role.permission.list')
-                         ->with('success', 'Role updated successfully.');
+            ->with('success', 'Role updated successfully.');
     }
-    
 
     /**
      * Remove the specified resource from storage.
@@ -116,5 +115,4 @@ class RoleController extends Controller
         // $role->delete();
         // return redirect()->route('role.permission.list')->with('success', 'Role deleted successfully.');
     }
-    
 }

@@ -3,10 +3,11 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
+
 class StoreAdminRequest extends FormRequest
 {
     /**
@@ -27,25 +28,25 @@ class StoreAdminRequest extends FormRequest
         return [
             'name' => [
                 'required',
-                'string', 
+                'string',
 
             ],
             'email' => [
                 'required',
-                'email', 
-                Rule::unique(User::class)
+                'email',
+                Rule::unique(User::class),
             ],
-            
+
             'customer_id' => [
                 'nullable',
-                'numeric', 
+                'numeric',
             ],
         ];
     }
 
     protected function failedValidation(Validator $validator)
     {
-        session()->flash('show_modal', 'create-admin'); 
+        session()->flash('show_modal', 'create-admin');
         throw new HttpResponseException(
             redirect()
                 ->back()
@@ -53,5 +54,4 @@ class StoreAdminRequest extends FormRequest
                 ->withInput()
         );
     }
-
 }

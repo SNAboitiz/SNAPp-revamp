@@ -6,11 +6,9 @@ use App\Http\Requests\StoreAdvisoryRequest;
 use App\Http\Requests\UpdateAdvisoryRequest;
 use App\Models\Advisory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class AdvisoryController extends Controller
 {
-
     public function index()
     {
         $latestAdvisory = Advisory::where('is_archive', false)
@@ -35,13 +33,12 @@ class AdvisoryController extends Controller
             ->get();
     }
 
-
     public function adminList()
     {
         $advisories = Advisory::orderBy('created_at', 'desc')->paginate(10);
+
         return view('admin.advisory-management.advisory-list', compact('advisories'));
     }
-
 
     public function store(StoreAdvisoryRequest $request)
     {
@@ -59,17 +56,16 @@ class AdvisoryController extends Controller
         return redirect()->back()->with('success', 'Advisory created successfully.');
     }
 
-
     public function update(UpdateAdvisoryRequest $request, Advisory $advisory)
     {
         $validated = $request->validated();
 
         $data = [
-            'headline'    => $validated['edit_headline'],
+            'headline' => $validated['edit_headline'],
             'description' => $validated['edit_description'],
-            'content'     => $validated['edit_content'],
-            'link'        => $validated['edit_link'] ?? null,
-            'is_archive'  => $validated['is_archive'] ?? 0,
+            'content' => $validated['edit_content'],
+            'link' => $validated['edit_link'] ?? null,
+            'is_archive' => $validated['is_archive'] ?? 0,
         ];
 
         if ($request->hasFile('edit_attachment')) {

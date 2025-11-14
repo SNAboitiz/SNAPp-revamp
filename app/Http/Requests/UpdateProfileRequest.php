@@ -23,72 +23,71 @@ class UpdateProfileRequest extends FormRequest
     {
         return [
             'account_name' => [
-                'nullable', 
-                'string', 
-                'max:100'
+                'nullable',
+                'string',
+                'max:100',
             ],
             'short_name' => [
-                'nullable', 
-                'string', 
-                'max:100'
+                'nullable',
+                'string',
+                'max:100',
             ],
             'business_address' => [
-                'nullable', 
-                'string', 
-                'max:255'
+                'nullable',
+                'string',
+                'max:255',
             ],
             'facility_address' => [
-                'nullable', 
-                'string', 
-                'max:255'
+                'nullable',
+                'string',
+                'max:255',
             ],
             'customer_category' => [
-                'nullable', 
-                'string', 
-                'max:255'
+                'nullable',
+                'string',
+                'max:255',
             ],
             'cooperation_start_date' => [
-                'nullable', 
-                'date'
+                'nullable',
+                'date',
             ],
             'cooperation_end_date' => [
-                'nullable', 
-                'date'
+                'nullable',
+                'date',
             ],
             'contract_price' => [
-                'nullable', 
-                'string'
+                'nullable',
+                'string',
             ],
             'contract_demand' => [
-                'nullable', 
-                'string'
+                'nullable',
+                'string',
             ],
             'other_information' => [
-                'nullable', 
-                'string', 
-                'max:255'
+                'nullable',
+                'string',
+                'max:255',
             ],
             'contact_name' => [
-                'nullable', 
-                'string', 
-                'max:255'
+                'nullable',
+                'string',
+                'max:255',
             ],
             'designation' => [
-                'nullable', 
-                'string', 
-                'max:255'
+                'nullable',
+                'string',
+                'max:255',
             ],
             'email' => [
-                'nullable', 
-                'email', 
-                'max:100'
+                'nullable',
+                'email',
+                'max:100',
             ],
             'mobile_number' => [
-                'nullable', 
-                'string', 
-                'max:20'
+                'nullable',
+                'string',
+                'max:20',
             ],
         ];
     }
-    
 }

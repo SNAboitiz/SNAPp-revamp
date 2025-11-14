@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Profile extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'account_name',
         'short_name',
@@ -26,23 +26,22 @@ class Profile extends Model
         'email',
         'mobile_number',
 
-                // New secondary contact fields
+        // New secondary contact fields
         'contact_name_1',
         'designation_1',
         'mobile_number_1',
         'email_1',
         'account_executive',
-        'certificate_of_contestability_number'
+        'certificate_of_contestability_number',
     ];
 
-        public function users()
+    public function users()
     {
         return $this->hasMany(User::class, 'customer_id', 'customer_id');
     }
 
     public function bills()
-{
-    return $this->hasMany(Bill::class, 'customer_id', 'customer_id');
-}
-
+    {
+        return $this->hasMany(Bill::class, 'customer_id', 'customer_id');
+    }
 }

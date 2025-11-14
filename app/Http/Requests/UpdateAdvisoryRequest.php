@@ -23,32 +23,32 @@ class UpdateAdvisoryRequest extends FormRequest
     {
         return [
             'edit_headline' => [
-                'string', 
-                'max:100'
+                'string',
+                'max:100',
             ],
             'edit_description' => [
                 'string',
-                'max:255'
+                'max:255',
             ],
 
             'edit_content' => [
                 'string',
-                'max:255'
+                'max:255',
             ],
             'edit_attachment' => [
                 'nullable',
                 'file',
                 'mimes:jpg,jpeg,png',
-                'max:2048'
+                'max:2048',
             ],
             'is_archive' => [
                 'nullable',
-                'boolean' // Accepts true/false, 1/0
-            ], 
+                'boolean', // Accepts true/false, 1/0
+            ],
             'edit_link' => [
                 'nullable',
-                'url'
-            ]
+                'url',
+            ],
 
         ];
     }

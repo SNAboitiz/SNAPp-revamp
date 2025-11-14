@@ -8,11 +8,13 @@ use Illuminate\Support\Facades\Log;
 class GcsService
 {
     private ?StorageClient $storageClient = null;
+
     private array $config;
+
     private bool $isInitialized = false;
 
     /**
-     * The constructor now ONLY stores the config. 
+     * The constructor now ONLY stores the config.
      * It does NOT try to connect to Google, which fixes the startup crash.
      */
     public function __construct()
@@ -28,7 +30,7 @@ class GcsService
     {
         // If we have already tried to connect, don't try again.
         if ($this->isInitialized) {
-            return !is_null($this->storageClient);
+            return ! is_null($this->storageClient);
         }
 
         // Mark that we are now attempting to initialize.
@@ -36,6 +38,7 @@ class GcsService
 
         if (empty($this->config['project_id']) || empty($this->config['key_file']) || empty($this->config['bucket'])) {
             Log::critical('GCS FATAL ERROR: Configuration keys are missing in config/services.php or .env file.');
+
             return false;
         }
 
@@ -46,14 +49,15 @@ class GcsService
                 'projectId' => $this->config['project_id'],
                 'keyFilePath' => $this->config['key_file'],
             ]);
-            
+
             return true;
         } catch (\Exception $e) {
             Log::critical('GCS FATAL ERROR: Failed to instantiate Storage client. Check key file path and permissions.', [
                 'key_file_path' => $this->config['key_file'],
-                'exception_message' => $e->getMessage()
+                'exception_message' => $e->getMessage(),
             ]);
             $this->storageClient = null;
+
             return false;
         }
     }
@@ -64,8 +68,9 @@ class GcsService
     public function generateSignedUrl(string $objectPath): ?string
     {
         // First, ensure the client is ready by calling our new helper method.
-        if (!$this->initializeClient()) {
-            Log::error("GCS Error: Cannot generate URL because client failed to initialize.");
+        if (! $this->initializeClient()) {
+            Log::error('GCS Error: Cannot generate URL because client failed to initialize.');
+
             return null;
         }
 
@@ -73,25 +78,29 @@ class GcsService
             $bucket = $this->storageClient->bucket($this->config['bucket']);
             $object = $bucket->object($objectPath);
 
-            if (!$object->exists()) {
+            if (! $object->exists()) {
                 Log::info("GCS Info: Object not found: gs://{$this->config['bucket']}/{$objectPath}");
+
                 return null;
             }
 
             return $object->signedUrl(new \DateTime('15 min'), ['version' => 'v4']);
         } catch (\Exception $e) {
-            Log::error("GCS Error: Could not generate signed URL. This is likely a PERMISSION ERROR (missing Service Account Token Creator role).", [
+            Log::error('GCS Error: Could not generate signed URL. This is likely a PERMISSION ERROR (missing Service Account Token Creator role).', [
                 'object_path' => "gs://{$this->config['bucket']}/{$objectPath}",
-                'exception' => $e->getMessage()
+                'exception' => $e->getMessage(),
             ]);
+
             return null;
         }
     }
- public function uploadLaravelFile(UploadedFile $uploadedFile, string $destinationObjectName, array $options = []): ?string
+
+    public function uploadLaravelFile(UploadedFile $uploadedFile, string $destinationObjectName, array $options = []): ?string
     {
         // Ensure the GCS client is initialized before attempting to upload.
-        if (!$this->initializeClient()) {
-            Log::error("GCS Error: Cannot upload file because client failed to initialize.");
+        if (! $this->initializeClient()) {
+            Log::error('GCS Error: Cannot upload file because client failed to initialize.');
+
             return null;
         }
 
@@ -101,8 +110,9 @@ class GcsService
 
             // Open a read stream to the temporary file Laravel stores for uploaded files.
             $fileStream = fopen($uploadedFile->getPathname(), 'r');
-            if (!$fileStream) {
-                Log::error("GCS Error: Could not open uploaded file stream for: " . $uploadedFile->getPathname());
+            if (! $fileStream) {
+                Log::error('GCS Error: Could not open uploaded file stream for: '.$uploadedFile->getPathname());
+
                 return null;
             }
 
@@ -115,7 +125,7 @@ class GcsService
             ];
 
             // Merge any additional options provided (e.g., 'predefinedAcl', 'metadata').
-            if (!empty($options)) {
+            if (! empty($options)) {
                 $uploadOptions = array_merge($uploadOptions, $options);
             }
 
@@ -137,10 +147,10 @@ class GcsService
             Log::error("GCS Error: Failed to upload file '{$destinationObjectName}'. Check permissions (e.g., 'Storage Object Creator' role) and file integrity.", [
                 'destination_object' => "gs://{$this->config['bucket']}/{$destinationObjectName}",
                 'exception_message' => $e->getMessage(),
-                'exception_trace' => $e->getTraceAsString()
+                'exception_trace' => $e->getTraceAsString(),
             ]);
+
             return null;
         }
     }
-
 }

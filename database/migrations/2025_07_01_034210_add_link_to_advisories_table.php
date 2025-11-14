@@ -19,7 +19,7 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-public function down()
+    public function down()
     {
         Schema::table('advisories', function (Blueprint $table) {
             $table->dropColumn('link');

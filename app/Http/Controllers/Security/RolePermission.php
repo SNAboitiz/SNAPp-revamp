@@ -13,6 +13,7 @@ class RolePermission extends Controller
     {
         $roles = Role::get();
         $permissions = Permission::get();
+
         return view('role-permissions.role-permissions', compact('roles', 'permissions'));
     }
 
@@ -40,7 +41,7 @@ class RolePermission extends Controller
         // Clear permissions for roles with no checkboxes
         $allRoles = Role::all();
         foreach ($allRoles as $role) {
-            if (!isset($permissionsByRole[$role->id])) {
+            if (! isset($permissionsByRole[$role->id])) {
                 $role->syncPermissions([]); // Clear permissions for this role
             }
         }
@@ -48,10 +49,10 @@ class RolePermission extends Controller
         // Return to the view with success message and updated roles & permissions
         $roles = Role::all();
         $permissions = Permission::all();
+
         return view('role-permissions.role-permissions', compact('roles', 'permissions'))
             ->with('success', 'Permissions updated successfully.');
     }
-
 
     public function destroyRole($id)
     {

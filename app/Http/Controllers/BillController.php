@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Http\Requests\UploadBillRequest;
 use App\Models\Bill;
 use App\Models\Profile;
 use App\Services\BillingService;
 use App\Services\OracleInvoiceService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 
 class BillController extends Controller
 {
@@ -27,20 +26,19 @@ class BillController extends Controller
         // Extract unique facilities from paginated bills
         $facilities = collect($billsPaginator->items())
             ->pluck('Facility')
-            ->filter(fn($value) => $value !== 'N/A' && !empty($value))
+            ->filter(fn ($value) => $value !== 'N/A' && ! empty($value))
             ->unique()
             ->sort()
             ->values();
 
         return view('my-bills', [
-            'bills'      => $billsPaginator,
-            'payments'   => null,
-            'activeTab'  => 'bills',
-            'profiles'   => $profiles,
+            'bills' => $billsPaginator,
+            'payments' => null,
+            'activeTab' => 'bills',
+            'profiles' => $profiles,
             'facilities' => $facilities, // 👈 for the dropdown
         ]);
     }
-
 
     public function showPaymentHistory(Request $request)
     {
@@ -50,14 +48,12 @@ class BillController extends Controller
 
         // ...and return the view with the prepared data.
         return view('my-bills', [
-            'payments'  => $paymentsPaginator,
-            'bills'     => null,
+            'payments' => $paymentsPaginator,
+            'bills' => null,
             'activeTab' => 'payments',
-            'profiles'  => $profiles,
+            'profiles' => $profiles,
         ]);
     }
-
-
 
     public function showManageBillsPage(Request $request)
     {
@@ -69,8 +65,6 @@ class BillController extends Controller
 
         return view('admin.bills.bill-card', compact('bills', 'profiles'));
     }
-
-
 
     public function uploadBills(UploadBillRequest $request)
     {
