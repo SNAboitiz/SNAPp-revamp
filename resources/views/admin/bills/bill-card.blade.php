@@ -5,20 +5,14 @@
 
             <!-- Filters / Search -->
             <form method="GET" action="" class="w-full sm:w-auto">
-                <flux:input
-                    icon="magnifying-glass"
-                    name="search"
-                    placeholder="Search..."
-                    value="{{ request('search') }}"
+                <flux:input icon="magnifying-glass" name="search" placeholder="Search..." value="{{ request('search') }}"
                     class="w-full md:w-64" />
             </form>
 
             <!-- Upload + Tabs -->
             <div class="flex flex-col sm:flex-row sm:items-center gap-4">
                 <flux:modal.trigger name="upload-bills">
-                    <flux:button
-                        variant="primary"
-                        icon="arrow-up-tray">
+                    <flux:button variant="primary" icon="arrow-up-tray">
                         Upload Bills
                     </flux:button>
                 </flux:modal.trigger>
@@ -32,11 +26,12 @@
         </div>
     </div>
     <!-- Custom Export Loader -->
-    <div id="export-loader"
-        class="hidden fixed inset-0 bg-white/75 z-[9999] flex items-center justify-center">
+    <div id="export-loader" class="hidden fixed inset-0 bg-white/75 z-[9999] flex items-center justify-center">
         <button type="button" class="bg-indigo-600 text-white px-4 py-2 rounded inline-flex items-center" disabled>
-            <svg class="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+            <svg class="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                    stroke-width="4" />
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
             Exporting…
@@ -44,7 +39,7 @@
     </div>
     @include('admin.bills.form-upload-bills')
 
-    <!-- JavaScript --> 
+    <!-- JavaScript -->
     <script>
         function downloadThenRedirect(fileUrl, returnUrl) {
             const loader = document.getElementById('export-loader');

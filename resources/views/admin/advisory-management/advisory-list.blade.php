@@ -22,25 +22,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($advisories as $advisory)
-                    <tr
-                        class="cursor-pointer hover:bg-gray-100 transition flux-btn-info {{ $advisory->is_archive ? 'bg-red-100' : '' }}"
-                        data-id="{{ $advisory->id }}"
-                        data-headline="{{ $advisory->headline }}"
-                        data-description="{{ $advisory->description }}"
-                        data-content="{{ $advisory->content }}"
-                        data-attachment-url="{{ $advisory->attachment_url ?? '' }}"
-                        data-date="{{ $advisory->created_at->format('M d, Y') }}"
-                        data-created-by="{{ $advisory->user->name }}"
-                        data-is-archive="{{ $advisory->is_archive ? '1' : '0' }}"
-                            data-link="{{ $advisory->link }}"
-
-                        onclick="document.getElementById('open-view-modal').click()">
-                        <td>{{ $advisory->id }}</td>
-                        <td>{{ $advisory->headline }}</td>
-                        <td>{{ $advisory->user->name }}</td>
-                        <td>{{ $advisory->created_at->format('M d, Y') }}</td>
-                    </tr>
+                    @foreach ($advisories as $advisory)
+                        <tr class="cursor-pointer hover:bg-gray-100 transition flux-btn-info {{ $advisory->is_archive ? 'bg-red-100' : '' }}"
+                            data-id="{{ $advisory->id }}" data-headline="{{ $advisory->headline }}"
+                            data-description="{{ $advisory->description }}" data-content="{{ $advisory->content }}"
+                            data-attachment-url="{{ $advisory->attachment_url ?? '' }}"
+                            data-date="{{ $advisory->created_at->format('M d, Y') }}"
+                            data-created-by="{{ $advisory->user->name }}"
+                            data-is-archive="{{ $advisory->is_archive ? '1' : '0' }}" data-link="{{ $advisory->link }}"
+                            onclick="document.getElementById('open-view-modal').click()">
+                            <td>{{ $advisory->id }}</td>
+                            <td>{{ $advisory->headline }}</td>
+                            <td>{{ $advisory->user->name }}</td>
+                            <td>{{ $advisory->created_at->format('M d, Y') }}</td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>

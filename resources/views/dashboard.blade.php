@@ -20,20 +20,6 @@
 
         <!-- Top Section: Chart and Advisories -->
         <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
-
-            <!-- Chart (Left) -->
-            <div class="col-span-1 md:col-span-3 bg-white rounded-2xl shadow p-6 flex flex-col">
-                <h2 class="text-lg font-bold text-[#1443e0]">At A Glance</h2>
-                <div class="mt-6 flex-1">
-                    <iframe src="{{ $lookerUrl }}" class="w-full h-[300px] rounded-xl border-none" frameborder="0"
-                        allowfullscreen>
-                    </iframe>
-                </div>
-            </div>
-
-
-
-
             <!-- Advisories (Right) -->
             <div class="col-span-1 md:col-span-2 bg-white rounded-2xl shadow p-6 flex flex-col">
                 <h2 class="text-lg font-bold text-[#1443e0]">Latest Advisories</h2>
