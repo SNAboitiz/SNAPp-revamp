@@ -13,8 +13,8 @@
                 <flux:button variant="ghost">Cancel</flux:button>
             </flux:modal.close>
 
-            @if(isset($user))
-            <flux:button variant="danger" id="delete-button" data-id="{{ $user->id }}">Delete</flux:button>
+            @if (isset($user))
+                <flux:button variant="danger" id="delete-button" data-id="{{ $user->id }}">Delete</flux:button>
             @endif
         </div>
     </div>
@@ -38,7 +38,7 @@
             .then(response => {
                 if (response.ok) {
                     // Optional: remove user row from table or redirect
-                    window.location.href = '{{ route("users.index") }}';
+                    window.location.href = '{{ route('users.index') }}';
                 } else {
                     return response.json().then(data => {
                         throw data;

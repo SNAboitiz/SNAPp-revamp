@@ -24,22 +24,12 @@ new class extends Component {
     <x-settings.layout :heading="__('Profile')" :subheading="__('View your name and email address')">
         <form wire:submit.prevent class="my-6 w-full space-y-6">
             <!-- Name (disabled) -->
-            <flux:input 
-                wire:model="name" 
-                :label="__('Name')" 
-                type="text" 
-                disabled 
-                class="bg-gray-100 cursor-not-allowed" 
-            />
+            <flux:input wire:model="name" :label="__('Name')" type="text" disabled
+                class="bg-gray-100 cursor-not-allowed" />
 
             <!-- Email (disabled) -->
-            <flux:input 
-                wire:model="email" 
-                :label="__('Email')" 
-                type="email" 
-                disabled 
-                class="bg-gray-100 cursor-not-allowed" 
-            />
+            <flux:input wire:model="email" :label="__('Email')" type="email" disabled
+                class="bg-gray-100 cursor-not-allowed" />
 
             <div class="text-sm text-gray-500">
                 {{ __('Name and email cannot be edited.') }}

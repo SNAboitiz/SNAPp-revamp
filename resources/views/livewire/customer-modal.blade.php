@@ -1,20 +1,8 @@
-<div x-data x-init="
-    @if ($errors->any())
-        $nextTick(() => $flux.modal('customer-modal').show())
-    @endif
-">
-<flux:modal 
-    name="customer-modal" 
-    class="md:w-96"
-    :dismissible="false"
-    x-data
-    x-on:close="$el.querySelector('form').reset()"
->
-        
-        <form 
-            action="{{ route('users.store') }}" 
-            method="POST" 
-            class="space-y-6">
+<div x-data x-init="@if ($errors->any()) $nextTick(() => $flux.modal('customer-modal').show()) @endif">
+    <flux:modal name="customer-modal" class="md:w-96" :dismissible="false" x-data
+        x-on:close="$el.querySelector('form').reset()">
+
+        <form action="{{ route('users.store') }}" method="POST" class="space-y-6">
             @csrf
 
             <div>
@@ -29,10 +17,7 @@
 
             <flux:field>
                 <flux:label badge="Required">Name</flux:label>
-                <flux:input 
-                    name="name" 
-                    value="{{ old('name') }}"
-                    placeholder="Enter customer name"/>
+                <flux:input name="name" value="{{ old('name') }}" placeholder="Enter customer name" />
                 @error('name')
                     <p class="mt-2 text-red-500 dark:text-red-400 text-xs">{{ $message }}</p>
                 @enderror
@@ -40,11 +25,8 @@
 
             <flux:field>
                 <flux:label badge="Required">Email</flux:label>
-                <flux:input 
-                    name="email" 
-                    type="email"
-                    value="{{ old('email') }}"
-                    placeholder="Enter customer email"/>
+                <flux:input name="email" type="email" value="{{ old('email') }}"
+                    placeholder="Enter customer email" />
                 @error('email')
                     <p class="mt-2 text-red-500 dark:text-red-400 text-xs">{{ $message }}</p>
                 @enderror
@@ -52,10 +34,7 @@
 
             <flux:field>
                 <flux:label badge="Required">Customer ID</flux:label>
-                <flux:input 
-                    name="customer_id" 
-                    value="{{ old('customer_id') }}"
-                    placeholder="Enter customer ID"/>
+                <flux:input name="customer_id" value="{{ old('customer_id') }}" placeholder="Enter customer ID" />
                 @error('customer_id')
                     <p class="mt-2 text-red-500 dark:text-red-400 text-xs">{{ $message }}</p>
                 @enderror
@@ -63,9 +42,7 @@
 
             <div class="flex">
                 <flux:spacer />
-                <flux:button 
-                    type="submit" 
-                    variant="primary">
+                <flux:button type="submit" variant="primary">
                     Create Account
                 </flux:button>
             </div>

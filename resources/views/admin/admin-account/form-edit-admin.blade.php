@@ -1,17 +1,7 @@
-<div x-data="{}" x-init="
-    @if (session('show_modal') === 'edit-admin-modal')
-        $nextTick(() => $flux.modal('edit-admin-modal').show())
-    @endif
-">
-    <flux:modal name="edit-admin-modal"
-        class="md:w-96">
-        <form
-            data-base-action="{{ route('admin.users.update-admin', 
-                        ['user' => ':user_id']) }}"
-
-            method="POST"
-            id="edit-admin-form"
-            class="space-y-6">
+<div x-data="{}" x-init="@if (session('show_modal') === 'edit-admin-modal') $nextTick(() => $flux.modal('edit-admin-modal').show()) @endif">
+    <flux:modal name="edit-admin-modal" class="md:w-96">
+        <form data-base-action="{{ route('admin.users.update-admin', ['user' => ':user_id']) }}"
+            method="POST" id="edit-admin-form" class="space-y-6">
             @csrf
             @method('PUT')
 
@@ -29,40 +19,28 @@
 
             <flux:field>
                 <flux:label>Name</flux:label>
-                <flux:input
-                    name="edit_name"
-                    value="{{ old('name', '') }}"
-                    placeholder="Enter admin name" />
+                <flux:input name="edit_name" value="{{ old('name', '') }}" placeholder="Enter admin name" />
                 @error('edit_name')
-                <p class="mt-2 text-red-500 dark:text-red-400 text-xs">{{ $message }}</p>
+                    <p class="mt-2 text-red-500 dark:text-red-400 text-xs">{{ $message }}</p>
                 @enderror
             </flux:field>
 
             <flux:field>
                 <flux:label>Email</flux:label>
-                <flux:input
-                    name="edit_email"
-                    value="{{ old('email', '') }}"
-                    placeholder="Enter admin email" />
+                <flux:input name="edit_email" value="{{ old('email', '') }}" placeholder="Enter admin email" />
                 @error('edit_email')
-                <p class="mt-2 text-red-500 dark:text-red-400 text-xs">{{ $message }}</p>
+                    <p class="mt-2 text-red-500 dark:text-red-400 text-xs">{{ $message }}</p>
                 @enderror
             </flux:field>
 
             <flux:field>
                 <flux:label>Customer</flux:label>
-                <flux:select
-                    id="edit_customer_id"
-                    name="edit_customer_id"
-                    placeholder="— Select account —"
-                    required
+                <flux:select id="edit_customer_id" name="edit_customer_id" placeholder="— Select account —" required
                     :error="$errors->first('edit_customer_id')">
                     @foreach ($profiles as $profile)
-                    <option value="{{ $profile->customer_id }}"
-                        class="text-black"
-                        @selected(old('edit_customer_id')==$profile->customer_id)>
-                        {{ $profile->account_name }} ({{ $profile->short_name }})
-                    </option>
+                        <option value="{{ $profile->customer_id }}" class="text-black" @selected(old('edit_customer_id') == $profile->customer_id)>
+                            {{ $profile->account_name }} ({{ $profile->short_name }})
+                        </option>
                     @endforeach
                 </flux:select>
             </flux:field>

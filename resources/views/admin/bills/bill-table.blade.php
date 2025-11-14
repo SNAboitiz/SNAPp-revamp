@@ -4,7 +4,7 @@
     selectedContract: {},
     openContractViewer(el) {
         this.selectedContract = el.dataset;
-        this.billUrl      = el.dataset.gcsPdfUrl;
+        this.billUrl = el.dataset.gcsPdfUrl;
         this.showBillModal = true;
     }
 }" @keydown.escape.window="showBillModal = false">
@@ -22,25 +22,20 @@
             </thead>
             <tbody>
                 @forelse($bills as $item)
-                <tr
-                    @if($item['gcsPdfUrl'])
-                    class="cursor-pointer hover:bg-gray-100 transition"
-                    @click="openContractViewer($el)"
-                    @endif
-                    data-customer-name="{{ $item['accountName'] }}"
-                    data-billing-period="{{ $item['billingPeriod'] }}"
-                    data-bill-number="{{ $item['billNumber'] }}"
-                    data-uploaded-at="{{ $item['uploadedAt'] }}"
-                    data-gcs-pdf-url="{{ $item['gcsPdfUrl'] }}">
-                    <td>{{ $item['accountName'] }}</td>
-                    <td>{{ $item['billingPeriod'] }}</td>
-                    <td>{{ $item['billNumber'] }}</td>
-                    <td>{{ $item['uploadedAt'] }}</td>
-                </tr>
+                    <tr @if ($item['gcsPdfUrl']) class="cursor-pointer hover:bg-gray-100 transition"
+                    @click="openContractViewer($el)" @endif
+                        data-customer-name="{{ $item['accountName'] }}" data-billing-period="{{ $item['billingPeriod'] }}"
+                        data-bill-number="{{ $item['billNumber'] }}" data-uploaded-at="{{ $item['uploadedAt'] }}"
+                        data-gcs-pdf-url="{{ $item['gcsPdfUrl'] }}">
+                        <td>{{ $item['accountName'] }}</td>
+                        <td>{{ $item['billingPeriod'] }}</td>
+                        <td>{{ $item['billNumber'] }}</td>
+                        <td>{{ $item['uploadedAt'] }}</td>
+                    </tr>
                 @empty
-                <tr>
-                    <td colspan="4" class="text-center py-4 text-gray-500">No bills found.</td>
-                </tr>
+                    <tr>
+                        <td colspan="4" class="text-center py-4 text-gray-500">No bills found.</td>
+                    </tr>
                 @endforelse
             </tbody>
 
@@ -48,10 +43,10 @@
     </div>
 
     {{-- PAGINATION --}}
-    @if($bills->hasPages())
-    <div class="mt-4 px-4 py-3 bg-white border-t border-gray-200">
-        {{ $bills->links() }}
-    </div>
+    @if ($bills->hasPages())
+        <div class="mt-4 px-4 py-3 bg-white border-t border-gray-200">
+            {{ $bills->links() }}
+        </div>
     @endif
     @include('admin.bills.form-view-pdf')
 
