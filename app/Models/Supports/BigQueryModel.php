@@ -77,7 +77,7 @@ abstract class BigQueryModel
         $keyFile = config('database.connections.bigquery.key_file');
 
         $config = [
-            'projectId' => config('database.connections.bigquery.project_id')
+            'projectId' => config('database.connections.bigquery.project_id'),
         ];
 
         if ($keyFilePath && file_exists($keyFilePath)) {
@@ -90,7 +90,7 @@ abstract class BigQueryModel
 
         self::$dataset = config('database.connections.bigquery.dataset');
 
-        if (!self::$table) {
+        if (! self::$table) {
             self::$table = Str::snake(class_basename(static::class));
         }
     }
@@ -108,12 +108,14 @@ abstract class BigQueryModel
     /**
      * Execute a SQL query against BigQuery.
      *
-     * @param string $sql The SQL query to execute.
-     * @param array $parameters Optional parameters for the query.
+     * @param  string  $sql  The SQL query to execute.
+     * @param  array  $parameters  Optional parameters for the query.
      */
     public static function query(?string $sql = null, ?array $parameters = [])
     {
-        if (is_null(self::$bigQuery)) self::init();
+        if (is_null(self::$bigQuery)) {
+            self::init();
+        }
 
         $dataset = self::$dataset;
         $table = self::$table;
@@ -121,26 +123,26 @@ abstract class BigQueryModel
         $query = "SELECT * FROM `{$dataset}.{$table}`";
 
         if ($sql) {
-            $jobConfig = self::$bigQuery->query($query . ' ' . $sql);
+            $jobConfig = self::$bigQuery->query($query.' '.$sql);
 
-            if (!empty($parameters)) {
+            if (! empty($parameters)) {
                 $jobConfig->parameters($parameters);
             }
         } else {
             // WHERE clause
-            if (!empty(self::$filters)) {
-                $query .= " WHERE " . self::compileFilters(self::$filters);
+            if (! empty(self::$filters)) {
+                $query .= ' WHERE '.self::compileFilters(self::$filters);
             }
 
             // ORDER BY
-            if (!empty(self::$orders)) {
-                $orders = array_map(fn($o) => "{$o[0]} {$o[1]}", self::$orders);
-                $query .= " ORDER BY " . implode(', ', $orders);
+            if (! empty(self::$orders)) {
+                $orders = array_map(fn ($o) => "{$o[0]} {$o[1]}", self::$orders);
+                $query .= ' ORDER BY '.implode(', ', $orders);
             }
 
             // LIMIT
             if (self::$limit) {
-                $query .= " LIMIT " . self::$limit;
+                $query .= ' LIMIT '.self::$limit;
             }
 
             $jobConfig = self::$bigQuery->query($query);
@@ -253,13 +255,13 @@ abstract class BigQueryModel
         foreach ($filters as $filter) {
             if (isset($filter['nested'])) {
                 $nestedSql = self::compileFilters($filter['nested']);
-                $sqlParts[] = ($filter['type'] === 'or' ? 'OR' : 'AND') . " ($nestedSql)";
+                $sqlParts[] = ($filter['type'] === 'or' ? 'OR' : 'AND')." ($nestedSql)";
             } else {
                 $value = is_numeric($filter['value'])
                     ? $filter['value']
-                    : "'" . addslashes($filter['value']) . "'";
+                    : "'".addslashes($filter['value'])."'";
 
-                $sqlParts[] = ($filter['type'] === 'or' ? 'OR' : 'AND') .
+                $sqlParts[] = ($filter['type'] === 'or' ? 'OR' : 'AND').
                     " {$filter['field']} {$filter['operator']} {$value}";
             }
         }

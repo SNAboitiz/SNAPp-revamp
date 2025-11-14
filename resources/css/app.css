@@ -4,28 +4,29 @@
     Your custom text colors, like #1443e0, are preserved.
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
-@import 'tailwindcss';
-@import '../../vendor/livewire/flux/dist/flux.css';
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+@import "../../vendor/livewire/flux/dist/flux.css";
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
 @source '../../vendor/livewire/flux/stubs/**/*.blade.php';
 
-@custom-variant dark (&:where(.dark,.dark *)); 
+@custom-variant dark (&:where(.dark,.dark *));
 @layer base {
     html {
-        font-family: 'Manrope', sans-serif;
+        font-family: "Manrope", sans-serif;
     }
 }
 @layer base {
     * {
-        html, body {
-            background-color: #F1F4FC !important; /* Soft light blue */
+        html,
+        body {
+            background-color: #f1f4fc !important; /* Soft light blue */
             height: 100%;
         }
-        --font-sans: 'Manrope', sans-serif;
+        --font-sans: "Manrope", sans-serif;
         --color-zinc-50: var(--color-slate-50);
         --color-zinc-100: var(--color-slate-100);
         --color-zinc-200: var(--color-slate-200);
@@ -37,7 +38,7 @@
         --color-zinc-800: var(--color-slate-800);
         --color-zinc-900: var(--color-slate-900);
         --color-zinc-950: var(--color-slate-950);
-        
+
         --color-accent: #1443e0; /* Blue color */
         --color-accent-content: #0d38a3; /* Slightly darker blue */
         --color-accent-foreground: var(--color-white);
@@ -66,16 +67,15 @@
         background-color: #1443e0; /* Use custom blue background */
     }
 
-/* This is the corrected rule */
-th {
-    @apply px-6 py-3 text-xs font-medium text-white uppercase tracking-wider whitespace-nowrap;
-}
+    /* This is the corrected rule */
+    th {
+        @apply px-6 py-3 text-xs font-medium text-white uppercase tracking-wider whitespace-nowrap;
+    }
 
-td {
-    @apply px-6 py-4 whitespace-nowrap text-sm text-center font-bold;
-    color: #1443e0; /* Custom blue text - UNTOUCHED. This will be preserved. */
-}
-
+    td {
+        @apply px-6 py-4 whitespace-nowrap text-sm text-center font-bold;
+        color: #1443e0; /* Custom blue text - UNTOUCHED. This will be preserved. */
+    }
 
     tbody {
         /* THE MAIN FIX: Only light mode classes are present. */

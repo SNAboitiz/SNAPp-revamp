@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Profile;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Services\OracleInvoiceService;
-use Illuminate\Support\Carbon;
 use App\Models\Advisory;
+use App\Services\OracleInvoiceService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -50,28 +49,29 @@ class DashboardController extends Controller
             ->take(3)
             ->get();
         $upper = strtoupper($user->profile->account_name);
-        $filterJson    = json_encode(['df50' => "include IN {$upper}"]);
+        $filterJson = json_encode(['df50' => "include IN {$upper}"]);
         $encodedFilter = rawurlencode($filterJson);
 
-        $lookerUrl = "https://lookerstudio.google.com/embed/u/0/reporting/"
-            . "4d1cf425-bcf4-4164-bf00-0e16b20bc79a/"
-            . "page/p_n0steo0jnc"
-            . "?params={$encodedFilter}";
+        $lookerUrl = 'https://lookerstudio.google.com/embed/u/0/reporting/'
+            .'4d1cf425-bcf4-4164-bf00-0e16b20bc79a/'
+            .'page/p_n0steo0jnc'
+            ."?params={$encodedFilter}";
 
         return view('dashboard', [
-            'customerName'    => $user->name ?? 'Customer',
-            'customerId'      => $customerId,
-            'billingPeriod'   => $billingPeriod,
-            'consumption'     => $consumption,
+            'customerName' => $user->name ?? 'Customer',
+            'customerId' => $customerId,
+            'billingPeriod' => $billingPeriod,
+            'consumption' => $consumption,
             'previousBalance' => number_format($previousBalance, 2),
-            'currentAmount'   => number_format($currentAmount, 2),
-            'dueDate'         => $dueDate,
+            'currentAmount' => number_format($currentAmount, 2),
+            'dueDate' => $dueDate,
             'moreAdvisories' => $moreAdvisories,
             'lookerUrl' => $lookerUrl,
-            'Status'          => ($latestInvoice['InvoiceBalanceAmount'] ?? 0) == 0 ? 'PAID' : 'UNPAID',
+            'Status' => ($latestInvoice['InvoiceBalanceAmount'] ?? 0) == 0 ? 'PAID' : 'UNPAID',
 
         ]);
     }
+
     public function loadMore(Request $request)
     {
         return Advisory::latest()

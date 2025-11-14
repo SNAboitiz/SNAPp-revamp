@@ -15,7 +15,6 @@ return new class extends Migration
             $table->renameColumn('attachment_id', 'attachment');
         });
     }
-    
 
     /**
      * Reverse the migrations.

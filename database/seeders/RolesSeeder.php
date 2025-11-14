@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
 use Spatie\Permission\Models\Role;
 
 class RolesSeeder extends Seeder
@@ -16,15 +14,15 @@ class RolesSeeder extends Seeder
     {
         Role::firstOrCreate([
             'name' => 'admin',
-            'guard_name' => 'web'
+            'guard_name' => 'web',
         ]);
         Role::firstOrCreate([
             'name' => 'customer',
-            'guard_name' => 'web'
+            'guard_name' => 'web',
         ]);
         Role::firstOrCreate([
             'name' => 'account executive',
-            'guard_name' => 'web'
+            'guard_name' => 'web',
         ]);
     }
 }

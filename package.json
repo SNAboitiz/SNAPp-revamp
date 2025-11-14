@@ -3,7 +3,9 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "format": "./vendor/bin/pint -v && npx prettier --write './**/*.{css,js,html,blade.php}'",
+        "commit": "npx better-commits"
     },
     "dependencies": {
         "@tailwindcss/vite": "^4.0.7",

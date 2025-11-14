@@ -29,7 +29,6 @@ class KissflowService
     /**
      * Submit an inquiry to Kissflow.
      *
-     * @param  array  $data
      * @return \Illuminate\Http\Client\Response
      */
     public function submitInquiry(array $data)

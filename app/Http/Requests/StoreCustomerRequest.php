@@ -34,23 +34,21 @@ class StoreCustomerRequest extends FormRequest
             'email' => [
                 'required',
                 'email',
-                Rule::unique(User::class)
+                Rule::unique(User::class),
             ],
 
-        'customer_id' => [
-            'required',
-            'integer',
-            'exists:profiles,customer_id'
-        ],
-
-
-           
+            'customer_id' => [
+                'required',
+                'integer',
+                'exists:profiles,customer_id',
+            ],
 
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
-        session()->flash('show_modal', 'customer-modal'); 
+        session()->flash('show_modal', 'customer-modal');
         throw new HttpResponseException(
             redirect()
                 ->back()

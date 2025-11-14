@@ -1,12 +1,11 @@
 <?php
 
-
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
-use Spatie\Permission\Middleware\RoleMiddleware;
+use Illuminate\Support\ServiceProvider;
 use Spatie\Permission\Middleware\PermissionMiddleware;
+use Spatie\Permission\Middleware\RoleMiddleware;
 
 class RouteMiddlewareServiceProvider extends ServiceProvider
 {
