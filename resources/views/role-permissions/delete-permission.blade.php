@@ -19,33 +19,35 @@
 </flux:modal>
 
 <script>
-document.getElementById('delete-permission').addEventListener('click', function() {
-    const permissionId = this.getAttribute('data-id');
-    const deleteBtn = this;
+    document.getElementById('delete-permission').addEventListener('click', function() {
+        const permissionId = this.getAttribute('data-id');
+        const deleteBtn = this;
 
-    deleteBtn.disabled = true;
-    deleteBtn.innerText = 'Deleting...';
+        deleteBtn.disabled = true;
+        deleteBtn.innerText = 'Deleting...';
 
-    fetch(`/admin/permissions/${permissionId}`, {
-        method: 'DELETE',
-        headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            'Accept': 'application/json',
-        },
-    })
-    .then(response => {
-        if (response.ok) {
-            // Redirect to the permissions listing page or the updated page
-            window.location.href = '{{ route("role.permission.list") }}';
-        } else {
-            return response.json().then(data => { throw data; });
-        }
-    })
-    .catch(error => {
-        console.error('Delete error:', error);
-        deleteBtn.disabled = false;
-        deleteBtn.innerText = 'Delete';
-        alert('Something went wrong. Try again.');
+        fetch(`/admin/permissions/${permissionId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json',
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Redirect to the permissions listing page or the updated page
+                    window.location.href = '{{ route('role.permission.list') }}';
+                } else {
+                    return response.json().then(data => {
+                        throw data;
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Delete error:', error);
+                deleteBtn.disabled = false;
+                deleteBtn.innerText = 'Delete';
+                alert('Something went wrong. Try again.');
+            });
     });
-});
 </script>

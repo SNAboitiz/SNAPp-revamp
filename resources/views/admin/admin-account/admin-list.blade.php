@@ -15,25 +15,27 @@
             </div>
         </div>
         <form method="GET" action="{{ route('all-user-list') }}" class="mb-4 flex flex-wrap items-center gap-4">
-            <flux:input
-                icon="magnifying-glass"
-                name="search"
-                placeholder="Search users..."
-                value="{{ request('search') }}"
-                class="w-full md:w-1/4" />
+            <flux:input icon="magnifying-glass" name="search" placeholder="Search users..."
+                value="{{ request('search') }}" class="w-full md:w-1/4" />
 
             <flux:select name="active" placeholder="Status" class="w-full md:w-1/6 min-w-[150px] max-w-[180px]">
                 <flux:select.option value="">All Status</flux:select.option>
-                <flux:select.option value="1" :selected="request('active') === '1'">Active</flux:select.option>
-                <flux:select.option value="0" :selected="request('active') === '0'">Inactive</flux:select.option>
+                <flux:select.option value="1" :selected="request('active') === '1'">Active
+                </flux:select.option>
+                <flux:select.option value="0" :selected="request('active') === '0'">Inactive
+                </flux:select.option>
             </flux:select>
 
             <flux:select name="sort" placeholder="Sort by" class="w-full md:w-1/6 min-w-[150px] max-w-[180px]">
                 <flux:select.option value="">Default</flux:select.option>
-                <flux:select.option value="name_asc" :selected="request('sort') === 'name_asc'">Name A–Z</flux:select.option>
-                <flux:select.option value="name_desc" :selected="request('sort') === 'name_desc'">Name Z–A</flux:select.option>
-                <flux:select.option value="created_at_desc" :selected="request('sort') === 'created_at_desc'">Newest</flux:select.option>
-                <flux:select.option value="created_at_asc" :selected="request('sort') === 'created_at_asc'">Oldest</flux:select.option>
+                <flux:select.option value="name_asc" :selected="request('sort') === 'name_asc'">Name A–Z
+                </flux:select.option>
+                <flux:select.option value="name_desc" :selected="request('sort') === 'name_desc'">Name Z–A
+                </flux:select.option>
+                <flux:select.option value="created_at_desc" :selected="request('sort') === 'created_at_desc'">Newest
+                </flux:select.option>
+                <flux:select.option value="created_at_asc" :selected="request('sort') === 'created_at_asc'">Oldest
+                </flux:select.option>
             </flux:select>
 
             <flux:button type="submit" variant="primary" class="self-end">
@@ -53,20 +55,16 @@
                 </thead>
                 <tbody>
                     @foreach ($admins as $admin)
-                    <tr
-                        class="cursor-pointer hover:bg-gray-100 transition flux-btn-info"
-                        data-id="{{ $admin->id }}"
-                        data-name="{{ $admin->name }}"
-                        data-email="{{ $admin->email }}"
-                        data-customer-id="{{ $admin->customer_id }}"
-                        data-account-name="{{ $admin->profile?->account_name }}"
+                        <tr class="cursor-pointer hover:bg-gray-100 transition flux-btn-info"
+                            data-id="{{ $admin->id }}" data-name="{{ $admin->name }}"
+                            data-email="{{ $admin->email }}" data-customer-id="{{ $admin->customer_id }}"
+                            data-account-name="{{ $admin->profile?->account_name }}"
+                            onclick="document.getElementById('open-edit-modal').click()">
 
-                        onclick="document.getElementById('open-edit-modal').click()">
-
-                        <td>{{ $admin->id }}</td>
-                        <td>{{ $admin->name }}</td>
-                        <td>{{ $admin->email }}</td>
-                    </tr>
+                            <td>{{ $admin->id }}</td>
+                            <td>{{ $admin->name }}</td>
+                            <td>{{ $admin->email }}</td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>

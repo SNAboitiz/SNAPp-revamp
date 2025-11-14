@@ -12,10 +12,7 @@
 
             <div class="flex">
                 <!-- Add margin-top or margin-bottom to create space -->
-                <flux:button 
-                    type="submit" variant="primary" 
-                    class="mt-4"  
-                    onclick="console.log('Form submitted')">
+                <flux:button type="submit" variant="primary" class="mt-4" onclick="console.log('Form submitted')">
                     Save changes
                 </flux:button>
             </div>

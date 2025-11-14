@@ -48,14 +48,6 @@ class DashboardController extends Controller
         $moreAdvisories = Advisory::latest()
             ->take(3)
             ->get();
-        $upper = strtoupper($user->profile->account_name);
-        $filterJson = json_encode(['df50' => "include IN {$upper}"]);
-        $encodedFilter = rawurlencode($filterJson);
-
-        $lookerUrl = 'https://lookerstudio.google.com/embed/u/0/reporting/'
-            .'4d1cf425-bcf4-4164-bf00-0e16b20bc79a/'
-            .'page/p_n0steo0jnc'
-            ."?params={$encodedFilter}";
 
         return view('dashboard', [
             'customerName' => $user->name ?? 'Customer',
@@ -66,7 +58,6 @@ class DashboardController extends Controller
             'currentAmount' => number_format($currentAmount, 2),
             'dueDate' => $dueDate,
             'moreAdvisories' => $moreAdvisories,
-            'lookerUrl' => $lookerUrl,
             'Status' => ($latestInvoice['InvoiceBalanceAmount'] ?? 0) == 0 ? 'PAID' : 'UNPAID',
 
         ]);
