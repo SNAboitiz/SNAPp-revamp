@@ -113,11 +113,11 @@ return [
         ],
 
         'bigquery' => [
-            'driver'     => 'bigquery',
+            'driver' => 'bigquery',
             'project_id' => env('BIGQUERY_PROJECT_ID', ''),
-            'dataset'    => env('BIGQUERY_DATASET', ''),
-            'key_file_path'   => env('BIGQUERY_KEY_FILE', ''), // Optional: Only if using service account key file (not recommended)
-            'key_file'   => [
+            'dataset' => env('BIGQUERY_DATASET', ''),
+            'key_file_path' => env('BIGQUERY_KEY_FILE', ''), // Optional: Only if using service account key file (not recommended)
+            'key_file' => [
                 'type' => env('GOOGLE_CLOUD_ACCOUNT_TYPE'),
                 'private_key_id' => env('GOOGLE_CLOUD_PRIVATE_KEY_ID'),
                 'private_key' => env('GOOGLE_CLOUD_PRIVATE_KEY'),
@@ -165,7 +165,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
             'persistent' => env('REDIS_PERSISTENT', false),
         ],
 

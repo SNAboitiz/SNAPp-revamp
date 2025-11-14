@@ -19,34 +19,34 @@ class StoreBillRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
- public function rules(): array
+    public function rules(): array
     {
         return [
 
             'contract_start' => [
                 'required',
-                'date'
+                'date',
             ],
             'contract_end' => [
                 'required',
                 'date',
-                'after_or_equal:contract_start'
+                'after_or_equal:contract_start',
             ],
             'document' => [
                 'required',
                 'file',
                 'mimes:pdf,doc,docx',
-                'max:10240'
+                'max:10240',
             ],
             'description' => [
-                'required', 
-                'string', 
-                'max:255'
+                'required',
+                'string',
+                'max:255',
             ],
             'shortname' => [
-                'required', 
-                'string', 
-                'max:255'
+                'required',
+                'string',
+                'max:255',
             ],
 
         ];

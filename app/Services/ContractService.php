@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Services;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Models\Contract;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use App\Services\GcsService;
 
 class ContractService
 {
@@ -17,6 +16,7 @@ class ContractService
     {
         $this->gcsService = $gcsService;
     }
+
     public function getAllContracts(): LengthAwarePaginator
     {
         $disk = config('filesystems.default');
@@ -34,25 +34,25 @@ class ContractService
 
             return [
                 'reference_number' => $c->reference_number,
-                'contract_name'    => $c->description,
-                'shortname'        => $c->shortname,
-                'contract_period'  => $c->contract_period,
-                'contract_end'     => $c->contract_end,
-                'upload_date'      => $c->created_at->format('d-M-Y'),
-                'status'           => $status,
-                'gcsPdfUrl'        => $this->resolveFileUrl($c->document, $disk),
+                'contract_name' => $c->description,
+                'shortname' => $c->shortname,
+                'contract_period' => $c->contract_period,
+                'contract_end' => $c->contract_end,
+                'upload_date' => $c->created_at->format('d-M-Y'),
+                'status' => $status,
+                'gcsPdfUrl' => $this->resolveFileUrl($c->document, $disk),
             ];
         });
 
         return $dbContracts;
     }
 
-
     public function getContractForUser($user): LengthAwarePaginator
     {
         $short = $user->profile->short_name ?? null;
-        if (!$short) {
+        if (! $short) {
             Log::warning("User {$user->id} has no short_name.");
+
             return new LengthAwarePaginator([], 0, 5);
         }
 
@@ -73,13 +73,13 @@ class ContractService
 
             return [
                 'reference_number' => $c->reference_number,
-                'contract_name'    => $c->description,
-                'shortname'        => $c->shortname,
-                'contract_period'  => $c->contract_period,
-                'contract_end'     => $c->contract_end,
-                'upload_date'      => $c->created_at->format('d-M-Y'),
-                'status'           => $status,
-                'gcsPdfUrl'        => $this->resolveFileUrl($c->document, $disk),
+                'contract_name' => $c->description,
+                'shortname' => $c->shortname,
+                'contract_period' => $c->contract_period,
+                'contract_end' => $c->contract_end,
+                'upload_date' => $c->created_at->format('d-M-Y'),
+                'status' => $status,
+                'gcsPdfUrl' => $this->resolveFileUrl($c->document, $disk),
             ];
         });
 
@@ -94,13 +94,13 @@ class ContractService
             if ($legacyUrl) {
                 $legacyContract = [
                     'reference_number' => null,
-                    'contract_name'    => "Legacy Contract for {$short}",
-                    'shortname'        => $short,
-                    'contract_period'  => null,
-                    'contract_end'     => null,
-                    'upload_date'      => Carbon::now()->format('d-M-Y'),
-                    'status'           => 'Available',
-                    'gcsPdfUrl'        => $legacyUrl,
+                    'contract_name' => "Legacy Contract for {$short}",
+                    'shortname' => $short,
+                    'contract_period' => null,
+                    'contract_end' => null,
+                    'upload_date' => Carbon::now()->format('d-M-Y'),
+                    'status' => 'Available',
+                    'gcsPdfUrl' => $legacyUrl,
                 ];
 
                 // Prepend legacy to collection
@@ -110,10 +110,12 @@ class ContractService
 
         return $dbContracts;
     }
+
     protected function resolveFileUrl(string $path, string $disk): ?string
     {
         if ($disk === 'gcs') {
             $url = $this->gcsService->generateSignedUrl($path);
+
             return $url ?: null;
         }
 

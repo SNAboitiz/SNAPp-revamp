@@ -8,7 +8,7 @@ class CrssDailyMeterDataResChart extends ChartWidget
 {
     protected ?string $heading = 'Crss Daily Meter Data Res Chart';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getData(): array
     {

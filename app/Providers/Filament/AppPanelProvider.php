@@ -36,11 +36,11 @@ class AppPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
-                DashboardPage::class
+                DashboardPage::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
-                CrssDailyMeterDataResChart::class
+                CrssDailyMeterDataResChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,

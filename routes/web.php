@@ -13,7 +13,6 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
-
 Route::get('account/deactivated', function () {
     return view('auth.deactivated');
 })->name('account.deactivated');
@@ -21,7 +20,7 @@ Route::get('account/deactivated', function () {
 Route::redirect('/', '/login');
 
 Route::middleware(['auth'])->group(function () {
-    //ALL ACCESS
+    // ALL ACCESS
     Route::middleware(['role:admin|account executive|customer'])->group(function () {
         Route::get('/help', function () {
             return view('help');
@@ -29,7 +28,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('profiles', ProfileController::class)->only([
             'index',
             'edit',
-            'update'
+            'update',
         ]);
         // Route::resource('profiles', ProfileController::class);
         Route::get('/dashboard/load-more', [DashboardController::class, 'loadMore'])->name('dashboard.load-more');
@@ -85,6 +84,6 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 
 Route::webhooks('webhook/inquiry');

@@ -26,7 +26,7 @@ class CreateInquiry extends CreateRecord
     {
         return [
             $this->getCreateFormAction()
-                ->databaseTransaction()
+                ->databaseTransaction(),
         ];
     }
 

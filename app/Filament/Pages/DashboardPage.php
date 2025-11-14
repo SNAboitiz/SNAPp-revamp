@@ -7,7 +7,7 @@ use Illuminate\Contracts\Support\Htmlable;
 
 class DashboardPage extends Dashboard
 {
-    public function getTitle(): string | Htmlable
+    public function getTitle(): string|Htmlable
     {
         return '';
     }

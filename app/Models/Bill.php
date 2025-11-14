@@ -17,8 +17,7 @@ class Bill extends Model
     ];
 
     public function profile()
-{
-    return $this->belongsTo(Profile::class, 'customer_id', 'customer_id');
-}
-
+    {
+        return $this->belongsTo(Profile::class, 'customer_id', 'customer_id');
+    }
 }

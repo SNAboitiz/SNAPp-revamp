@@ -13,5 +13,6 @@ Route::get('/migrate', function () {
     Illuminate\Support\Facades\Artisan::call('migrate --force');
     shell_exec('npm run build');
     Illuminate\Support\Facades\Artisan::call('optimize');
+
     return 'Migration completed successfully.';
 })->name('migrate');
