@@ -54,6 +54,7 @@ class EditCustomerRequest extends FormRequest
             'edit_facility_id' =>
             [
                 'sometimes',
+                'nullable',
                 'numeric',
                 'exists:facilities,id'
 

@@ -63,16 +63,15 @@
                 </flux:select>
             </flux:field>
 
-
-            {{-- Facility Field --}}
+            {{-- Facility Field - Updated to be optional --}}
             <flux:field>
                 <flux:label>Facility</flux:label>
                 <flux:select
                     id="edit_facility_id"
                     name="edit_facility_id"
-                    placeholder="— Select facility —"
-                    required
+                    placeholder="— Select facility (optional) —"
                     :error="$errors->first('edit_facility_id')">
+                    <option value="">— No facility —</option>
                     @foreach ($facilities as $facility)
                     <option
                         value="{{ $facility->id }}"
@@ -83,9 +82,6 @@
                     @endforeach
                 </flux:select>
             </flux:field>
-
-
-
 
             <div class="flex">
                 <flux:spacer />

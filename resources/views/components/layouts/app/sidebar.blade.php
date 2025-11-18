@@ -141,10 +141,10 @@
                     href="{{ route('facilities.index') }}"
                     class="group flex items-center p-2 rounded-md hover:bg-blue-500 transition-colors"
                     :class="{'justify-center': collapsed, 'space-x-2': !collapsed}">
-                    <flux:icon name="book-user" class="w-6 h-6 text-white" />
+                    <flux:icon name="building" class="w-6 h-6 text-white" />
                     <span x-show="!collapsed" class="text-white">{{ __('Facilities') }}</span>
                 </a>
-
+                
                 <a
                     href="{{ route('bills.manage') }}"
                     class="group flex items-center p-2 rounded-md hover:bg-blue-500 transition-colors"
@@ -182,7 +182,7 @@
                     class="group flex items-center p-2 rounded-md hover:bg-blue-500 transition-colors"
                     :class="{'justify-center': collapsed, 'space-x-2': !collapsed}">
                     <flux:icon name="book-user" class="w-6 h-6 text-white" />
-                    <span x-show="!collapsed" class="text-white">{{ __('Customers') }}</span>
+                    <span x-show="!collapsed" class="text-white">{{ __('Profiles') }}</span>
                 </a>
                 <a
                     href="{{ route('role.permission.list') }}"

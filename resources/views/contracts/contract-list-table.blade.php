@@ -23,7 +23,7 @@
 
                 <!-- <td>{{$item['reference_number']}}</td> -->
                 <td>{{ $item['contract_name'] }}</td>
-                <td>{{ $item['short_name'] }}</td>
+                <td>{{ $item['shortname'] }}</td>
                 <td>{{$item['contract_period']}}</td>
                 <td>{{$item['upload_date']}}</td>
                 <td>

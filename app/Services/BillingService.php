@@ -44,14 +44,11 @@ class BillingService
         return $dbBills;
     }
 
-
-
-
     public function getPaginatedBillsForUser($user, Request $request): LengthAwarePaginator
     {
         $customerNumber = $user->hasRole('admin') && $request->has('customer_number')
             ? $request->query('customer_number')
-            : $user->customer->customer_number;
+            : ($user->customer ? $user->customer->customer_number : null);
 
         if (!$customerNumber && $user->customer_id) {
             $customerNumber = Customer::find($user->customer_id)?->customer_number;
@@ -181,7 +178,18 @@ class BillingService
 
     public function getPaginatedPaymentHistoryForUser($user, Request $request): LengthAwarePaginator
     {
-        $customerNumber = $user->customer->customer_number;
+        $customerNumber = $user->hasRole('admin') && $request->has('customer_number')
+            ? $request->query('customer_number')
+            : ($user->customer ? $user->customer->customer_number : null);
+
+        if (!$customerNumber) {
+            if ($user->hasRole('admin')) {
+                session()->flash('info_message', 'Please select a customer to view payment history.');
+            } else {
+                session()->flash('error_message', 'Customer profile not found.');
+            }
+            return $this->paginate(collect(), 5, $request, 'payments.history');
+        }
 
         $rawOracleItems = $this->oracleService->fetchInvoiceData($customerNumber);
 
@@ -193,12 +201,6 @@ class BillingService
             $allOracleItems = $allOracleItems->filter(function ($item) use ($facilitySein) {
                 return ($item['SpecialInstructions'] ?? null) === $facilitySein;
             });
-
-            \Log::debug('Payment history facility filtering applied', [
-                'facility_sein' => $facilitySein,
-                'items_before' => count($rawOracleItems),
-                'items_after' => $allOracleItems->count()
-            ]);
         }
 
         $allPayments = collect($allOracleItems)->map(function ($item) {
@@ -211,9 +213,29 @@ class BillingService
                 'Date Posted'            => isset($item['AccountingDate']) ? \Carbon\Carbon::parse($item['AccountingDate'])->format('m/d/Y') : '',
             ];
         });
+        $uploadedBills = \App\Models\CustomerTaxDocument::get();
+
+        $allPayments = $allPayments->map(function ($payment) use ($uploadedBills) {
+            $match = $uploadedBills->firstWhere('document_number', $payment['Payment Reference']);
+
+            if ($match) {
+                $payment['2307_uploaded'] = true;
+                $payment['2307_file_path'] = $match->file_path;
+                $payment['customer_id'] = $match->customer_id;
+                $payment['facility_id'] = $match->facility_id;
+            } else {
+                $payment['2307_uploaded'] = false;
+                $payment['2307_file_path'] = null;
+                $payment['customer_id'] = null;
+                $payment['facility_id'] = null;
+            }
+
+            return $payment;
+        });
 
         return $this->paginate($allPayments, 5, $request, 'payments.history');
     }
+
     protected function resolveFileUrl(?string $path, string $disk): ?string
     {
         if (is_null($path)) {

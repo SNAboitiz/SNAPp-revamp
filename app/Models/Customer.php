@@ -32,4 +32,14 @@ class Customer extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function customerTaxDocuments(): HasMany
+    {
+        return $this->hasMany(CustomerTaxDocument::class);
+    }
+
+    public function facility()
+    {
+        return $this->belongsTo(Facility::class);
+    }
 }

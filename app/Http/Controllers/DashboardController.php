@@ -21,10 +21,10 @@ class DashboardController extends Controller
     public function showDashboardFields()
     {
         $user = Auth::user();
-        $customerId = $user->customer_id;
+        $customerNumber = $user->customer->customer_number;
 
         // Fetch invoice data
-        $items = $this->oracleInvoiceService->fetchInvoiceData($customerId);
+        $items = $this->oracleInvoiceService->fetchInvoiceData($customerNumber);
         $latestInvoice = collect($items)->first();
 
         $billingPeriod = isset($latestInvoice['TransactionDate'])
@@ -49,7 +49,7 @@ class DashboardController extends Controller
         $moreAdvisories = Advisory::latest()
             ->take(3)
             ->get();
-        $upper = strtoupper($user->profile->account_name);
+        $upper = strtoupper($user->profile->account_name ?? 'UNKNOWN');
         $filterJson    = json_encode(['df50' => "include IN {$upper}"]);
         $encodedFilter = rawurlencode($filterJson);
 
@@ -60,7 +60,7 @@ class DashboardController extends Controller
 
         return view('dashboard', [
             'customerName'    => $user->name ?? 'Customer',
-            'customerId'      => $customerId,
+            'customerNumber'      => $customerNumber,
             'billingPeriod'   => $billingPeriod,
             'consumption'     => $consumption,
             'previousBalance' => number_format($previousBalance, 2),

@@ -4,6 +4,7 @@ use App\Http\Controllers\AdvisoryController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerTaxDocumentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\GhgController;
@@ -47,7 +48,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/bills/export', [BillController::class, 'exportBills'])->name('bills.export');
         Route::get('/payments/export', [BillController::class, 'exportPayments'])->name('payments.export');
         Route::get('/energy-consumption', [GhgController::class, 'calculateEmissions'])->name('energy-consumption');
-    });
+Route::post(
+    '/admin/customers/{customer}/facilities/{facility?}/tax-documents',
+    [CustomerTaxDocumentController::class, 'store']
+)->name('tax-documents.store');    });
 
     Route::redirect('settings', 'settings/profile');
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
