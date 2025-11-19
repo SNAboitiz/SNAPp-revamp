@@ -9884,6 +9884,7 @@
     :is(.fi-fo-field .fi-fo-field-label-ctn, .fi-fo-field .fi-fo-field-label)
         > .fi-checkbox-input {
         margin-top: calc(var(--spacing) * 0.5);
+        flex-shrink: 0;
     }
     :is(.fi-fo-field .fi-fo-field-label-ctn, .fi-fo-field .fi-fo-field-label)
         > .fi-toggle {
