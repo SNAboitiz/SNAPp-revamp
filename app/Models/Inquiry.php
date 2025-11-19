@@ -3,12 +3,16 @@
 namespace App\Models;
 
 use App\Observers\InquiryObserver;
+use Filament\Forms\Components\RichEditor\Models\Concerns\InteractsWithRichContent;
+use Filament\Forms\Components\RichEditor\Models\Contracts\HasRichContent;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 
 #[ObservedBy(InquiryObserver::class)]
-class Inquiry extends Model
+class Inquiry extends Model implements HasRichContent
 {
+    use InteractsWithRichContent;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -19,7 +23,7 @@ class Inquiry extends Model
         'status',
         'type',
         'message',
-        // TODO: save id from kissflow
+        'kissflow_id',
     ];
 
     /**
@@ -35,5 +39,12 @@ class Inquiry extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function setUpRichContent(): void
+    {
+        $this->registerRichContent('content')
+            ->fileAttachmentsDisk('gcs')
+            ->fileAttachmentsVisibility('private');
     }
 }
