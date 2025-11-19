@@ -2,6 +2,7 @@
 
 namespace App\Webhooks\Kissflow;
 
+use App\Models\Inquiry;
 use Spatie\WebhookClient\Jobs\ProcessWebhookJob;
 
 class InquiryWebhook extends ProcessWebhookJob
@@ -26,7 +27,17 @@ class InquiryWebhook extends ProcessWebhookJob
     {
         $data = json_decode($this->webhookCall, true);
 
-        // TODO: save status
+        $status = $data['payload']['status'];
+        if (empty($status)) {
+            throw new \Exception('Status is missing in the webhook payload.');
+        }
+
+        $id = $data['payload']['kissflow_id'];
+        if (empty($id)) {
+            throw new \Exception('ID is missing in the webhook payload.');
+        }
+
+        Inquiry::whereKissflowId($id)->update(['status' => $status]);
 
         http_response_code(200);
     }

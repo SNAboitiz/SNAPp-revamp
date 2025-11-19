@@ -16592,7 +16592,15 @@ function Yi({ cachedData: s, options: t, type: e }) {
                             this.$nextTick(() => {
                                 (this.getChart().destroy(), this.initChart());
                             });
-                    }));
+                    }),
+                (this.resizeHandler = Alpine.debounce(() => {
+                    (this.getChart().destroy(), this.initChart());
+                }, 250)),
+                window.addEventListener("resize", this.resizeHandler),
+                (this.resizeObserver = new ResizeObserver(() =>
+                    this.resizeHandler(),
+                )),
+                this.resizeObserver.observe(this.$el));
         },
         initChart(i = null) {
             var r, a, l, c, h, u, d, f, g, m, p, b, y, _;
@@ -16652,6 +16660,11 @@ function Yi({ cachedData: s, options: t, type: e }) {
         },
         getChart() {
             return this.$refs.canvas ? Mt.getChart(this.$refs.canvas) : null;
+        },
+        destroy() {
+            (window.removeEventListener("resize", this.resizeHandler),
+                this.resizeObserver && this.resizeObserver.disconnect(),
+                this.getChart()?.destroy());
         },
     };
 }

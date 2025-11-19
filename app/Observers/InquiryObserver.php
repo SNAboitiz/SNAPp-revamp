@@ -21,6 +21,10 @@ class InquiryObserver
 
         $response = (new KissflowService)->submitInquiry($params);
 
-        // TODO: save id from kissflow response
+        $response = json_decode($response->body(), true);
+
+        $inquiry->update([
+            'kissflow_id' => $response['id'] ?? null,
+        ]);
     }
 }

@@ -34,6 +34,10 @@ echo "Setting up public directory permissions..."
 mkdir -p public/css public/js
 chmod -R 755 public/css public/js
 
+# Create storage link
+echo "Creating storage link..."
+php artisan storage:link
+
 # Run database migrations (only if database is available)
 echo "Running database migrations..."
 php artisan migrate --force 2>/dev/null || echo "Migration failed or database not available"
