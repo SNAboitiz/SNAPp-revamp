@@ -15,7 +15,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        //code here
+        // code here
     }
 
     /**
@@ -27,28 +27,28 @@ class PermissionController extends Controller
     {
         $data = $request->all();
         $view = view('admin.role-permission.form-permission')->render();
-        return response()->json(['data' =>  $view, 'status'=> true]);
+
+        return response()->json(['data' => $view, 'status' => true]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-{
-    $validated = $request->validate([
-        'title' => 'required|string|unique:permissions,name', // Adjust if 'title' is a separate column
-    ]);
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|unique:permissions,name', // Adjust if 'title' is a separate column
+        ]);
 
-    Permission::create([
-        'name' => $validated['title'], // Use 'title' as 'name' if no separate title column
-        'guard_name' => 'web',
-    ]);
+        Permission::create([
+            'name' => $validated['title'], // Use 'title' as 'name' if no separate title column
+            'guard_name' => 'web',
+        ]);
 
-    return redirect()->route('role.permission.list')->with('success', 'Permission created successfully.');
-}
+        return redirect()->route('role.permission.list')->with('success', 'Permission created successfully.');
+    }
 
     /**
      * Display the specified resource.
@@ -58,7 +58,7 @@ class PermissionController extends Controller
      */
     public function show($id)
     {
-        //code here
+        // code here
     }
 
     /**
@@ -71,17 +71,16 @@ class PermissionController extends Controller
     {
         // Retrieve the permission record
         $permission = \Spatie\Permission\Models\Permission::findOrFail($id);
-        
+
         // Render the edit form located in resources/views/admin.role-permission/form-edit-permission.blade.php
         $view = view('admin.role-permission.form-edit-permission', compact('permission'))->render();
+
         return response()->json(['data' => $view, 'status' => true]);
     }
-    
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -89,22 +88,21 @@ class PermissionController extends Controller
     {
         // Retrieve the permission record
         $permission = \Spatie\Permission\Models\Permission::findOrFail($id);
-    
+
         // Validate the input; ignore the current permission when checking for uniqueness
         $validated = $request->validate([
             'title' => "required|string|unique:permissions,name,{$id}",
         ]);
-    
+
         // Update the permission record
         $permission->update([
             'name' => $validated['title'],
         ]);
-    
+
         // Redirect back to the list with a success message
         return redirect()->route('role.permission.list')
-                         ->with('success', 'Permission updated successfully.');
+            ->with('success', 'Permission updated successfully.');
     }
-    
 
     /**
      * Remove the specified resource from storage.
@@ -112,6 +110,4 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
-    
 }

@@ -19,7 +19,6 @@ class BillingService
         protected GcsService $gcsService
     ) {}
 
-
     public function getPaginatedUploadedBills(Request $request): LengthAwarePaginator
     {
         $disk = config('filesystems.default');
@@ -33,7 +32,7 @@ class BillingService
                 'billNumber'    => $bill->bill_number,
                 'accountName'   => $bill->customer?->account_name ?? 'No Customer',
                 'billingPeriod' => $bill->billing_period,
-                'uploadedAt'    => $bill->created_at->format('d-M-Y'),
+                'uploadedAt' => $bill->created_at->format('d-M-Y'),
                 'gcsPdfUrl' => $this->resolveFileUrl(
                     "snapp_bills/{$bill->customer?->short_name}_{$bill->billing_period}_{$bill->bill_number}.pdf",
                     $disk
@@ -80,8 +79,7 @@ class BillingService
         // Optional search filter
         if ($search = strtolower($request->input('search'))) {
             $allBills = $allBills->filter(
-                fn($bill) =>
-                str_contains(strtolower($bill['Billing Period']), $search) ||
+                fn ($bill) => str_contains(strtolower($bill['Billing Period']), $search) ||
                     str_contains(strtolower($bill['Power Bill Number']), $search)
             );
         }
@@ -89,13 +87,12 @@ class BillingService
         // Optional facility filter
         if ($facility = $request->input('facility')) {
             $allBills = $allBills->filter(
-                fn($bill) => $bill['Facility'] === $facility
+                fn ($bill) => $bill['Facility'] === $facility
             );
         }
 
         return $this->paginate($allBills, 5, $request, 'bills.show');
     }
-
 
     protected function prepareBillData(Collection $items, ?string $customerShortname): Collection
     {
@@ -110,7 +107,7 @@ class BillingService
                 // Check if we have two parts, as expected
                 if (count($parts) === 2) {
                     // Uppercase each date part individually and join them back with a lowercase " to "
-                    $billingPeriodForFile = strtoupper(trim($parts[0])) . ' to ' . strtoupper(trim($parts[1]));
+                    $billingPeriodForFile = strtoupper(trim($parts[0])).' to '.strtoupper(trim($parts[1]));
                 } else {
                     // Fallback for any unexpected format
                     $billingPeriodForFile = strtoupper($item['Comments']);
@@ -126,13 +123,13 @@ class BillingService
             }
 
             return [
-                'Facility'          => $item['SpecialInstructions'] ?? 'N/A',
-                'Billing Period'    => $this->formatBillingRangeForDisplay($item['Comments'] ?? null),
+                'Facility' => $item['SpecialInstructions'] ?? 'N/A',
+                'Billing Period' => $this->formatBillingRangeForDisplay($item['Comments'] ?? null),
                 'Power Bill Number' => $item['DocumentNumber'] ?? '',
-                'Posting Date'      => isset($item['TransactionDate']) ? \Carbon\Carbon::parse($item['TransactionDate'])->format('m/d/Y') : '',
-                'Status'            => ($item['InvoiceBalanceAmount'] ?? 0) == 0 ? 'PAID' : 'UNPAID',
-                'Total Amount'      => number_format($item['EnteredAmount'] ?? 0, 2),
-                'gcsPdfUrl'         => $gcsPdfUrl,
+                'Posting Date' => isset($item['TransactionDate']) ? \Carbon\Carbon::parse($item['TransactionDate'])->format('m/d/Y') : '',
+                'Status' => ($item['InvoiceBalanceAmount'] ?? 0) == 0 ? 'PAID' : 'UNPAID',
+                'Total Amount' => number_format($item['EnteredAmount'] ?? 0, 2),
+                'gcsPdfUrl' => $gcsPdfUrl,
             ];
         });
     }
@@ -167,14 +164,14 @@ class BillingService
             $startDate = Carbon::parse(trim($parts[0]));
             $endDate = Carbon::parse(trim($parts[1]));
 
-            return $startDate->format('m/d/Y') . '-' . $endDate->format('m/d/y');
+            return $startDate->format('m/d/Y').'-'.$endDate->format('m/d/y');
         } catch (\Exception $e) {
             // If parsing fails for any reason, log it and return the original string
             Log::warning("Could not format billing period display string: '{$oracleComments}'");
+
             return $oracleComments;
         }
     }
-
 
     public function getPaginatedPaymentHistoryForUser($user, Request $request): LengthAwarePaginator
     {
@@ -205,12 +202,12 @@ class BillingService
 
         $allPayments = collect($allOracleItems)->map(function ($item) {
             return [
-                'Payment Reference'      => $item['DocumentNumber'] ?? '',
+                'Payment Reference' => $item['DocumentNumber'] ?? '',
                 'Payment Reference Date' => isset($item['AccountingDate']) ? \Carbon\Carbon::parse($item['AccountingDate'])->format('m/d/Y') : '',
-                'Billing Period'         => $item['Comments'] ?? 'N/A',
-                'Amount'                 => number_format($item['EnteredAmount'] ?? 0, 2),
-                'Power Bill No'          => $item['DocumentNumber'] ?? '',
-                'Date Posted'            => isset($item['AccountingDate']) ? \Carbon\Carbon::parse($item['AccountingDate'])->format('m/d/Y') : '',
+                'Billing Period' => $item['Comments'] ?? 'N/A',
+                'Amount' => number_format($item['EnteredAmount'] ?? 0, 2),
+                'Power Bill No' => $item['DocumentNumber'] ?? '',
+                'Date Posted' => isset($item['AccountingDate']) ? \Carbon\Carbon::parse($item['AccountingDate'])->format('m/d/Y') : '',
             ];
         });
         $uploadedBills = \App\Models\CustomerTaxDocument::get();

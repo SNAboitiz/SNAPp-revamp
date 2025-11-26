@@ -1,0 +1,74 @@
+services:
+  snapp:
+    build:
+      context: ./
+      dockerfile: ./.docker/Dockerfile
+    image: snapp
+    container_name: snapp
+    volumes:
+      - .:/var/www/html:cached
+      - ./vendor:/var/www/html/vendor:delegated
+      - ./storage:/var/www/html/storage:delegated
+      - ./storage/app/public:/var/www/html/public/storage:delegated
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - TELESCOPE_ENABLED=true
+      - DB_CONNECTION=mysql
+      - DB_HOST=snapp-mysql
+      - DB_PORT=3306
+      - DB_DATABASE=snapp
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+    depends_on:
+      snapp-mysql:
+        condition: service_healthy
+    entrypoint: /usr/local/bin/entrypoint.sh
+
+  snapp-mysql:
+    image: mysql:8.0
+    container_name: snapp-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: snapp
+    volumes:
+      - snapp_db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  snapp-phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: snapp-phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: snapp-mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root
+    depends_on:
+      snapp-mysql:
+        condition: service_healthy
+    platform: linux/amd64
+
+  snapp-nginx:
+    image: nginx:latest
+    container_name: snapp-nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+      - ./storage:/var/www/html/storage:delegated
+      - ./storage/app/public:/var/www/html/public/storage:delegated
+      - ./.docker/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - snapp
+
+volumes:
+  snapp_db_data:
+    driver: local

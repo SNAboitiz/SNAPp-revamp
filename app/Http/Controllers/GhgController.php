@@ -28,7 +28,7 @@ class GhgController extends Controller
         $latestInvoice = $invoiceData[0];
         $transactionId = $latestInvoice['CustomerTransactionId'] ?? null;
 
-        if (!$transactionId) {
+        if (! $transactionId) {
             return response()->json(['error' => 'Invalid invoice data'], 400);
         }
         $consumption = $this->oracleInvoiceService->fetchConsumption($transactionId);
@@ -49,10 +49,10 @@ class GhgController extends Controller
         $encodedFilter = rawurlencode($filterJson);
 
         // NOTE the `/u/0/` here:
-        $lookerUrl = "https://lookerstudio.google.com/embed/u/0/reporting/"
-            . "4d1cf425-bcf4-4164-bf00-0e16b20bc79a/"
-            . "page/p_n0steo0jnc"
-            . "?params={$encodedFilter}";
+        $lookerUrl = 'https://lookerstudio.google.com/embed/u/0/reporting/'
+            .'4d1cf425-bcf4-4164-bf00-0e16b20bc79a/'
+            .'page/p_n0steo0jnc'
+            ."?params={$encodedFilter}";
 
         return view('energy-consumption', [
             'consumption' => number_format($consumption, 2),

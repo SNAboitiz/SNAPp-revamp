@@ -25,28 +25,28 @@ class StoreAdvisoryRequest extends FormRequest
             'headline' => [
                 'required',
                 'string',
-                'max:100'
+                'max:100',
             ],
             'description' => [
                 'required',
                 'string',
-                'max:255'
+                'max:255',
             ],
 
             'content' => [
                 'required',
                 'string',
-                'max:255'
+                'max:255',
             ],
             'attachment' => [
                 'nullable',
                 'file',
                 'mimes:jpg,jpeg,png',
-                'max:2048'
+                'max:2048',
             ],
             'link' => [
                 'nullable',
-                'url'
+                'url',
             ],
 
         ];

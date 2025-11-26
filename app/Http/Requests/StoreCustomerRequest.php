@@ -34,7 +34,7 @@ class StoreCustomerRequest extends FormRequest
             'email' => [
                 'required',
                 'email',
-                Rule::unique(User::class)
+                Rule::unique(User::class),
             ],
 
             'customer_id' => [
@@ -49,6 +49,7 @@ class StoreCustomerRequest extends FormRequest
             ],
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         session()->flash('show_modal', 'customer-modal');

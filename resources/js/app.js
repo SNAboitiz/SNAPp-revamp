@@ -1,5 +1,3 @@
-import Chart from 'chart.js/auto';
-import './energyChart.js';
+import Chart from "chart.js/auto";
+import "./energyChart.js";
 window.Chart = Chart;
- 
-

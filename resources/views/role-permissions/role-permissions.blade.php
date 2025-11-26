@@ -5,14 +5,13 @@
 
             <div class="flex gap-2">
                 <!-- Role Modal Trigger -->
-        @can('can add role')
-                <flux:modal.trigger name="create-role">
-                    <flux:button
-                        class="flux-btn flux-btn-primary flux-btn-sm">
-                        Add Role
-                    </flux:button>
-                </flux:modal.trigger>
-        @endcan
+                @can('can add role')
+                    <flux:modal.trigger name="create-role">
+                        <flux:button class="flux-btn flux-btn-primary flux-btn-sm">
+                            Add Role
+                        </flux:button>
+                    </flux:modal.trigger>
+                @endcan
                 <flux:modal.trigger name="create-permission">
                     <flux:button class="flux-btn flux-btn-primary flux-btn-sm">
                         Add Permission
@@ -40,9 +39,7 @@
                                             </flux:modal.trigger>
 
                                             <flux:modal.trigger name="delete-role">
-                                                <flux:button
-                                                    icon="trash-2"
-                                                    variant="danger"
+                                                <flux:button icon="trash-2" variant="danger"
                                                     class="flux-btn flux-btn-xs flux-btn-danger">
                                                 </flux:button>
                                             </flux:modal.trigger>
@@ -60,17 +57,13 @@
                                         <span>{{ $permission->name }}</span>
                                         <div class="flex gap-1">
                                             <flux:modal.trigger name="permission-modal">
-                                                <flux:button
-                                                    icon="edit"
-                                                    variant="primary"
+                                                <flux:button icon="edit" variant="primary"
                                                     class="flux-btn flux-btn-xs flux-btn-info">
                                                 </flux:button>
                                             </flux:modal.trigger>
 
                                             <flux:modal.trigger name="delete-permission">
-                                                <flux:button
-                                                    icon="trash-2"
-                                                    variant="danger"
+                                                <flux:button icon="trash-2" variant="danger"
                                                     class="flux-btn flux-btn-xs flux-btn-danger">
                                                 </flux:button>
                                             </flux:modal.trigger>
@@ -79,13 +72,9 @@
                                 </td>
                                 @foreach ($roles as $role)
                                     <td class="text-center p-3 border border-gray-300">
-                                        <input
-                                            type="checkbox"
-                                            name="permission[{{ $role->id }}][]"
+                                        <input type="checkbox" name="permission[{{ $role->id }}][]"
                                             value="{{ $permission->id }}"
-                                            @if($role->hasPermissionTo($permission)) checked @endif
-                                            class="form-check-input"
-                                        >
+                                            @if ($role->hasPermissionTo($permission)) checked @endif class="form-check-input">
                                     </td>
                                 @endforeach
                             </tr>
@@ -94,9 +83,7 @@
                     <tfoot>
                         <tr>
                             <td class="p-4 border-t border-gray-300 text-center">
-                                <flux:button
-                                type="submit"
-                                    variant="primary"
+                                <flux:button type="submit" variant="primary"
                                     class="flux-btn flux-btn-success flux-btn-sm">
                                     Save Changes
                                 </flux:button>

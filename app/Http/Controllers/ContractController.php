@@ -30,7 +30,6 @@ class ContractController extends Controller
         return view('my-contracts', compact('contracts', 'customers'));
     }
 
-
     public function store(StoreContractRequest $request)
     {
         $validated = $request->validated();
@@ -39,9 +38,9 @@ class ContractController extends Controller
         $short = $validated['short_name'];
 
         // format period
-        $start  = Carbon::parse($validated['contract_start']);
-        $end    = Carbon::parse($validated['contract_end']);
-        $period = strtoupper($start->format('d-M-y') . ' to ' . $end->format('d-M-y'));
+        $start = Carbon::parse($validated['contract_start']);
+        $end = Carbon::parse($validated['contract_end']);
+        $period = strtoupper($start->format('d-M-y').' to '.$end->format('d-M-y'));
         $validated['contract_period'] = $period;
 
         // reference number

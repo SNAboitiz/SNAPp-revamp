@@ -13,25 +13,27 @@
             </div>
         </div>
         <form method="GET" action="{{ route('users.index') }}" class="mb-4 flex flex-wrap items-center gap-4">
-            <flux:input
-                icon="magnifying-glass"
-                name="search"
-                placeholder="Search users..."
-                value="{{ request('search') }}"
-                class="w-full md:w-1/4" />
+            <flux:input icon="magnifying-glass" name="search" placeholder="Search users..."
+                value="{{ request('search') }}" class="w-full md:w-1/4" />
 
             <flux:select name="active" placeholder="Status" class="w-full md:w-1/6 min-w-[150px] max-w-[180px]">
                 <flux:select.option value="">All Status</flux:select.option>
-                <flux:select.option value="1" :selected="request('active') === '1'">Active</flux:select.option>
-                <flux:select.option value="0" :selected="request('active') === '0'">Inactive</flux:select.option>
+                <flux:select.option value="1" :selected="request('active') === '1'">Active
+                </flux:select.option>
+                <flux:select.option value="0" :selected="request('active') === '0'">Inactive
+                </flux:select.option>
             </flux:select>
 
             <flux:select name="sort" placeholder="Sort by" class="w-full md:w-1/6 min-w-[150px] max-w-[180px]">
                 <flux:select.option value="">Default</flux:select.option>
-                <flux:select.option value="name_asc" :selected="request('sort') === 'name_asc'">Name A–Z</flux:select.option>
-                <flux:select.option value="name_desc" :selected="request('sort') === 'name_desc'">Name Z–A</flux:select.option>
-                <flux:select.option value="created_at_desc" :selected="request('sort') === 'created_at_desc'">Newest</flux:select.option>
-                <flux:select.option value="created_at_asc" :selected="request('sort') === 'created_at_asc'">Oldest</flux:select.option>
+                <flux:select.option value="name_asc" :selected="request('sort') === 'name_asc'">Name A–Z
+                </flux:select.option>
+                <flux:select.option value="name_desc" :selected="request('sort') === 'name_desc'">Name Z–A
+                </flux:select.option>
+                <flux:select.option value="created_at_desc" :selected="request('sort') === 'created_at_desc'">Newest
+                </flux:select.option>
+                <flux:select.option value="created_at_asc" :selected="request('sort') === 'created_at_asc'">Oldest
+                </flux:select.option>
             </flux:select>
 
             <flux:button type="submit" variant="primary" class="self-end">
@@ -53,9 +55,9 @@
                 </thead>
                 <tbody>
                     @foreach ($users as $user)
-                    <tr
-                        class="cursor-pointer hover:bg-gray-100 transition flux-btn-info
+                        <tr class="cursor-pointer hover:bg-gray-100 transition flux-btn-info
                                    {{ $user->active ? 'hover:bg-gray-100' : 'bg-red-50 text-gray-400' }}"
+<<<<<<< HEAD
                         data-id="{{ $user->id }}"
                         data-name="{{ $user->name }}"
                         data-email="{{ $user->email }}"
@@ -71,6 +73,17 @@
                         <td>{{ $user->facility?->name ?? '-' }}</td>
 
                     </tr>
+=======
+                            data-id="{{ $user->id }}" data-name="{{ $user->name }}"
+                            data-email="{{ $user->email }}" data-customer-id="{{ $user->customer_id }}"
+                            data-account-name="{{ $user->profile?->account_name }}"
+                            onclick="document.getElementById('open-edit-modal').click()">
+
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->profile?->account_name ?? '-' }}</td>
+                        </tr>
+>>>>>>> f1a9b3a64940d1f4da23dedc8fa037b365cfee9b
                     @endforeach
                 </tbody>
             </table>

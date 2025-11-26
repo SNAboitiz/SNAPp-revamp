@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use Illuminate\Support\Facades\Log;
-use App\Services\OracleInvoiceService;
 use App\Models\User;
+use App\Services\OracleInvoiceService;
+use Illuminate\Support\Facades\Log;
+use Tests\TestCase;
 
 class OracleInvoiceFetchTest extends TestCase
 {
@@ -26,7 +26,7 @@ class OracleInvoiceFetchTest extends TestCase
         $duration = round($end - $start, 3);
         Log::info("⏱️ Oracle Invoice Fetch Time: {$duration} seconds");
 
-        $this->assertIsArray($items, "Expected an array from Oracle, got: " . gettype($items));
+        $this->assertIsArray($items, 'Expected an array from Oracle, got: '.gettype($items));
         $this->assertLessThan(15, $duration, "API took too long: {$duration}s");
     }
 }

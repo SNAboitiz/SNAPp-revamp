@@ -41,7 +41,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL') . '/storage',
+            'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
@@ -60,18 +60,17 @@ return [
             'report' => false,
         ],
 
-'gcs' => [
-    'driver' => 'gcs',
-    'project_id' => env('GOOGLE_CLOUD_PROJECT_ID'),
-    'bucket' => env('GOOGLE_CLOUD_STORAGE_BUCKET'),
-    'key_file' => env('GOOGLE_CLOUD_KEY_FILE') 
-        ? json_decode(file_get_contents(env('GOOGLE_CLOUD_KEY_FILE')), true) 
-        : null,
-    'throw' => true,    'visibility' => 'noPredefinedVisibility',
-    'visibility_handler' => \League\Flysystem\GoogleCloudStorage\UniformBucketLevelAccessVisibility::class,
-    'throw' => true,
-],
-
+        'gcs' => [
+            'driver' => 'gcs',
+            'project_id' => env('GOOGLE_CLOUD_PROJECT_ID'),
+            'bucket' => env('GOOGLE_CLOUD_STORAGE_BUCKET'),
+            'key_file' => env('GOOGLE_CLOUD_KEY_FILE')
+                ? json_decode(file_get_contents(env('GOOGLE_CLOUD_KEY_FILE')), true)
+                : null,
+            'throw' => true,    'visibility' => 'noPredefinedVisibility',
+            'visibility_handler' => \League\Flysystem\GoogleCloudStorage\UniformBucketLevelAccessVisibility::class,
+            'throw' => true,
+        ],
 
     ],
 

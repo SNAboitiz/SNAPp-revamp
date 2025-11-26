@@ -7,8 +7,8 @@ use App\Http\Requests\EditUserRequest;
 use App\Http\Requests\StoreAccountExecutive;
 use App\Http\Requests\StoreAdminRequest;
 use App\Http\Requests\StoreCustomerRequest;
-use App\Http\Requests\UpdateAERequest;
 use App\Http\Requests\UpdateAdminRequest;
+use App\Http\Requests\UpdateAERequest;
 use App\Mail\CustomerPasswordMail;
 use App\Models\Customer;
 use App\Models\Facility;
@@ -26,10 +26,9 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-
-    //======================================================================
+    // ======================================================================
     // CUSTOMER ACCOUNT MANAGEMENT
-    //======================================================================
+    // ======================================================================
 
     public function index(Request $request)
     {
@@ -75,7 +74,36 @@ class UserController extends Controller
             'facility_id' => $validated['edit_facility_id'] ?? null,
         ]);
 
+<<<<<<< HEAD
         return redirect()->route('users.index');
+=======
+            $profileData = [
+                'account_name' => $validated['edit_account_name'] ?? null,
+                'short_name' => $validated['edit_short_name'] ?? null,
+                'customer_category' => $validated['edit_customer_category'] ?? null,
+                'contract_price' => $validated['edit_contract_price'] ?? null,
+                'contracted_demand' => $validated['edit_contracted_demand'] ?? null,
+                'cooperation_period_start_date' => $validated['edit_cooperation_period_start_date'] ?? null,
+                'cooperation_period_end_date' => $validated['edit_cooperation_period_end_date'] ?? null,
+            ];
+
+            $filteredProfileData = array_filter($profileData, fn ($value) => ! is_null($value));
+
+            if (count($filteredProfileData) > 0) {
+                $profile = Profile::firstOrNew(['customer_id' => $user->customer_id]);
+                $profile->fill($filteredProfileData)->save();
+            }
+
+            DB::commit();
+
+            return redirect()->route('users.index')->with('success', 'Customer updated successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Customer Update Failed: '.$e->getMessage());
+
+            return redirect()->back()->with('error', 'Failed to update customer.');
+        }
+>>>>>>> f1a9b3a64940d1f4da23dedc8fa037b365cfee9b
     }
 
 
@@ -85,6 +113,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
+
         return view('admin.customer-account.form-edit-customer', compact('user'));
     }
 
@@ -94,21 +123,27 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+
         return response()->json(['success' => true]);
     }
 
-    //======================================================================
+    // ======================================================================
     // ADMIN ACCOUNT MANAGEMENT
-    //======================================================================
+    // ======================================================================
 
     public function showAdmins()
     {
         $admins = User::role('admin')->with('profile')->paginate(10);
         $profiles = Profile::orderBy('account_name')->get();
+<<<<<<< HEAD
 
         return view('admin.admin-account.admin-list', compact('admins', 'profiles'));
     }
+=======
+>>>>>>> f1a9b3a64940d1f4da23dedc8fa037b365cfee9b
 
+        return view('admin.admin-account.admin-list', compact('admins', 'profiles'));
+    }
 
     public function storeAdmins(StoreAdminRequest $request)
     {
@@ -130,9 +165,9 @@ class UserController extends Controller
         );
     }
 
-    //======================================================================
+    // ======================================================================
     // ACCOUNT EXECUTIVE (AE) MANAGEMENT
-    //======================================================================
+    // ======================================================================
 
     public function showAE(Request $request)
     {
@@ -166,12 +201,13 @@ class UserController extends Controller
             'account-executive-list', // Assumed route name, change if different
             'Account Executive updated successfully.'
         );
+
         return redirect()->route('account-executive-list')->with('success', 'Account Executive updated successfully.');
     }
 
-    //======================================================================
+    // ======================================================================
     // ALL USERS MANAGEMENT
-    //======================================================================
+    // ======================================================================
 
     public function showAllUsers(Request $request)
     {
@@ -192,6 +228,7 @@ class UserController extends Controller
         $profiles = Profile::orderBy('account_name')->get();
 
         $roles = Role::all();
+
         return view('admin.all-users.all-users-list', compact('allUsers', 'roles', 'profiles'));
     }
 
@@ -229,9 +266,9 @@ class UserController extends Controller
         return redirect()->route('all-user-list')->with('success', $successMessage);
     }
 
-    //======================================================================
+    // ======================================================================
     // PRIVATE REUSABLE HELPER METHODS
-    //======================================================================
+    // ======================================================================
 
     private function applyCommonFiltersAndPagination(Builder $query, Request $request, array $appendedParams)
     {
@@ -277,10 +314,12 @@ class UserController extends Controller
             Mail::to($user->email)->send(new CustomerPasswordMail($password));
 
             DB::commit();
+
             return redirect()->back()->with('success', $successMessage);
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error(ucfirst($role) . ' Creation Failed: ' . $e->getMessage());
+            Log::error(ucfirst($role).' Creation Failed: '.$e->getMessage());
+
             return redirect()->back()->with('error', $errorMessage);
         }
     }
@@ -302,9 +341,11 @@ class UserController extends Controller
     {
         try {
             $this->sendNewPassword($user);
-            return redirect()->back()->with('success', 'A new password has been sent to ' . $user->email);
+
+            return redirect()->back()->with('success', 'A new password has been sent to '.$user->email);
         } catch (\Exception $e) {
-            Log::error('Admin Password Reset Failed for user ' . $user->id . ': ' . $e->getMessage());
+            Log::error('Admin Password Reset Failed for user '.$user->id.': '.$e->getMessage());
+
             return redirect()->back()->with('error', 'Failed to send a new password.');
         }
     }

@@ -19,8 +19,10 @@ class EnsureUserIsActive
 
         if (Auth::check() && ! Auth::user()->active) {
             Auth::logout();                              // log them out
-            return redirect()->route('account.deactivated'); 
+
+            return redirect()->route('account.deactivated');
         }
+
         return $next($request);
     }
 }

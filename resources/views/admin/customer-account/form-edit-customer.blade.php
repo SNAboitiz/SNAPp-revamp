@@ -1,17 +1,6 @@
-<div
-    x-data="{}"
-    x-init="
-    @if (session('show_modal') === 'edit-customer-modal')
-        $nextTick(() => $flux.modal('edit-customer-modal').show())
-    @endif
-">
-    <flux:modal
-        name="edit-customer-modal"
-        class="md:w-96">
-        <form
-            data-base-action="{{ route('users.update', ['user' => ':user_id']) }}"
-            method="POST"
-            id="edit-customer-form"
+<div x-data="{}" x-init="@if (session('show_modal') === 'edit-customer-modal') $nextTick(() => $flux.modal('edit-customer-modal').show()) @endif">
+    <flux:modal name="edit-customer-modal" class="md:w-96">
+        <form data-base-action="{{ route('users.update', ['user' => ':user_id']) }}" method="POST" id="edit-customer-form"
             class="space-y-6">
             @csrf
             @method('PUT')
@@ -23,23 +12,33 @@
             </div>
 
             <flux:field>
+<<<<<<< HEAD
                 <flux:label>Name</flux:label>
                 <flux:input
                     name="edit_name"
                     placeholder="Enter customer name" />
+=======
+                <flux:label badge="Required">Name</flux:label>
+                <flux:input name="edit_name" placeholder="Enter customer name" />
+>>>>>>> f1a9b3a64940d1f4da23dedc8fa037b365cfee9b
                 @error('edit_name')
-                <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
+                    <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
                 @enderror
             </flux:field>
 
             <flux:field>
+<<<<<<< HEAD
                 <flux:label>Email</flux:label>
                 <flux:input
                     name="edit_email"
                     type="email"
                     placeholder="Enter customer email" />
+=======
+                <flux:label badge="Required">Email</flux:label>
+                <flux:input name="edit_email" type="email" placeholder="Enter customer email" />
+>>>>>>> f1a9b3a64940d1f4da23dedc8fa037b365cfee9b
                 @error('edit_email')
-                <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
+                    <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
                 @enderror
             </flux:field>
 
@@ -85,10 +84,7 @@
 
             <div class="flex">
                 <flux:spacer />
-                <flux:button
-                    type="submit"
-                    variant="primary"
-                    id="save-button">
+                <flux:button type="submit" variant="primary" id="save-button">
                     Save Changes
                 </flux:button>
             </div>

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contract extends Model
 {
- protected $fillable = [
+    protected $fillable = [
         'reference_number',
         'shortname',
         'description',
@@ -15,10 +15,11 @@ class Contract extends Model
         'contract_period',
         'document',
         'status',
-        'created_by'
+        'created_by',
     ];
 
-    public function profile(){
+    public function profile()
+    {
         return $this->belongsTo(Profile::class);
     }
 }

@@ -1,10 +1,7 @@
 {{-- This is your existing modal, now with the new checkbox added --}}
 <flux:modal name="all-users-modal" class="md:w-96">
-    <form
-        action="{{ route('all-user-list.update', ['user' => ':user_id']) }}"
-        data-base-action="{{ route('all-user-list.update', ['user' => ':user_id']) }}"
-        method="POST"
-        id="edit-user-form"
+    <form action="{{ route('all-user-list.update', ['user' => ':user_id']) }}"
+        data-base-action="{{ route('all-user-list.update', ['user' => ':user_id']) }}" method="POST" id="edit-user-form"
         class="space-y-6">
         @csrf
         @method('PUT')
@@ -29,18 +26,12 @@
         </flux:field>
 
         <flux:field label="Assign Profile" for="customer_id" required>
-            <flux:select
-                id="customer_id"
-                name="customer_id"
-                placeholder="— Select account —"
-                required
+            <flux:select id="customer_id" name="customer_id" placeholder="— Select account —" required
                 :error="$errors->first('customer_id')">
                 @foreach ($profiles as $profile)
-                <option value="{{ $profile->customer_id }}"
-                    class="text-black"
-                    @selected(old('customer_id')==$profile->customer_id)>
-                    {{ $profile->account_name }} ({{ $profile->short_name }})
-                </option>
+                    <option value="{{ $profile->customer_id }}" class="text-black" @selected(old('customer_id') == $profile->customer_id)>
+                        {{ $profile->account_name }} ({{ $profile->short_name }})
+                    </option>
                 @endforeach
             </flux:select>
         </flux:field>
@@ -49,10 +40,10 @@
         <flux:field>
             <flux:label>Role</flux:label>
             <flux:select name="role" id="role-select" placeholder="Choose role...">
-                @foreach($roles as $role)
-                <flux:select.option value="{{ $role->name }}">
-                    {{ $role->name }}
-                </flux:select.option>
+                @foreach ($roles as $role)
+                    <flux:select.option value="{{ $role->name }}">
+                        {{ $role->name }}
+                    </flux:select.option>
                 @endforeach
             </flux:select>
         </flux:field>
@@ -71,11 +62,7 @@
         {{-- UPDATED CHECKBOX TEXT --}}
         {{-- ======================================================= --}}
         <div class="form-check pt-2">
-            <input
-                class="form-check-input"
-                type="checkbox"
-                name="resend_welcome_email"
-                id="resend_welcome_email_modal"
+            <input class="form-check-input" type="checkbox" name="resend_welcome_email" id="resend_welcome_email_modal"
                 value="1">
             <label class="form-check-label" for="resend_welcome_email_modal">
                 <strong class="text-sm">Reset Password</strong>

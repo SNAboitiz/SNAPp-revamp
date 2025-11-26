@@ -45,14 +45,28 @@ class UploadBillRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                'unique:bills,bill_number'
             ],
-            'file_path' =>
-            [
+            'billing_start_date' => [
+                'required',
+                'date',
+            ],
+            'billing_end_date' => [
+                'required',
+                'date',
+                'after_or_equal:billing_start_date',
+            ],
+
+            'bill_number' => [
+                'required',
+                'string',
+                'max:255',
+                'unique:bills,bill_number',
+            ],
+            'file_path' => [
                 'required',
                 'file',
                 'mimes:pdf,doc,docx',
-                'max:10240' // 10 MB
+                'max:10240', // 10 MB
             ],
         ];
     }

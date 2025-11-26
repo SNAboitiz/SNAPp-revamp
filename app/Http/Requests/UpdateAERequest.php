@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Requests;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
 class UpdateAERequest extends FormRequest
 {
@@ -27,30 +27,35 @@ class UpdateAERequest extends FormRequest
         $user = $this->route('user');
 
         return [
-            'edit_name' => 
-            [
-                'sometimes', 
-                'string', 
-                'max:255'
+            'edit_name' => [
+                'sometimes',
+                'string',
+                'max:255',
             ],
+<<<<<<< HEAD
             'edit_customer_id' => 
             [
                 'sometimes', 
                 'numeric',
                 'exists:customers,id'
+=======
+            'edit_customer_id' => [
+                'sometimes',
+                'numeric',
+>>>>>>> f1a9b3a64940d1f4da23dedc8fa037b365cfee9b
             ],
-            'edit_email' => 
-            [
-                'sometimes', 
+            'edit_email' => [
+                'sometimes',
                 'email',
                 Rule::unique('users', 'email')->ignore($user->id),
-            ], 
+            ],
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         session()->flash('show_modal', 'edit-admin-modal'); // 👈 Add this
-    
+
         throw new HttpResponseException(
             redirect()
                 ->back()

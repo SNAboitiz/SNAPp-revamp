@@ -7,16 +7,16 @@ document.addEventListener("DOMContentLoaded", () => {
     new Chart(ctx, {
         type: "line",
         data: {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"], 
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
             datasets: [
                 {
                     label: "Energy Consumption (kWh)",
-                    data: [120, 135, 115, 160, 145, 155, 170], 
-                    fill: true, 
+                    data: [120, 135, 115, 160, 145, 155, 170],
+                    fill: true,
                     backgroundColor: "rgba(20, 67, 224, 0.2)",
-                    borderColor: "#1443e0", 
+                    borderColor: "#1443e0",
                     borderWidth: 2,
-                    tension: 0.4, 
+                    tension: 0.4,
                     pointRadius: 4,
                     pointBackgroundColor: "#1443e0",
                     pointHoverRadius: 6,
