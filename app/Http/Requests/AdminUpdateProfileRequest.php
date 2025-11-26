@@ -28,7 +28,14 @@ class AdminUpdateProfileRequest extends FormRequest
             'edit_customer_id' => [
                 'required',
                 'integer',
+                'exists:customers,id',
                 Rule::unique('profiles', 'customer_id')->ignore($this->route('profile')),
+            ],
+
+            'edit_facility_id' => [
+                'nullable',
+                'integer',
+                'exists:facilities,id',
             ],
 
             'edit_short_name' => [

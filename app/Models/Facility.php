@@ -63,4 +63,34 @@ class Facility extends Model
     {
         return $this->hasMany(Bill::class);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::created(function ($facility) {
+            // Auto-create blank profile for new facility
+            Profile::create([
+                'customer_id' => $facility->customer_id,
+                'facility_id' => $facility->id,
+                'business_address' => '',
+                'facility_address' => '',
+                'customer_category' => '',
+                'cooperation_period_start_date' => null,
+                'cooperation_period_end_date' => null,
+                'contract_price' => '',
+                'contracted_demand' => '',
+                'certificate_of_contestability_number' => '',
+                'other_information' => '',
+                'contact_name' => '',
+                'designation' => '',
+                'email' => '',
+                'mobile_number' => '',
+                'contact_name_1' => '',
+                'designation_1' => '',
+                'email_1' => '',
+                'mobile_number_1' => '',
+            ]);
+        });
+    }
 }

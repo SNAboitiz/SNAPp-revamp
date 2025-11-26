@@ -38,7 +38,7 @@ class UserController extends Controller
             $request,
             ['active', 'search', 'sort']
         );
-
+   
         $customers = Customer::with('facilities')->orderBy('account_name')->get();
         $facilities = Facility::orderBy('name')->get();
 
@@ -74,36 +74,7 @@ class UserController extends Controller
             'facility_id' => $validated['edit_facility_id'] ?? null,
         ]);
 
-<<<<<<< HEAD
         return redirect()->route('users.index');
-=======
-            $profileData = [
-                'account_name' => $validated['edit_account_name'] ?? null,
-                'short_name' => $validated['edit_short_name'] ?? null,
-                'customer_category' => $validated['edit_customer_category'] ?? null,
-                'contract_price' => $validated['edit_contract_price'] ?? null,
-                'contracted_demand' => $validated['edit_contracted_demand'] ?? null,
-                'cooperation_period_start_date' => $validated['edit_cooperation_period_start_date'] ?? null,
-                'cooperation_period_end_date' => $validated['edit_cooperation_period_end_date'] ?? null,
-            ];
-
-            $filteredProfileData = array_filter($profileData, fn ($value) => ! is_null($value));
-
-            if (count($filteredProfileData) > 0) {
-                $profile = Profile::firstOrNew(['customer_id' => $user->customer_id]);
-                $profile->fill($filteredProfileData)->save();
-            }
-
-            DB::commit();
-
-            return redirect()->route('users.index')->with('success', 'Customer updated successfully.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('Customer Update Failed: '.$e->getMessage());
-
-            return redirect()->back()->with('error', 'Failed to update customer.');
-        }
->>>>>>> f1a9b3a64940d1f4da23dedc8fa037b365cfee9b
     }
 
 
@@ -135,12 +106,6 @@ class UserController extends Controller
     {
         $admins = User::role('admin')->with('profile')->paginate(10);
         $profiles = Profile::orderBy('account_name')->get();
-<<<<<<< HEAD
-
-        return view('admin.admin-account.admin-list', compact('admins', 'profiles'));
-    }
-=======
->>>>>>> f1a9b3a64940d1f4da23dedc8fa037b365cfee9b
 
         return view('admin.admin-account.admin-list', compact('admins', 'profiles'));
     }

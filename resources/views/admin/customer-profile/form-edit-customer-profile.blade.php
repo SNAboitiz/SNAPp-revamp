@@ -5,39 +5,42 @@
             @csrf
             @method('PUT')
 
-
             <div>
                 <flux:heading size="lg">Edit Customer Profile</flux:heading>
-                <flux:text class="mt-2">Required: Short Name & Customer ID</flux:text>
+                <flux:text class="mt-2">Required: Customer & Facility</flux:text>
             </div>
 
+            @if($errors->has('duplicate'))
+            <div class="p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                {{ $errors->first('duplicate') }}
+            </div>
+            @endif
+
             <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                {{-- Hidden fields for customer and facility --}}
+                <input type="hidden" name="edit_customer_id" id="hidden_customer_id" />
+                <input type="hidden" name="edit_facility_id" id="hidden_facility_id" />
+
                 {{-- IDENTIFIERS --}}
-                <flux:field class="md:col-span-2">
-                    <flux:label badge="Required">Customer ID</flux:label>
-                    <flux:input name="edit_customer_id" />
-                    @error('edit_customer_id')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
-                    @enderror
+                <!-- Customer Read-Only -->
+                <flux:field class="md:col-span-4">
+                    <flux:label>Customer</flux:label>
+                    <flux:input 
+                        value="{{ $profile->customer?->account_name ?? 'N/A' }}" 
+                        readonly 
+                        variant="filled" />
                 </flux:field>
 
-                <flux:field class="md:col-span-2">
-                    <flux:label badge="Required">Short Name</flux:label>
-                    <flux:input name="edit_short_name" />
-                    @error('edit_short_name')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
-                    @enderror
+                <!-- Facility Read-Only -->
+                <flux:field class="md:col-span-4">
+                    <flux:label>Facility</flux:label>
+                    <flux:input 
+                        value="{{ $profile->facility?->name ?? 'Customer-level' }}" 
+                        readonly 
+                        variant="filled" />
                 </flux:field>
 
                 <flux:field class="md:col-span-4">
-                    <flux:label>Account Name</flux:label>
-                    <flux:input name="edit_account_name" />
-                    @error('edit_account_name')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
-                    @enderror
-                </flux:field>
-
-                <flux:field class="md:col-span-2">
                     <flux:label>Customer Category</flux:label>
                     <flux:input name="edit_customer_category" />
                     @error('edit_customer_category')
@@ -186,6 +189,39 @@
 </div>
 
 <script>
+    // Load facilities function
+    function loadFacilities(customerId) {
+        const facilitySelect = document.getElementById('edit_facility_id');
+        
+        if (!customerId) {
+            facilitySelect.innerHTML = '<option value="">-- No Facility (Customer-level) --</option>';
+            return;
+        }
+
+        fetch("{{ route('admin.profiles.get-facilities') }}?customer_id=" + customerId)
+            .then(response => response.json())
+            .then(data => {
+                let html = '<option value="">-- No Facility (Customer-level) --</option>';
+                data.facilities.forEach(facility => {
+                    html += `<option value="${facility.id}">${facility.name}</option>`;
+                });
+                facilitySelect.innerHTML = html;
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Listen for modal open and reload facilities
+    document.addEventListener('DOMContentLoaded', function() {
+        const customerSelect = document.getElementById('edit_customer_id');
+        
+        if (customerSelect) {
+            customerSelect.addEventListener('change', function() {
+                loadFacilities(this.value);
+            });
+        }
+    });
+
+    // Populate fields when row is clicked
     document.addEventListener('click', function(event) {
         const button = event.target.closest('.flux-btn-info');
         if (!button) return;
@@ -195,14 +231,12 @@
 
         form.action = form.dataset.baseAction.replace(':profile_id', ds.id);
 
+        // Populate all text fields
         const set = (name, val) => {
             const el = form.querySelector(`[name="${name}"]`);
             if (el) el.value = val || '';
         };
 
-        set('edit_customer_id', ds.customerId);
-        set('edit_short_name', ds.shortName);
-        set('edit_account_name', ds.accountName);
         set('edit_customer_category', ds.customerCategory);
         set('edit_contract_price', ds.contractPrice);
         set('edit_contracted_demand', ds.contractedDemand);
@@ -220,7 +254,5 @@
         set('edit_designation_1', ds.designation1);
         set('edit_mobile_number_1', ds.mobileNumber1);
         set('edit_email_1', ds.emailAddress1);
-
-
     });
 </script>

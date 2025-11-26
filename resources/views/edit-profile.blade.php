@@ -1,5 +1,5 @@
 <x-layouts.app>
-    <form method="POST" action="{{ $profile->id ? route('profiles.update', $profile) : route('profiles.store') }}">
+    <form method="POST" action="{{ $profile->id ? route('profiles.update', $profile->id) : route('profiles.store') }}">
         @csrf
         @if ($profile->id)
             @method('PUT')
@@ -107,12 +107,9 @@
 
                         <!-- Contract Demand - AE editable only -->
                         @can('profile-editable-AE')
-                            <flux:input label="Contract Demand" placeholder="Enter Contract Demand" name="contract_demand"
-                                value="{{ old('contract_demand', $profile->contract_demand) }}" />
+                            <flux:input label="Contract Demand" placeholder="Enter Contract Demand" name="contracted_demand" value="{{ old('contracted_demand', $profile->contracted_demand) }}" />
                         @else
-                            <flux:input label="Contract Demand" placeholder="Enter Contract Demand" name="contract_demand"
-                                value="{{ old('contract_demand', $profile->contract_demand) }}" readonly
-                                variant="filled" />
+                            <flux:input label="Contract Demand" placeholder="Enter Contract Demand" name="contracted_demand" value="{{ old('contracted_demand', $profile->contracted_demand) }}" readonly variant="filled" />
                         @endcan
 
                         <!-- Certificate of Contestability No. - AE editable only -->
@@ -137,8 +134,6 @@
                             name="other_information" value="{{ old('other_information', $profile->other_information) }}"
                             readonly variant="filled" />
                     @endcan
-
-
                 </div>
 
                 <!-- Third Card - Contact Information -->
@@ -188,6 +183,7 @@
                         @endcan
                     </flux:field>
                 </div>
+
                 <!-- Fourth Card - Secondary Contact -->
                 <div class="flex flex-col bg-white rounded-2xl shadow p-6">
                     <div class="flex justify-between items-center">
@@ -235,10 +231,8 @@
                                 value="{{ old('mobile_number_1', $profile->mobile_number_1) }}" readonly
                                 variant="filled" />
                         @endcan
-
                     </flux:field>
                 </div>
-
             </div>
         </div>
 
