@@ -18,8 +18,8 @@ class Contract extends Model
         'created_by',
     ];
 
-    public function profile()
+    public function customer()
     {
-        return $this->belongsTo(Profile::class);
+        return $this->belongsTo(Customer::class);
     }
 }

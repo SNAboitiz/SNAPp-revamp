@@ -38,16 +38,11 @@ class Customer extends Model
         return $this->hasMany(CustomerTaxDocument::class);
     }
 
-    public function facility()
-    {
-        return $this->belongsTo(Facility::class);
-    }
-
     public function profiles()
     {
         return $this->hasMany(Profile::class);
     }
-
+    
     protected static function boot()
     {
         parent::boot();

@@ -22,7 +22,7 @@
             </div>
 
             <flux:field>
-                <flux:label badge="Required">Faclity Name</flux:label>
+                <flux:label badge="Required">Facility Name</flux:label>
                 <flux:input
                     name="name"
                     value="{{ old('name') }}"

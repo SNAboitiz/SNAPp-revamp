@@ -16,6 +16,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
+
 Route::get('account/deactivated', function () {
     return view('auth.deactivated');
 })->name('account.deactivated');
@@ -23,25 +24,16 @@ Route::get('account/deactivated', function () {
 Route::redirect('/', '/login');
 
 Route::middleware(['auth'])->group(function () {
-    // ALL ACCESS
+    //ALL ACCESS
     Route::middleware(['role:admin|account executive|customer'])->group(function () {
         Route::get('/help', function () {
             return view('help');
         })->name('help');
-<<<<<<< Updated upstream
-        Route::resource('profiles', ProfileController::class)->only([
-            'index',
-            'edit',
-            'update',
-        ]);
-        // Route::resource('profiles', ProfileController::class);
-=======
         Route::get('profiles', [ProfileController::class, 'index'])->name('profiles.index');
         Route::get('profiles/edit', [ProfileController::class, 'edit'])->name('profiles.edit');
         Route::post('profiles', [ProfileController::class, 'store'])->name('profiles.store');
         Route::put('profiles/{id}', [ProfileController::class, 'update'])->name('profiles.update');
 
->>>>>>> Stashed changes
         Route::get('/dashboard/load-more', [DashboardController::class, 'loadMore'])->name('dashboard.load-more');
         Route::post('contracts/store', [ContractController::class, 'store'])->name('contracts.store');
         Route::get('contracts', [ContractController::class, 'showContractsPage'])->name('my-contracts');
@@ -91,8 +83,10 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/advisories/{advisory}', [AdvisoryController::class, 'update'])->name('advisories.update');
 
         Route::get('profiles', [ProfileController::class, 'profileList'])->name('admin.profiles.list');
-        Route::get('profiles/{profile}/edit', [ProfileController::class, 'editProfileForm'])->name('admin.profiles.edit');
+        Route::get('profiles/create', [ProfileController::class, 'adminCreateProfileForm'])->name('admin.profiles.create');
         Route::get('profiles/facilities', [ProfileController::class, 'getFacilitiesByCustomer'])->name('admin.profiles.get-facilities');
+        Route::post('profiles', [ProfileController::class, 'createProfile'])->name('admin.profiles.store');
+        Route::get('profiles/{profile}/edit', [ProfileController::class, 'editProfileForm'])->name('admin.profiles.edit');
         Route::put('profiles/{profile}', [ProfileController::class, 'updateProfile'])->name('admin.profiles.update');
         Route::delete('profiles/{profile}', [ProfileController::class, 'destroy'])->name('admin.profiles.destroy');
 
@@ -104,6 +98,4 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-require __DIR__.'/auth.php';
-
-Route::webhooks('webhook/inquiry');
+require __DIR__ . '/auth.php';

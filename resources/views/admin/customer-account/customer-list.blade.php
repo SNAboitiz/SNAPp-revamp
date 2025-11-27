@@ -57,7 +57,6 @@
                     @foreach ($users as $user)
                         <tr class="cursor-pointer hover:bg-gray-100 transition flux-btn-info
                                    {{ $user->active ? 'hover:bg-gray-100' : 'bg-red-50 text-gray-400' }}"
-<<<<<<< HEAD
                         data-id="{{ $user->id }}"
                         data-name="{{ $user->name }}"
                         data-email="{{ $user->email }}"
@@ -73,17 +72,6 @@
                         <td>{{ $user->facility?->name ?? '-' }}</td>
 
                     </tr>
-=======
-                            data-id="{{ $user->id }}" data-name="{{ $user->name }}"
-                            data-email="{{ $user->email }}" data-customer-id="{{ $user->customer_id }}"
-                            data-account-name="{{ $user->profile?->account_name }}"
-                            onclick="document.getElementById('open-edit-modal').click()">
-
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->profile?->account_name ?? '-' }}</td>
-                        </tr>
->>>>>>> f1a9b3a64940d1f4da23dedc8fa037b365cfee9b
                     @endforeach
                 </tbody>
             </table>

@@ -7,7 +7,6 @@
                 <flux:heading size="lg">
                     Create New Customer Account
                 </flux:heading>
-
             </div>
 
             <flux:field>
@@ -29,45 +28,44 @@
 
             <!-- Assign Customer -->
             <flux:field>
-            <flux:label badge="Required">Customer</flux:label>
+                <flux:label badge="Required">Customer</flux:label>
                 <flux:select
                     id="customer_id"
                     name="customer_id"
                     placeholder="— Select customer —"
-                    required
-                    :error="$errors->first('customer_id')">
+                    required>
                     @foreach ($customers as $customer)
-                    <option
-                        value="{{ $customer->id }}"
-                        class="text-black"
-                        @selected(old('customer_id')==$customer->id)>
-                        {{ $customer->account_name }} ({{ $customer->short_name ?? '—' }})
-                    </option>
+                        <option
+                            value="{{ $customer->id }}"
+                            @selected(old('customer_id') == $customer->id)>
+                            {{ $customer->account_name }} ({{ $customer->short_name ?? '—' }})
+                        </option>
                     @endforeach
                 </flux:select>
+                @error('customer_id')
+                    <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
+                @enderror
             </flux:field>
 
             <!-- Assign Facility -->
-            <flux:field label="Assign Facility" for="facility_id">
+            <flux:field>
                 <flux:label>Facility</flux:label>
-
                 <flux:select
                     id="facility_id"
                     name="facility_id"
-                    placeholder="— Select facility —"
-                    :error="$errors->first('facility_id')">
+                    placeholder="— Select facility (optional) —">
                     @foreach ($facilities as $facility)
-                    <option
-                        value="{{ $facility->id }}"
-                        class="text-black"
-                        @selected(old('facility_id')==$facility->id)>
-                        {{ $facility->name }}
-                    </option>
+                        <option
+                            value="{{ $facility->id }}"
+                            @selected(old('facility_id') == $facility->id)>
+                            {{ $facility->name }}
+                        </option>
                     @endforeach
                 </flux:select>
+                @error('facility_id')
+                    <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
+                @enderror
             </flux:field>
-
-
 
             <div class="flex">
                 <flux:spacer />
@@ -79,10 +77,10 @@
     </flux:modal>
 
     <script>
-        document.getElementById('create-button').addEventListener('click', function() {
-            this.disabled = true;
-            this.innerText = 'Creating…';
-            document.getElementById('create-form').submit();
+        document.getElementById('create-form').addEventListener('submit', function(e) {
+            const button = document.getElementById('create-button');
+            button.disabled = true;
+            button.innerText = 'Creating…';
         });
     </script>
 </div>

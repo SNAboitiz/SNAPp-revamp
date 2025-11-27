@@ -12,31 +12,21 @@
             </div>
 
             <flux:field>
-<<<<<<< HEAD
                 <flux:label>Name</flux:label>
                 <flux:input
                     name="edit_name"
                     placeholder="Enter customer name" />
-=======
-                <flux:label badge="Required">Name</flux:label>
-                <flux:input name="edit_name" placeholder="Enter customer name" />
->>>>>>> f1a9b3a64940d1f4da23dedc8fa037b365cfee9b
                 @error('edit_name')
                     <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
                 @enderror
             </flux:field>
 
             <flux:field>
-<<<<<<< HEAD
                 <flux:label>Email</flux:label>
                 <flux:input
                     name="edit_email"
                     type="email"
                     placeholder="Enter customer email" />
-=======
-                <flux:label badge="Required">Email</flux:label>
-                <flux:input name="edit_email" type="email" placeholder="Enter customer email" />
->>>>>>> f1a9b3a64940d1f4da23dedc8fa037b365cfee9b
                 @error('edit_email')
                     <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
                 @enderror
@@ -81,16 +71,6 @@
                     @endforeach
                 </flux:select>
             </flux:field>
-
-            <!-- Profile Management Section -->
-            <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <h3 class="text-lg font-semibold text-blue-900 mb-4">Profile Management</h3>
-                <p class="text-sm text-blue-800 mb-4">Manage profiles for this customer and its facilities.</p>
-                <a href="{{ route('admin.profiles.create', ['customer_id' => $user->customer_id]) }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                    <span>Create/Edit Profile</span>
-                </a>
-            </div>
-
             <div class="flex">
                 <flux:spacer />
                 <flux:button type="submit" variant="primary" id="save-button">
