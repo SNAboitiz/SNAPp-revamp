@@ -13,18 +13,13 @@
 
             <flux:field>
                 <flux:label badge="Required">Select Customer (Shortname)</flux:label>
-                <flux:select
-                    name="shortname"
-                    placeholder="— Select customer —"
-                    required
-                    :error="$errors->first('shortname')">
+                <flux:select name="short_name" placeholder="— Select customer —" required
+                    :error="$errors->first('short_name')">
                     @foreach ($customers as $customer)
-                    <option
-                        value="{{ $customer->short_name }}"
-                        class="text-black"
-                        {{ old('shortname') == $customer->short_name ? 'selected' : '' }}>
-                        {{ $customer->account_name }} ({{ $customer->short_name }})
-                    </option>
+                        <option value="{{ $customer->short_name }}" class="text-black"
+                            {{ old('short_name') == $customer->short_name ? 'selected' : '' }}>
+                            {{ $customer->account_name }} ({{ $customer->short_name }})
+                        </option>
                     @endforeach
                 </flux:select>
             </flux:field>
@@ -35,7 +30,7 @@
                     <flux:label badge="Required">Contract Start Period</flux:label>
                     <flux:input name="contract_start" type="date" value="{{ old('contract_start') }}" />
                     @error('contract_start')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -43,7 +38,7 @@
                     <flux:label badge="Required">Contract End Period</flux:label>
                     <flux:input name="contract_end" type="date" value="{{ old('contract_end') }}" />
                     @error('contract_end')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -51,7 +46,7 @@
                     <flux:label badge="Required">Description</flux:label>
                     <flux:input name="description" value="{{ old('description') }}" placeholder="Enter description" />
                     @error('description')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 

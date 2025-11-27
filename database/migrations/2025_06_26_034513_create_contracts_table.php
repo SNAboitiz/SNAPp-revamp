@@ -15,7 +15,7 @@ return new class extends Migration
             Schema::create('contracts', function (Blueprint $table) {
                 $table->id();
                 $table->string('reference_number')->unique();
-                $table->string('shortname');
+                $table->string('short_name');
                 $table->string('description');
                 $table->date('contract_start');
                 $table->date('contract_end');

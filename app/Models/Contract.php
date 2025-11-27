@@ -8,7 +8,7 @@ class Contract extends Model
 {
     protected $fillable = [
         'reference_number',
-        'shortname',
+        'short_name',
         'description',
         'contract_start',
         'contract_end',

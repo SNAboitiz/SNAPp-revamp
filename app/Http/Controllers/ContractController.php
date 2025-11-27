@@ -35,7 +35,7 @@ class ContractController extends Controller
         $validated = $request->validated();
         $user = auth()->user();
 
-        $short = $validated['shortname'];
+        $short = $validated['short_name'];
 
         // format period
         $start = Carbon::parse($validated['contract_start']);

@@ -74,7 +74,7 @@ class BillController extends Controller
         $end = Carbon::parse($request->billing_end_date)->format('d-M-y');
         $billingPeriod = strtoupper("{$start} to {$end}");
 
-        // Format filename using shortname, billing period, and bill number
+        // Format filename using short_name, billing period, and bill number
         $filename = "{$customer->short_name}_{$billingPeriod}_{$request->bill_number}.pdf";
 
         // Store the file
