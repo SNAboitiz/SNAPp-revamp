@@ -26,28 +26,15 @@ class AdminUpdateProfileRequest extends FormRequest
     {
         return [
             'edit_customer_id' => [
-                'required',
+                'nullable',
                 'integer',
                 'exists:customers,id',
-                Rule::unique('profiles', 'customer_id')->ignore($this->route('profile')),
             ],
 
             'edit_facility_id' => [
                 'nullable',
                 'integer',
                 'exists:facilities,id',
-            ],
-
-            'edit_short_name' => [
-                'required',
-                'string',
-                'max:100',
-            ],
-
-            'edit_account_name' => [
-                'nullable',
-                'string',
-                'max:100',
             ],
 
             'edit_business_address' => [
@@ -149,12 +136,6 @@ class AdminUpdateProfileRequest extends FormRequest
                 'email',
                 'max:100',
             ],
-
-            'edit_account_executive' => [
-                'nullable',
-                'string',
-                'max:100',
-            ],
         ];
     }
 
@@ -163,7 +144,7 @@ class AdminUpdateProfileRequest extends FormRequest
      */
     protected function failedValidation(Validator $validator)
     {
-        session()->flash('show_modal', 'edit-customer-profile-modal');
+        session()->flash('show_modal', 'edit-customer-modal');
         throw new HttpResponseException(
             redirect()
                 ->back()

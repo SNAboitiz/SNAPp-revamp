@@ -25,26 +25,22 @@
                 <!-- Customer Read-Only -->
                 <flux:field class="md:col-span-4">
                     <flux:label>Customer</flux:label>
-                    <flux:input 
-                        value="{{ $profile->customer?->account_name ?? 'N/A' }}" 
-                        readonly 
-                        variant="filled" />
+                    <input type="text" id="readonly_customer_name" readonly
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700" />
                 </flux:field>
 
                 <!-- Facility Read-Only -->
                 <flux:field class="md:col-span-4">
                     <flux:label>Facility</flux:label>
-                    <flux:input 
-                        value="{{ $profile->facility?->name ?? 'Customer-level' }}" 
-                        readonly 
-                        variant="filled" />
+                    <input type="text" id="readonly_facility_name" readonly
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700" />
                 </flux:field>
 
                 <flux:field class="md:col-span-4">
                     <flux:label>Customer Category</flux:label>
                     <flux:input name="edit_customer_category" />
                     @error('edit_customer_category')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -53,7 +49,7 @@
                     <flux:label>Contract Price</flux:label>
                     <flux:input name="edit_contract_price" />
                     @error('edit_contract_price')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -61,14 +57,15 @@
                     <flux:label>Contracted Demand</flux:label>
                     <flux:input name="edit_contracted_demand" />
                     @error('edit_contracted_demand')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
+
                 <flux:field class="md:col-span-4">
                     <flux:label>Certificate of Contestability #</flux:label>
                     <flux:input name="edit_certificate_of_contestability_number" />
                     @error('edit_certificate_of_contestability_number')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -77,7 +74,7 @@
                     <flux:label>Coop Start</flux:label>
                     <flux:input type="date" name="edit_cooperation_period_start_date" />
                     @error('edit_cooperation_period_start_date')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -85,7 +82,7 @@
                     <flux:label>Coop End</flux:label>
                     <flux:input type="date" name="edit_cooperation_period_end_date" />
                     @error('edit_cooperation_period_end_date')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -94,7 +91,7 @@
                     <flux:label>Business Address</flux:label>
                     <flux:input name="edit_business_address" />
                     @error('edit_business_address')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -102,7 +99,7 @@
                     <flux:label>Facility Address</flux:label>
                     <flux:input name="edit_facility_address" />
                     @error('edit_facility_address')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -111,7 +108,7 @@
                     <flux:label>Contact Name</flux:label>
                     <flux:input name="edit_contact_name" />
                     @error('edit_contact_name')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -119,7 +116,7 @@
                     <flux:label>Designation</flux:label>
                     <flux:input name="edit_designation" />
                     @error('edit_designation')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -127,7 +124,7 @@
                     <flux:label>Mobile Number</flux:label>
                     <flux:input name="edit_mobile_number" />
                     @error('edit_mobile_number')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -135,14 +132,15 @@
                     <flux:label>Email Address</flux:label>
                     <flux:input name="edit_email" />
                     @error('edit_email')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
+
                 <flux:field class="md:col-span-3">
                     <flux:label badge="Secondary">Contact Name</flux:label>
                     <flux:input name="edit_contact_name_1" />
                     @error('edit_contact_name_1')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -150,7 +148,7 @@
                     <flux:label badge="Secondary">Designation</flux:label>
                     <flux:input name="edit_designation_1" />
                     @error('edit_designation_1')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -158,7 +156,7 @@
                     <flux:label badge="Secondary">Mobile Number</flux:label>
                     <flux:input name="edit_mobile_number_1" />
                     @error('edit_mobile_number_1')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -166,7 +164,7 @@
                     <flux:label badge="Secondary">Email Address</flux:label>
                     <flux:input name="edit_email_1" />
                     @error('edit_email_1')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -175,7 +173,7 @@
                     <flux:label>Other Information</flux:label>
                     <flux:input name="edit_other_information" placeholder="Any remarks or notes" />
                     @error('edit_other_information')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
             </div>
@@ -189,54 +187,36 @@
 </div>
 
 <script>
-    // Load facilities function
-    function loadFacilities(customerId) {
-        const facilitySelect = document.getElementById('edit_facility_id');
-        
-        if (!customerId) {
-            facilitySelect.innerHTML = '<option value="">-- No Facility (Customer-level) --</option>';
-            return;
-        }
-
-        fetch("{{ route('admin.profiles.get-facilities') }}?customer_id=" + customerId)
-            .then(response => response.json())
-            .then(data => {
-                let html = '<option value="">-- No Facility (Customer-level) --</option>';
-                data.facilities.forEach(facility => {
-                    html += `<option value="${facility.id}">${facility.name}</option>`;
-                });
-                facilitySelect.innerHTML = html;
-            })
-            .catch(error => console.error('Error:', error));
-    }
-
-    // Listen for modal open and reload facilities
-    document.addEventListener('DOMContentLoaded', function() {
-        const customerSelect = document.getElementById('edit_customer_id');
-        
-        if (customerSelect) {
-            customerSelect.addEventListener('change', function() {
-                loadFacilities(this.value);
-            });
-        }
-    });
-
     // Populate fields when row is clicked
     document.addEventListener('click', function(event) {
-        const button = event.target.closest('.flux-btn-info');
-        if (!button) return;
+        const row = event.target.closest('.flux-btn-info');
+        if (!row) return;
 
         const form = document.getElementById('edit-customer-form');
-        const ds = button.dataset;
+        const ds = row.dataset;
 
+        // Update form action
         form.action = form.dataset.baseAction.replace(':profile_id', ds.id);
 
-        // Populate all text fields
+        // Set hidden fields
+        document.getElementById('hidden_customer_id').value = ds.customerId || '';
+        document.getElementById('hidden_facility_id').value = ds.facilityId || '';
+
+        // Get customer and facility names from table cells
+        const customerName = row.cells[0].textContent.trim();
+        const facilityName = row.cells[1].textContent.trim();
+
+        // Set readonly display fields
+        document.getElementById('readonly_customer_name').value = customerName;
+        document.getElementById('readonly_facility_name').value = facilityName;
+
+        // Helper to set field values
         const set = (name, val) => {
             const el = form.querySelector(`[name="${name}"]`);
             if (el) el.value = val || '';
         };
 
+        // Populate all fields from data attributes
         set('edit_customer_category', ds.customerCategory);
         set('edit_contract_price', ds.contractPrice);
         set('edit_contracted_demand', ds.contractedDemand);
@@ -254,5 +234,42 @@
         set('edit_designation_1', ds.designation1);
         set('edit_mobile_number_1', ds.mobileNumber1);
         set('edit_email_1', ds.emailAddress1);
+    });
+
+    // CRITICAL FIX: Prevent default form submission and ensure _method field exists
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('edit-customer-form');
+        
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent default submission
+            
+            // Ensure _method field exists and is set to PUT
+            let methodField = form.querySelector('input[name="_method"]');
+            if (!methodField) {
+                methodField = document.createElement('input');
+                methodField.type = 'hidden';
+                methodField.name = '_method';
+                methodField.value = 'PUT';
+                form.appendChild(methodField);
+            } else {
+                methodField.value = 'PUT';
+            }
+            
+            // Ensure CSRF token exists
+            let csrfField = form.querySelector('input[name="_token"]');
+            if (!csrfField) {
+                csrfField = document.createElement('input');
+                csrfField.type = 'hidden';
+                csrfField.name = '_token';
+                csrfField.value = '{{ csrf_token() }}';
+                form.appendChild(csrfField);
+            }
+            
+            console.log('Submitting with method:', methodField.value);
+            console.log('Action:', form.action);
+            
+            // Now submit the form
+            form.submit();
+        });
     });
 </script>
