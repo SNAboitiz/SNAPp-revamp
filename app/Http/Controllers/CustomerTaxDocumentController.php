@@ -24,7 +24,7 @@ class CustomerTaxDocumentController extends Controller
             config('filesystems.default')
         );
 
-        $facilityId = $facility->id ?: null;
+        $facilityId = $facility?->id;
 
         CustomerTaxDocument::create([
             'customer_id' => $customer->id,

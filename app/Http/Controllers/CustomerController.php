@@ -74,7 +74,7 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-  public function destroy($id)
+    public function destroy($id)
     {
         $customer = Customer::findOrFail($id);
         $customer->delete();

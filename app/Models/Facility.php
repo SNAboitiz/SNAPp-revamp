@@ -45,9 +45,9 @@ class Facility extends Model
     }
 
     /**
-     * Get the profiles associated with the facility.
+     * Get the contracts associated with the facility.
      *
-     * @return HasMany<Profile>
+     * @return HasMany<Contract>
      */
     public function contracts(): HasMany
     {

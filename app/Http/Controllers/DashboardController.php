@@ -20,7 +20,7 @@ class DashboardController extends Controller
     public function showDashboardFields()
     {
         $user = Auth::user();
-        $customerNumber = $user->customer->customer_number;
+        $customerNumber = $user->customer?->customer_number;
 
         // Fetch invoice data
         $items = $this->oracleInvoiceService->fetchInvoiceData($customerNumber);

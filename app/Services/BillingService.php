@@ -55,7 +55,7 @@ class BillingService
 
         $customer = Customer::where('customer_number', $customerNumber)->first();
         if (!$customer) {
-            session()->flash('info_message', 'Selected customer has no customer.');
+            session()->flash('info_message', 'Customer not found.');
             return $this->paginate(collect(), 5, $request, 'bills.show');
         }
 
