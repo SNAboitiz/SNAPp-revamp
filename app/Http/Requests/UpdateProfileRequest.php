@@ -38,27 +38,27 @@ class UpdateProfileRequest extends FormRequest
                 'max:255',
             ],
             'cooperation_period_start_date' => [
-                'nullable', 
-                'date'
+                'nullable',
+                'date',
             ],
             'cooperation_period_end_date' => [
-                'nullable', 
-                'date'
+                'nullable',
+                'date',
             ],
             'contract_price' => [
-                'nullable', 
-                'string', 
-                'max:100'
+                'nullable',
+                'string',
+                'max:100',
             ],
             'contracted_demand' => [
-                'nullable', 
-                'string', 
-                'max:100'
+                'nullable',
+                'string',
+                'max:100',
             ],
             'certificate_of_contestability_number' => [
-                'nullable', 
-                'string', 
-                'max:100'
+                'nullable',
+                'string',
+                'max:100',
             ],
             'other_information' => [
                 'nullable',
@@ -66,46 +66,46 @@ class UpdateProfileRequest extends FormRequest
                 'max:255',
             ],
             'contact_name' => [
-                'nullable', 
-                'string', 
-                'max:255'
+                'nullable',
+                'string',
+                'max:255',
             ],
             'designation' => [
-                'nullable', 
-                'string', 
-                'max:255'
+                'nullable',
+                'string',
+                'max:255',
             ],
             'email' => [
-                'nullable', 
-                'email', 
-                'max:100'
+                'nullable',
+                'email',
+                'max:100',
             ],
             'mobile_number' => [
-                'nullable', 
-                'string', 
-                'max:20'
+                'nullable',
+                'string',
+                'max:20',
             ],
 
             // Secondary Contact Information
             'contact_name_1' => [
-                'nullable', 
-                'string', 
-                'max:255'
+                'nullable',
+                'string',
+                'max:255',
             ],
             'designation_1' => [
-                'nullable', 
-                'string', 
-                'max:255'
+                'nullable',
+                'string',
+                'max:255',
             ],
             'email_1' => [
-                'nullable', 
-                'email', 
-                'max:100'
+                'nullable',
+                'email',
+                'max:100',
             ],
             'mobile_number_1' => [
-                'nullable', 
-                'string', 
-                'max:20'
+                'nullable',
+                'string',
+                'max:20',
             ],
         ];
     }

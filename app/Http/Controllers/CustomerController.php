@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
-use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
@@ -15,6 +14,7 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::paginate(10);
+
         return view('admin.customers.index', compact('customers'));
     }
 
@@ -79,6 +79,6 @@ class CustomerController extends Controller
         $customer = Customer::findOrFail($id);
         $customer->delete();
 
-     return redirect()->route('customers.index');
+        return redirect()->route('customers.index');
     }
 }

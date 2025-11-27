@@ -35,7 +35,7 @@ class StoreFacilityRequest extends FormRequest
             'customer_id' => [
                 'required',
                 'integer',
-                'exists:customers,id'
+                'exists:customers,id',
             ],
         ];
     }

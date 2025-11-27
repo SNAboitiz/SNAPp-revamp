@@ -29,8 +29,8 @@ class BillingService
 
         $dbBills->getCollection()->transform(function (Bill $bill) use ($disk) {
             return [
-                'billNumber'    => $bill->bill_number,
-                'accountName'   => $bill->customer?->account_name ?? 'No Customer',
+                'billNumber' => $bill->bill_number,
+                'accountName' => $bill->customer?->account_name ?? 'No Customer',
                 'billingPeriod' => $bill->billing_period,
                 'uploadedAt' => $bill->created_at->format('d-M-Y'),
                 'gcsPdfUrl' => $this->resolveFileUrl(
@@ -49,13 +49,14 @@ class BillingService
             ? $request->query('customer_number')
             : ($user->customer ? $user->customer->customer_number : null);
 
-        if (!$customerNumber && $user->customer_id) {
+        if (! $customerNumber && $user->customer_id) {
             $customerNumber = Customer::find($user->customer_id)?->customer_number;
         }
 
         $customer = Customer::where('customer_number', $customerNumber)->first();
-        if (!$customer) {
+        if (! $customer) {
             session()->flash('info_message', 'Customer not found.');
+
             return $this->paginate(collect(), 5, $request, 'bills.show');
         }
 
@@ -67,7 +68,7 @@ class BillingService
         $allOracleItems = collect($rawOracleItems);
 
         // Backend facility filtering for security (customer users only)
-        if (!$user->hasRole('admin') && $user->facility_id && $user->facility) {
+        if (! $user->hasRole('admin') && $user->facility_id && $user->facility) {
             $facilitySein = $user->facility->sein;
             $allOracleItems = $allOracleItems->filter(function ($item) use ($facilitySein) {
                 return ($item['SpecialInstructions'] ?? null) === $facilitySein;
@@ -179,12 +180,13 @@ class BillingService
             ? $request->query('customer_number')
             : ($user->customer ? $user->customer->customer_number : null);
 
-        if (!$customerNumber) {
+        if (! $customerNumber) {
             if ($user->hasRole('admin')) {
                 session()->flash('info_message', 'Please select a customer to view payment history.');
             } else {
                 session()->flash('error_message', 'Customer profile not found.');
             }
+
             return $this->paginate(collect(), 5, $request, 'payments.history');
         }
 
@@ -193,7 +195,7 @@ class BillingService
         $allOracleItems = collect($rawOracleItems);
 
         // Backend facility filtering for customer users
-        if (!$user->hasRole('admin') && $user->facility_id && $user->facility) {
+        if (! $user->hasRole('admin') && $user->facility_id && $user->facility) {
             $facilitySein = $user->facility->sein;
             $allOracleItems = $allOracleItems->filter(function ($item) use ($facilitySein) {
                 return ($item['SpecialInstructions'] ?? null) === $facilitySein;

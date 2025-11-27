@@ -6,7 +6,6 @@ use App\Http\Requests\StoreFacilityRequest;
 use App\Http\Requests\UpdateFacilityRequest;
 use App\Models\Customer;
 use App\Models\Facility;
-use Illuminate\Http\Request;
 
 class FacilityController extends Controller
 {
@@ -77,7 +76,6 @@ class FacilityController extends Controller
 
         return redirect()->back();
     }
-
 
     /**
      * Remove the specified resource from storage.

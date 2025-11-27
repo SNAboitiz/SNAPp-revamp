@@ -16,7 +16,6 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
-
 Route::get('account/deactivated', function () {
     return view('auth.deactivated');
 })->name('account.deactivated');
@@ -24,7 +23,7 @@ Route::get('account/deactivated', function () {
 Route::redirect('/', '/login');
 
 Route::middleware(['auth'])->group(function () {
-    //ALL ACCESS
+    // ALL ACCESS
     Route::middleware(['role:admin|account executive|customer'])->group(function () {
         Route::get('/help', function () {
             return view('help');
@@ -92,10 +91,10 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/bills/manage', [BillController::class, 'showManageBillsPage'])->name('bills.manage');
         Route::post('/bills/upload', [BillController::class, 'uploadBills'])->name('bills.upload');
-        //this is the cutomers route
+        // this is the cutomers route
         Route::resource('customers', CustomerController::class);
         Route::resource('facilities', FacilityController::class);
     });
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

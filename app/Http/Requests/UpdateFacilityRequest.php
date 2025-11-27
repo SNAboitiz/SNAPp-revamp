@@ -22,23 +22,20 @@ class UpdateFacilityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'edit_name' =>
-            [
+            'edit_name' => [
                 'sometimes',
-                'string' 
+                'string',
             ],
 
-            'edit_sein' =>
-            [
+            'edit_sein' => [
                 'sometimes',
-                'string'
+                'string',
             ],
 
-            'customer_id' =>
-            [
+            'customer_id' => [
                 'sometimes',
                 'numeric',
-                'exists:customers,id'
+                'exists:customers,id',
             ],
         ];
     }

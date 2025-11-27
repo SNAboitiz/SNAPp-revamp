@@ -28,44 +28,38 @@ class EditCustomerRequest extends FormRequest
         $user = $this->route('user');
 
         return [
-            'edit_name' => 
-            [
+            'edit_name' => [
                 'sometimes',
                 'string',
                 'max:255',
             ],
-            'edit_name' =>
-            [
+            'edit_name' => [
                 'sometimes',
                 'string',
-                'max:255'
+                'max:255',
             ],
-            'edit_customer_id' => 
-            [
-                'sometimes', 
-                'numeric'
+            'edit_customer_id' => [
+                'sometimes',
+                'numeric',
             ],
-            'edit_email' => 
-            [
-                'sometimes', 
+            'edit_email' => [
+                'sometimes',
                 'email',
                 Rule::unique('users', 'email')->ignore($user->id),
             ],
 
-            'edit_customer_id' =>
-            [
+            'edit_customer_id' => [
                 'sometimes',
                 'numeric',
-                'exists:customers,id'
+                'exists:customers,id',
 
             ],
 
-            'edit_facility_id' =>
-            [
+            'edit_facility_id' => [
                 'sometimes',
                 'nullable',
                 'numeric',
-                'exists:facilities,id'
+                'exists:facilities,id',
 
             ],
 

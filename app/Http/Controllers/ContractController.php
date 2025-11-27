@@ -17,7 +17,7 @@ class ContractController extends Controller
         $user = auth()->user();
 
         if ($user->hasRole('admin')) {
-            
+
             // Admin: see all contracts
             $contracts = $this->contractService->getAllContracts();
         } else {

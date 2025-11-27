@@ -3,22 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AdminUpdateProfileRequest;
-use App\Models\Profile;
-use App\Models\Customer;
-use App\Models\Facility;
 use App\Http\Requests\StoreProfileRequest;
 use App\Http\Requests\UpdateProfileRequest;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Customer;
+use App\Models\Facility;
+use App\Models\Profile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
-
     public function index()
     {
         $user = Auth::user();
 
-        if (!$user || !$user->customer_id) {
+        if (! $user || ! $user->customer_id) {
             abort(403, 'No customer assigned.');
         }
 
@@ -37,7 +36,7 @@ class ProfileController extends Controller
         $customer = Customer::findOrFail($user->customer_id);
 
         // If no profile exists, create a blank one (so the form doesn't break)
-        if (!$profile) {
+        if (! $profile) {
             $profile = new Profile([
                 'business_address' => '',
                 'facility_address' => '',
@@ -66,7 +65,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        if (!$user->customer_id) {
+        if (! $user->customer_id) {
             abort(403, 'No customer assigned.');
         }
 
@@ -103,12 +102,11 @@ class ProfileController extends Controller
             ->with('success', 'Profile saved successfully.');
     }
 
-
     public function edit()
     {
         $user = Auth::user();
 
-        if (!$user->customer_id) {
+        if (! $user->customer_id) {
             abort(403, 'No customer assigned.');
         }
 
@@ -125,7 +123,7 @@ class ProfileController extends Controller
         // Get customer data for display
         $customer = Customer::findOrFail($user->customer_id);
 
-        if (!$profile) {
+        if (! $profile) {
             $profile = new Profile([
                 'customer_id' => $user->customer_id,
                 'facility_id' => $user->facility_id ?? null,
@@ -135,38 +133,39 @@ class ProfileController extends Controller
         return view('edit-profile', compact('profile', 'customer'));
     }
 
-   public function update(UpdateProfileRequest $request, $id)
-{
-    $user = Auth::user();
+    public function update(UpdateProfileRequest $request, $id)
+    {
+        $user = Auth::user();
 
-    if (!$user->customer_id) {
-        abort(403, 'No customer assigned.');
+        if (! $user->customer_id) {
+            abort(403, 'No customer assigned.');
+        }
+
+        $facilityId = $user->facility_id ?? null;
+
+        $profile = Profile::where('id', $id)
+            ->where('customer_id', $user->customer_id)
+            ->where(function ($q) use ($facilityId) {
+                if ($facilityId === null) {
+                    $q->whereNull('facility_id');
+                } else {
+                    $q->where('facility_id', $facilityId);
+                }
+            })
+            ->firstOrFail();
+
+        $profile->update($request->validated());
+
+        return redirect()->route('profiles.index')
+            ->with('success', 'Profile updated successfully.');
     }
 
-    $facilityId = $user->facility_id ?? null;
-
-    $profile = Profile::where('id', $id)
-        ->where('customer_id', $user->customer_id)
-        ->where(function ($q) use ($facilityId) {
-            if ($facilityId === null) {
-                $q->whereNull('facility_id');
-            } else {
-                $q->where('facility_id', $facilityId);
-            }
-        })
-        ->firstOrFail();
-
-    $profile->update($request->validated());
-
-    return redirect()->route('profiles.index')
-        ->with('success', 'Profile updated successfully.');
-}
-
-    //Admin 
+    // Admin
     public function profileList()
     {
         $profiles = Profile::with('customer', 'facility')->orderBy('created_at', 'desc')->paginate(15);
         $customers = Customer::with('facilities')->orderBy('account_name')->get();
+
         return view('admin.customer-profile.customer-profile-list', compact('profiles', 'customers'));
     }
 
@@ -178,9 +177,9 @@ class ProfileController extends Controller
         $customerId = $request->input('customer_id');
         $customer = $customerId ? Customer::with('facilities')->findOrFail($customerId) : null;
         $customers = Customer::orderBy('account_name')->get();
-        
-        $profile = new Profile();
-        
+
+        $profile = new Profile;
+
         return view('admin.customer-profile.create-profile', compact('profile', 'customer', 'customers'));
     }
 
@@ -190,8 +189,8 @@ class ProfileController extends Controller
     public function getFacilitiesByCustomer(Request $request)
     {
         $customerId = $request->input('customer_id');
-        
-        if (!$customerId) {
+
+        if (! $customerId) {
             return response()->json(['facilities' => []]);
         }
 
@@ -240,60 +239,60 @@ class ProfileController extends Controller
     /**
      * Admin: update an existing profile.
      */
-   public function updateProfile(AdminUpdateProfileRequest $request, Profile $profile)
-{
-    $newCustomerId = $request->input('edit_customer_id') ?? $profile->customer_id;
-    $newFacilityId = $request->input('edit_facility_id') ?? $profile->facility_id;
+    public function updateProfile(AdminUpdateProfileRequest $request, Profile $profile)
+    {
+        $newCustomerId = $request->input('edit_customer_id') ?? $profile->customer_id;
+        $newFacilityId = $request->input('edit_facility_id') ?? $profile->facility_id;
 
-    // Check for duplicate only if customer or facility changed
-    if ($newCustomerId != $profile->customer_id || $newFacilityId != $profile->facility_id) {
-        $existingProfile = Profile::where('customer_id', $newCustomerId)
-            ->where(function ($q) use ($newFacilityId) {
-                if ($newFacilityId === null || $newFacilityId === '') {
-                    $q->whereNull('facility_id');
-                } else {
-                    $q->where('facility_id', $newFacilityId);
-                }
-            })
-            ->where('id', '!=', $profile->id)
-            ->first();
+        // Check for duplicate only if customer or facility changed
+        if ($newCustomerId != $profile->customer_id || $newFacilityId != $profile->facility_id) {
+            $existingProfile = Profile::where('customer_id', $newCustomerId)
+                ->where(function ($q) use ($newFacilityId) {
+                    if ($newFacilityId === null || $newFacilityId === '') {
+                        $q->whereNull('facility_id');
+                    } else {
+                        $q->where('facility_id', $newFacilityId);
+                    }
+                })
+                ->where('id', '!=', $profile->id)
+                ->first();
 
-        if ($existingProfile) {
-            return redirect()->back()
-                ->withErrors(['duplicate' => 'A profile already exists for this customer and facility combination.'])
-                ->with('show_modal', 'edit-customer-profile-modal')
-                ->withInput();
+            if ($existingProfile) {
+                return redirect()->back()
+                    ->withErrors(['duplicate' => 'A profile already exists for this customer and facility combination.'])
+                    ->with('show_modal', 'edit-customer-profile-modal')
+                    ->withInput();
+            }
         }
+
+        $data = $request->validated();
+
+        $profile->update([
+            'customer_id' => $newCustomerId,
+            'facility_id' => $newFacilityId ?? null,
+            'business_address' => $data['edit_business_address'] ?? null,
+            'facility_address' => $data['edit_facility_address'] ?? null,
+            'customer_category' => $data['edit_customer_category'] ?? null,
+            'cooperation_period_start_date' => $data['edit_cooperation_period_start_date'] ?? null,
+            'cooperation_period_end_date' => $data['edit_cooperation_period_end_date'] ?? null,
+            'contract_price' => $data['edit_contract_price'] ?? null,
+            'contracted_demand' => $data['edit_contracted_demand'] ?? null,
+            'certificate_of_contestability_number' => $data['edit_certificate_of_contestability_number'] ?? null,
+            'other_information' => $data['edit_other_information'] ?? null,
+            'contact_name' => $data['edit_contact_name'] ?? null,
+            'designation' => $data['edit_designation'] ?? null,
+            'mobile_number' => $data['edit_mobile_number'] ?? null,
+            'email' => $data['edit_email'] ?? null,
+            'contact_name_1' => $data['edit_contact_name_1'] ?? null,
+            'designation_1' => $data['edit_designation_1'] ?? null,
+            'mobile_number_1' => $data['edit_mobile_number_1'] ?? null,
+            'email_1' => $data['edit_email_1'] ?? null,
+        ]);
+
+        return redirect()
+            ->route('admin.profiles.list')
+            ->with('success', 'Profile updated successfully.');
     }
-
-    $data = $request->validated();
-
-    $profile->update([
-        'customer_id' => $newCustomerId,
-        'facility_id' => $newFacilityId ?? null,
-        'business_address' => $data['edit_business_address'] ?? null,
-        'facility_address' => $data['edit_facility_address'] ?? null,
-        'customer_category' => $data['edit_customer_category'] ?? null,
-        'cooperation_period_start_date' => $data['edit_cooperation_period_start_date'] ?? null,
-        'cooperation_period_end_date' => $data['edit_cooperation_period_end_date'] ?? null,
-        'contract_price' => $data['edit_contract_price'] ?? null,
-        'contracted_demand' => $data['edit_contracted_demand'] ?? null,
-        'certificate_of_contestability_number' => $data['edit_certificate_of_contestability_number'] ?? null,
-        'other_information' => $data['edit_other_information'] ?? null,
-        'contact_name' => $data['edit_contact_name'] ?? null,
-        'designation' => $data['edit_designation'] ?? null,
-        'mobile_number' => $data['edit_mobile_number'] ?? null,
-        'email' => $data['edit_email'] ?? null,
-        'contact_name_1' => $data['edit_contact_name_1'] ?? null,
-        'designation_1' => $data['edit_designation_1'] ?? null,
-        'mobile_number_1' => $data['edit_mobile_number_1'] ?? null,
-        'email_1' => $data['edit_email_1'] ?? null,
-    ]);
-
-    return redirect()
-        ->route('admin.profiles.list')
-        ->with('success', 'Profile updated successfully.');
-}
 
     /**
      * Show admin profile edit form
@@ -302,14 +301,14 @@ class ProfileController extends Controller
     {
         $profile->load('customer', 'facility');
         $customers = Customer::with('facilities')->orderBy('account_name')->get();
-        
+
         return view('admin.customer-profile.edit-profile', compact('profile', 'customers'));
     }
 
     public function destroy(Profile $profile)
     {
         $profile->delete();
-        
+
         return redirect()->route('admin.profiles.list')
             ->with('success', 'Profile deleted successfully.');
     }

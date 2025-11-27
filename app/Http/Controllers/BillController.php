@@ -26,16 +26,16 @@ class BillController extends Controller
         // Extract unique facilities from paginated bills
         $facilities = collect($billsPaginator->items())
             ->pluck('Facility')
-            ->filter(fn($value) => $value !== 'N/A' && ! empty($value))
+            ->filter(fn ($value) => $value !== 'N/A' && ! empty($value))
             ->unique()
             ->sort()
             ->values();
 
         return view('my-bills', [
-            'bills'      => $billsPaginator,
-            'payments'   => null,
-            'activeTab'  => 'bills',
-            'customers'   => $customers,
+            'bills' => $billsPaginator,
+            'payments' => null,
+            'activeTab' => 'bills',
+            'customers' => $customers,
             'facilities' => $facilities,
         ]);
     }
@@ -49,7 +49,7 @@ class BillController extends Controller
             'payments' => $paymentsPaginator,
             'bills' => null,
             'activeTab' => 'payments',
-            'customers'  => $customers,
+            'customers' => $customers,
         ]);
     }
 

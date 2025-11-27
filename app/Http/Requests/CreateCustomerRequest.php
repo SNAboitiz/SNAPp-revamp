@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rule;
 
 class CreateCustomerRequest extends FormRequest
@@ -34,17 +34,18 @@ class CreateCustomerRequest extends FormRequest
                 'required',
                 'string',
                 'max:100',
-                Rule::unique('customers','short_name')
+                Rule::unique('customers', 'short_name'),
             ],
 
             'customer_number' => [
                 'required',
                 'string',
                 'max:50',
-                Rule::unique('customers','customer_number')
+                Rule::unique('customers', 'customer_number'),
             ],
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         session()->flash('show_modal', 'customer-modal');

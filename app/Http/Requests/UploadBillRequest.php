@@ -22,26 +22,22 @@ class UploadBillRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customer_id' =>
-            [
+            'customer_id' => [
                 'required',
                 'numeric',
-                'exists:customers,id'
+                'exists:customers,id',
             ],
-            'billing_start_date' =>
-            [
-                'required',
-                'date'
-            ],
-            'billing_end_date' =>
-            [
+            'billing_start_date' => [
                 'required',
                 'date',
-                'after_or_equal:billing_start_date'
+            ],
+            'billing_end_date' => [
+                'required',
+                'date',
+                'after_or_equal:billing_start_date',
             ],
 
-            'bill_number' =>
-            [
+            'bill_number' => [
                 'required',
                 'string',
                 'max:255',

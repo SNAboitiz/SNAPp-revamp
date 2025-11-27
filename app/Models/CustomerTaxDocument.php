@@ -12,10 +12,12 @@ class CustomerTaxDocument extends Model
         'document_number',
         'file_path',
     ];
+
     public function customer()
     {
         return $this->belongsTo(Customer::class);
     }
+
     public function facility()
     {
         return $this->belongsTo(Facility::class);

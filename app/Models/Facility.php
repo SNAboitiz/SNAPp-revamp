@@ -67,7 +67,7 @@ class Facility extends Model
     protected static function boot()
     {
         parent::boot();
-        
+
         static::created(function ($facility) {
             // Auto-create blank profile for new facility
             Profile::create([

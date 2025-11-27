@@ -38,7 +38,7 @@ class UserController extends Controller
             $request,
             ['active', 'search', 'sort']
         );
-   
+
         $customers = Customer::with('facilities')->orderBy('account_name')->get();
         $facilities = Facility::orderBy('name')->get();
 
@@ -76,7 +76,6 @@ class UserController extends Controller
 
         return redirect()->route('users.index');
     }
-
 
     /**
      * Show the form for editing the specified customer.

@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateCustomerRequest extends FormRequest
 {
@@ -42,10 +42,11 @@ class UpdateCustomerRequest extends FormRequest
             ],
         ];
     }
-     protected function failedValidation(Validator $validator)
+
+    protected function failedValidation(Validator $validator)
     {
         session()->flash('show_modal', 'edit-customer');
-    
+
         throw new HttpResponseException(
             redirect()
                 ->back()

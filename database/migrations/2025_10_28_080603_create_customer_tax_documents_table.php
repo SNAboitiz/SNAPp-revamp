@@ -11,24 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-Schema::create('customer_tax_documents', function (Blueprint $table) {
-    $table->id();
+        Schema::create('customer_tax_documents', function (Blueprint $table) {
+            $table->id();
 
-    $table->unsignedBigInteger('customer_id')->nullable();
-    $table->unsignedBigInteger('facility_id')->nullable();
+            $table->unsignedBigInteger('customer_id')->nullable();
+            $table->unsignedBigInteger('facility_id')->nullable();
 
-    $table->string('document_number');
-    $table->string('file_path');
-    $table->timestamps();
+            $table->string('document_number');
+            $table->string('file_path');
+            $table->timestamps();
 
-    $table->foreign('customer_id')
-        ->references('id')->on('customers')
-        ->nullOnDelete();
+            $table->foreign('customer_id')
+                ->references('id')->on('customers')
+                ->nullOnDelete();
 
-    $table->foreign('facility_id')
-        ->references('id')->on('facilities')
-        ->nullOnDelete();
-});
+            $table->foreign('facility_id')
+                ->references('id')->on('facilities')
+                ->nullOnDelete();
+        });
 
     }
 

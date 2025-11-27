@@ -25,23 +25,23 @@ class StoreCustomerTaxDocumentRequest extends FormRequest
             'customer_id' => [
                 'required',
                 'integer',
-                'exists:customers,id'
+                'exists:customers,id',
             ],
             'facility_id' => [
                 'required',
                 'integer',
-                'exists:facilities,id'
+                'exists:facilities,id',
             ],
             'document_number' => [
                 'required',
                 'string',
-                'max:255'
+                'max:255',
             ],
             'file' => [
                 'required',
                 'file',
                 'mimes:pdf',
-                'max:10240'
+                'max:10240',
             ],
         ];
     }

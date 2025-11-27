@@ -30,7 +30,7 @@ class CreateProfilesTable extends Migration
             $table->string('mobile_number_1')->nullable();
             $table->string('email_1')->nullable();
             $table->string('account_executive')->nullable();
-            
+
             $table->timestamps();
         });
     }

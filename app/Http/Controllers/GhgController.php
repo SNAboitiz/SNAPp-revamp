@@ -17,8 +17,8 @@ class GhgController extends Controller
     public function calculateEmissions()
     {
         $user = Auth::user();
-        $accountName = $user->customer->account_name;
-        $customerId = $user->customer->customer_number;
+        $accountName = $user->customer?->account_name;
+        $customerId = $user->customer?->customer_number;
 
         $invoiceData = $this->oracleInvoiceService->fetchInvoiceData($customerId);
         if (empty($invoiceData)) {
@@ -44,8 +44,8 @@ class GhgController extends Controller
         $trashBagsRecycled = $avoidedEmissions / $TrashBagConversionFactor;
 
         // Build in your controller:
-        $upper = strtoupper($user->customer->account_name);
-        $filterJson    = json_encode(['df50' => "include IN {$upper}"]);
+        $upper = strtoupper($user->customer?->account_name);
+        $filterJson = json_encode(['df50' => "include IN {$upper}"]);
         $encodedFilter = rawurlencode($filterJson);
 
         // NOTE the `/u/0/` here:

@@ -30,7 +30,7 @@ class User extends Authenticatable implements FilamentUser
         'password',
         'customer_id',
         'facility_id',
-        'active'
+        'active',
     ];
 
     /**
@@ -100,10 +100,10 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->belongsTo(Facility::class);
     }
+
     /**
      * Get the inquiries for the user.
      */
-    
     public function inquiries()
     {
         return $this->hasMany(Inquiry::class);

@@ -42,11 +42,11 @@ class Customer extends Model
     {
         return $this->hasMany(Profile::class);
     }
-    
+
     protected static function boot()
     {
         parent::boot();
-        
+
         static::created(function ($customer) {
             // Auto-create blank profile for new customer
             Profile::create([
