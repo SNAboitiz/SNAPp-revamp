@@ -19,8 +19,8 @@ class CustomerFacilitySeeder extends Seeder
             ],
             [
                 'account_name' => 'CATHAY METAL CORPORATION ',
-                'customer_number' => 'CTHAY1R',
-                'short_name' => '1102',
+                'customer_number' => '1102',
+                'short_name' => 'CTHAY1R',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -35,14 +35,14 @@ class CustomerFacilitySeeder extends Seeder
             [
                 'name' => 'FMC Pasta',
                 'sein' => 'PFMC-Pasta',
-                'customer_id' => $customers[1]['id'],
+                'customer_id' => $customers[0]['id'],
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'FMC Manila',
                 'sein' => 'PFMC-Manila',
-                'customer_id' => $customers[1]['id'],
+                'customer_id' => $customers[0]['id'],
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
