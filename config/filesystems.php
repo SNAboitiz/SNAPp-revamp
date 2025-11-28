@@ -47,13 +47,6 @@ return [
             'report' => false,
         ],
 
-        'livewire-temp' => [
-            'driver' => 'local',
-            'root' => storage_path('app/livewire-tmp'),
-            'throw' => false,
-            'report' => false,
-        ],
-
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
@@ -70,13 +63,13 @@ return [
         'gcs' => [
             'driver' => 'gcs',
             'project_id' => env('GOOGLE_CLOUD_PROJECT_ID'),
-            'bucket' => env('GOOGLE_CLOUD_STORAGE_BUCKET'),
             'key_file' => env('GOOGLE_CLOUD_KEY_FILE')
                 ? json_decode(file_get_contents(env('GOOGLE_CLOUD_KEY_FILE')), true)
                 : null,
-            'throw' => true,    'visibility' => 'noPredefinedVisibility',
-            'visibility_handler' => \League\Flysystem\GoogleCloudStorage\UniformBucketLevelAccessVisibility::class,
-            'throw' => true,
+            'bucket' => env('GOOGLE_CLOUD_STORAGE_BUCKET', 'your-bucket-name'),
+            'path_prefix' => env('GOOGLE_CLOUD_STORAGE_PATH_PREFIX', null), // optional
+            'storage_api_uri' => env('GOOGLE_CLOUD_STORAGE_API_URI', null), // optional
+            'visibility' => 'public',
         ],
 
     ],
