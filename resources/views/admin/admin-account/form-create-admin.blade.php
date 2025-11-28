@@ -9,7 +9,7 @@
                 </flux:heading>
 
                 <flux:text class="mt-2">
-                    Fill in the details below to create a new customer account.
+                    Fill in the details below to create a new admin account.
                 </flux:text>
             </div>
 
@@ -30,11 +30,11 @@
             </flux:field>
 
             <flux:field>
-                <flux:select id="customer_id" name="customer_id" placeholder="— Select account —" required
+                <flux:select id="customer_id" name="customer_id" placeholder="— Select account —"
                     :error="$errors->first('customer_id')">
-                    @foreach ($profiles as $profile)
-                        <option value="{{ $profile->customer_id }}" class="text-black" @selected(old('customer_id') == $profile->customer_id)>
-                            {{ $profile->account_name }} ({{ $profile->short_name }})
+                    @foreach ($customers as $customer)
+                        <option value="{{ $customer->id }}" class="text-black" @selected(old('customer_id') == $customer->id)>
+                            {{ $customer->account_name }} ({{ $customer->short_name ?? '—' }})
                         </option>
                     @endforeach
                 </flux:select>

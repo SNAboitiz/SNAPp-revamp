@@ -35,10 +35,19 @@
                 <flux:label>Customer</flux:label>
                 <flux:select id="customer_id" name="customer_id" placeholder="— Select account —" required
                     :error="$errors->first('customer_id')">
+<<<<<<< HEAD
+                    @foreach ($customers as $customer)
+                    <option value="{{ $customer->id }}"
+                        class="text-black"
+                        @selected(old('customer_id')==$customer->id)>
+                        {{ $customer->account_name }} ({{ $customer->short_name }})
+                    </option>
+=======
                     @foreach ($profiles as $profile)
                         <option value="{{ $profile->customer_id }}" class="text-black" @selected(old('customer_id') == $profile->customer_id)>
                             {{ $profile->account_name }} ({{ $profile->short_name }})
                         </option>
+>>>>>>> f1a9b3a64940d1f4da23dedc8fa037b365cfee9b
                     @endforeach
                 </flux:select>
             </flux:field>

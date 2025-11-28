@@ -9,41 +9,68 @@
                 <flux:heading size="lg">
                     Edit Customer Account
                 </flux:heading>
-                <flux:text class="mt-2">
-                    Update the basic details below.
-                </flux:text>
             </div>
 
             <flux:field>
-                <flux:label badge="Required">Name</flux:label>
-                <flux:input name="edit_name" placeholder="Enter customer name" />
+                <flux:label>Name</flux:label>
+                <flux:input
+                    name="edit_name"
+                    placeholder="Enter customer name" />
                 @error('edit_name')
                     <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
                 @enderror
             </flux:field>
 
             <flux:field>
-                <flux:label badge="Required">Email</flux:label>
-                <flux:input name="edit_email" type="email" placeholder="Enter customer email" />
+                <flux:label>Email</flux:label>
+                <flux:input
+                    name="edit_email"
+                    type="email"
+                    placeholder="Enter customer email" />
                 @error('edit_email')
                     <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
                 @enderror
             </flux:field>
 
+            {{-- Customer Field --}}
             <flux:field>
                 <flux:label>Customer</flux:label>
-                <flux:select id="edit_customer_id" name="edit_customer_id" placeholder="— Select account —" required
+                <flux:select
+                    id="edit_customer_id"
+                    name="edit_customer_id"
+                    placeholder="— Select customer —"
+                    required
                     :error="$errors->first('edit_customer_id')">
-                    @foreach ($profiles as $profile)
-                        <option value="{{ $profile->customer_id }}" class="text-black" @selected(old('edit_customer_id', $existingCustomerId ?? '') == $profile->customer_id)>
-                            {{ $profile->account_name }} ({{ $profile->short_name }})
-                        </option>
+                    @foreach ($customers as $customer)
+                    <option
+                        value="{{ $customer->id }}"
+                        class="text-black"
+                        @selected(old('edit_customer_id', $existingCustomerId ?? '' )==$customer->id)>
+                        {{ $customer->account_name }} ({{ $customer->short_name }})
+                    </option>
                     @endforeach
                 </flux:select>
             </flux:field>
 
-
-
+            {{-- Facility Field - Updated to be optional --}}
+            <flux:field>
+                <flux:label>Facility</flux:label>
+                <flux:select
+                    id="edit_facility_id"
+                    name="edit_facility_id"
+                    placeholder="— Select facility (optional) —"
+                    :error="$errors->first('edit_facility_id')">
+                    <option value="">— No facility —</option>
+                    @foreach ($facilities as $facility)
+                    <option
+                        value="{{ $facility->id }}"
+                        class="text-black"
+                        @selected(old('edit_facility_id', $existingFacilityId ?? '' )==$facility->id)>
+                        {{ $facility->name }}
+                    </option>
+                    @endforeach
+                </flux:select>
+            </flux:field>
             <div class="flex">
                 <flux:spacer />
                 <flux:button type="submit" variant="primary" id="save-button">
@@ -70,10 +97,12 @@
             set('edit_name', ds.name);
             set('edit_email', ds.email);
             set('edit_customer_id', ds.customerId);
+            set('edit_facility_id', ds.facilityId);
+
         });
 
         document.getElementById('save-button').addEventListener('click', function(e) {
-            e.preventDefault(); // prevent native form submission
+            e.preventDefault();
             this.disabled = true;
             this.innerText = 'Saving…';
 

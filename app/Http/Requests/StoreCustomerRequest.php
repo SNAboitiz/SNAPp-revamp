@@ -40,9 +40,13 @@ class StoreCustomerRequest extends FormRequest
             'customer_id' => [
                 'required',
                 'integer',
-                'exists:profiles,customer_id',
+                'exists:customers,id',
             ],
 
+            'facility_id' => [
+                'integer',
+                'exists:facilities,id',
+            ],
         ];
     }
 

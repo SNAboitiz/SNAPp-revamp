@@ -5,7 +5,6 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Rule;
 
 class StoreProfileRequest extends FormRequest
 {
@@ -25,25 +24,6 @@ class StoreProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customer_id' => [
-                'required',
-                'integer',
-                Rule::unique('profiles', 'customer_id'),
-            ],
-
-            'short_name' => [
-                'required',
-                'string',
-                'max:100',
-                Rule::unique('profiles', 'short_name'),
-            ],
-
-            'account_name' => [
-                'nullable',
-                'string',
-                'max:100',
-            ],
-
             'business_address' => [
                 'nullable',
                 'string',
