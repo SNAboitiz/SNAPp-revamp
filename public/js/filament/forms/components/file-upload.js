@@ -11979,7 +11979,6 @@ ${p.outerHTML}${_}
                 !((a >= 65504 && a <= 65519) || a === 65534) ||
                 (l || (l = ig(t, i, n)), i + n > t.byteLength)
             ));
-
         )
             i += n;
         return e.slice(0, i);
@@ -15218,13 +15217,15 @@ function Mg({
             (this.destroyEditor(), ft(this.$refs.input), (this.pond = null));
         },
         dispatchFormEvent(V, k = {}) {
-            this.$el.closest("form")?.dispatchEvent(
-                new CustomEvent(V, {
-                    composed: !0,
-                    cancelable: !0,
-                    detail: k,
-                }),
-            );
+            this.$el
+                .closest("form")
+                ?.dispatchEvent(
+                    new CustomEvent(V, {
+                        composed: !0,
+                        cancelable: !0,
+                        detail: k,
+                    }),
+                );
         },
         async getUploadedFiles() {
             let V = await s();

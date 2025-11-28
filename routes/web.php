@@ -81,6 +81,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/bills/manage', [BillController::class, 'showManageBillsPage'])->name('bills.manage');
         Route::post('/bills/upload', [BillController::class, 'uploadBills'])->name('bills.upload');
+
+        Route::view('reports', 'admin.reports')->name('reports');
     });
 });
 

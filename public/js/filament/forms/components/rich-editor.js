@@ -123,7 +123,6 @@ function ba(t, e, n, r) {
                 ;
                 c < d &&
                 s.text[s.text.length - c - 1] == l.text[l.text.length - c - 1];
-
             )
                 (c++, n--, r--);
             return { a: n, b: r };
@@ -6095,7 +6094,6 @@ function td(t, e, n) {
                 ),
                 i = o;
             ;
-
         ) {
             let s = t.childNodes[i];
             if (s.nodeType == 1) {
@@ -7412,7 +7410,6 @@ var bs = class {
                 e[o],
             ) &&
             e[o].type.spec.spanning !== !1;
-
         )
             o++;
         for (; o < i; )
@@ -8040,7 +8037,6 @@ function Nm(t) {
         Kn(n.childNodes[r], -1) &&
         (s = !0);
         ;
-
     )
         if (r > 0) {
             if (n.nodeType != 1) break;
@@ -8255,7 +8251,6 @@ function Ds(t, e) {
     for (
         ;
         o > 1 && i > 1 && r.childCount == 1 && r.firstChild.childCount == 1;
-
     ) {
         (o--, i--);
         let h = r.firstChild;
@@ -8999,7 +8994,6 @@ ke.compositionstart = ke.compositionupdate = (t) => {
             for (
                 let o = r.focusNode, i = r.focusOffset;
                 o && o.nodeType == 1 && i != 0;
-
             ) {
                 let s = i < 0 ? o.lastChild : o.childNodes[i - 1];
                 if (!s) break;
@@ -9037,7 +9031,6 @@ function xd(t) {
         t.composing &&
         ((t.input.composing = !1), (t.input.compositionEndedAt = ng()));
         t.input.compositionNodes.length > 0;
-
     )
         t.input.compositionNodes.pop().markParentsDirty();
 }
@@ -9517,7 +9510,6 @@ var Kr = class t {
                     for (
                         o || (o = this.children.slice());
                         i < o.length && o[i] < a;
-
                     )
                         i += 3;
                     (o[i] == a
@@ -15644,7 +15636,6 @@ function Xt(t) {
                                                     ));
                                             });
                                         _.length > 0;
-
                                     ) {
                                         let T = _[_.length - 1];
                                         if (
@@ -23365,7 +23356,6 @@ function ww(t) {
         ;
         e.childCount == 1 &&
         ((n > 0 && r > 0) || e.child(0).type.spec.tableRole == "table");
-
     )
         (n--, r--, (e = e.child(0).content));
     let o = e.child(0),
