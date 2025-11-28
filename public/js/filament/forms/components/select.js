@@ -282,8 +282,8 @@ var Rt = function (s) {
                     v = z(l) === l,
                     L = await (a.isRTL == null ? void 0 : a.isRTL(c.floating)),
                     x = p || (v || !m ? [Z(l)] : At(l)),
-                    q = u !== "none";
-                !p && q && x.push(...St(l, m, u, L));
+                    J = u !== "none";
+                !p && J && x.push(...St(l, m, u, L));
                 let Q = [l, ...x],
                     W = await wt(t, g),
                     F = [],
@@ -296,9 +296,9 @@ var Rt = function (s) {
                     ((I = [...I, { placement: n, overflows: F }]),
                     !F.every((A) => A <= 0))
                 ) {
-                    var J, j;
+                    var j, q;
                     let A =
-                            (((J = o.flip) == null ? void 0 : J.index) || 0) +
+                            (((j = o.flip) == null ? void 0 : j.index) || 0) +
                             1,
                         k = Q[A];
                     if (
@@ -313,18 +313,18 @@ var Rt = function (s) {
                             reset: { placement: k },
                         };
                     let $ =
-                        (j = I.filter((P) => P.overflows[0] <= 0).sort(
+                        (q = I.filter((P) => P.overflows[0] <= 0).sort(
                             (P, D) => P.overflows[1] - D.overflows[1],
                         )[0]) == null
                             ? void 0
-                            : j.placement;
+                            : q.placement;
                     if (!$)
                         switch (f) {
                             case "bestFit": {
                                 var X;
                                 let P =
                                     (X = I.filter((D) => {
-                                        if (q) {
+                                        if (J) {
                                             let V = M(D.placement);
                                             return V === b || V === "y";
                                         }
@@ -891,9 +891,9 @@ var De = {
     isElement: S,
     isRTL: Ce,
 };
-var qt = It;
-var Jt = kt,
-    jt = Rt;
+var Jt = It;
+var jt = kt,
+    qt = Rt;
 var Xt = (s, t, e) => {
     let i = new Map(),
         n = { platform: De, ...e },
@@ -929,13 +929,13 @@ var ut = class {
         hasDynamicOptions: v = !1,
         hasDynamicSearchResults: L = !0,
         searchPrompt: x = "Search...",
-        searchDebounce: q = 1e3,
+        searchDebounce: J = 1e3,
         loadingMessage: Q = "Loading...",
         searchingMessage: W = "Searching...",
         noSearchResultsMessage: F = "No results found",
         maxItems: I = null,
-        maxItemsMessage: J = "Maximum number of items selected",
-        optionsLimit: j = null,
+        maxItemsMessage: j = "Maximum number of items selected",
+        optionsLimit: q = null,
         position: X = null,
         searchableOptionFields: A = ["label"],
         livewireId: k = null,
@@ -964,13 +964,13 @@ var ut = class {
             (this.hasDynamicOptions = v),
             (this.hasDynamicSearchResults = L),
             (this.searchPrompt = x),
-            (this.searchDebounce = q),
+            (this.searchDebounce = J),
             (this.loadingMessage = Q),
             (this.searchingMessage = W),
             (this.noSearchResultsMessage = F),
             (this.maxItems = I),
-            (this.maxItemsMessage = J),
-            (this.optionsLimit = j),
+            (this.maxItemsMessage = j),
+            (this.optionsLimit = q),
             (this.position = X),
             (this.searchableOptionFields = Array.isArray(A) ? A : ["label"]),
             (this.livewireId = k),
@@ -1755,8 +1755,8 @@ var ut = class {
     }
     positionDropdown() {
         let t = this.position === "top" ? "top-start" : "bottom-start",
-            e = [qt(4), Jt({ padding: 5 })];
-        this.position !== "top" && this.position !== "bottom" && e.push(jt());
+            e = [Jt(4), jt({ padding: 5 })];
+        this.position !== "top" && this.position !== "bottom" && e.push(qt());
         let i =
             this.selectButton.closest(".fi-fixed-positioning-context") !==
                 null &&
@@ -1891,7 +1891,7 @@ var ut = class {
         return t;
     }
     handleSearch(t) {
-        let e = t.target.value.trim().toLowerCase();
+        let e = t.target.value.trim();
         if (
             ((this.searchQuery = e),
             this.searchTimeout && clearTimeout(this.searchTimeout),
@@ -1961,8 +1961,9 @@ var ut = class {
     }
     filterOptions(t) {
         let e = this.searchableOptionFields.includes("label"),
-            i = this.searchableOptionFields.includes("value"),
-            n = [];
+            i = this.searchableOptionFields.includes("value");
+        t = t.toLowerCase();
+        let n = [];
         for (let o of this.originalOptions)
             if (o.options && Array.isArray(o.options)) {
                 let r = o.options.filter(
@@ -2197,13 +2198,13 @@ function Ee({
     maxItemsMessage: v,
     noSearchResultsMessage: L,
     options: x,
-    optionsLimit: q,
+    optionsLimit: J,
     placeholder: Q,
     position: W,
     searchDebounce: F,
     searchingMessage: I,
-    searchPrompt: J,
-    searchableOptionFields: j,
+    searchPrompt: j,
+    searchableOptionFields: q,
     state: X,
     statePath: A,
 }) {
@@ -2232,16 +2233,16 @@ function Ee({
                 getSearchResultsUsing: r,
                 hasDynamicOptions: u,
                 hasDynamicSearchResults: m,
-                searchPrompt: J,
+                searchPrompt: j,
                 searchDebounce: F,
                 loadingMessage: w,
                 searchingMessage: I,
                 noSearchResultsMessage: L,
                 maxItems: b,
                 maxItemsMessage: v,
-                optionsLimit: q,
+                optionsLimit: J,
                 position: W,
-                searchableOptionFields: j,
+                searchableOptionFields: q,
                 livewireId: g,
                 statePath: A,
                 onStateChange: (k) => {

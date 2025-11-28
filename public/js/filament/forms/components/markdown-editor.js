@@ -719,7 +719,6 @@ b`.split(/\n/).length != 3
             for (
                 var n;
                 e.innerMode && ((n = e.innerMode(t)), !(!n || n.mode == e));
-
             )
                 ((t = n.state), (e = n.mode));
             return n || { mode: e, state: t };
@@ -767,7 +766,6 @@ b`.split(/\n/).length != 3
                 for (
                     var e = this.pos;
                     /[\s\u00a0]/.test(this.string.charAt(this.pos));
-
                 )
                     ++this.pos;
                 return this.pos > e;
@@ -1122,7 +1120,6 @@ b`.split(/\n/).length != 3
             for (
                 a.start = a.pos = r || 0, t == "" && pa(i, n.state);
                 !a.eol();
-
             )
                 (no(i, a, n.state), (a.start = a.pos));
         }
@@ -1867,7 +1864,6 @@ b`.split(/\n/).length != 3
                     ve,
                     _e;
                 ;
-
             ) {
                 if (Y == f) {
                     ((ie = ue = me = ee = ""),
@@ -1995,7 +1991,6 @@ b`.split(/\n/).length != 3
                             ;
                             i.cursorActivityCalled <
                             i.cursorActivityHandlers.length;
-
                         )
                             i.cursorActivityHandlers[
                                 i.cursorActivityCalled++
@@ -2438,7 +2433,6 @@ b`.split(/\n/).length != 3
                         for (
                             ;
                             m && e[m - 2] == e[m - 3] && e[m - 1].insertLeft;
-
                         )
                             ((r = e[(m -= 3) + 2]), (l = "left"));
                     if (n == "right" && i == f - u)
@@ -2447,7 +2441,6 @@ b`.split(/\n/).length != 3
                             m < e.length - 3 &&
                             e[m + 3] == e[m + 4] &&
                             !e[m + 5].insertLeft;
-
                         )
                             ((r = e[(m += 3) + 2]), (l = "right"));
                     break;
@@ -2491,7 +2484,6 @@ b`.split(/\n/).length != 3
                         ;
                         i.coverStart + u < i.coverEnd &&
                         H(t.line.text.charAt(i.coverStart + u));
-
                     )
                         ++u;
                     if (
@@ -4876,7 +4868,6 @@ b`.split(/\n/).length != 3
                         l = { changes: [Io(e, t)], generation: i.generation },
                         i.done.push(l);
                     i.done.length > i.undoDepth;
-
                 )
                     (i.done.shift(), i.done[0].ranges || i.done.shift());
             }
@@ -5547,7 +5538,6 @@ b`.split(/\n/).length != 3
                             for (
                                 var l = (i.lines.length % 25) + 25, u = l;
                                 u < i.lines.length;
-
                             ) {
                                 var f = new Bn(i.lines.slice(u, (u += 25)));
                                 ((i.height -= f.height),
@@ -8992,7 +8982,6 @@ b`.split(/\n/).length != 3
                                             return !/\s/.test(B) && !Me(B);
                                         };
                             l > 0 && A(a.charAt(l - 1));
-
                         )
                             --l;
                         for (; u < a.length && A(a.charAt(u)); ) ++u;
@@ -9572,7 +9561,6 @@ b`.split(/\n/).length != 3
                             ne(m, Ae(e.doc, m).text.length),
                         );
                     B.length > 1 && ee.length > 1;
-
                 )
                     if (ce(B) == ce(ee)) (B.pop(), ee.pop(), m--);
                     else if (B[0] == ee[0]) (B.shift(), ee.shift(), l++);
@@ -9584,7 +9572,6 @@ b`.split(/\n/).length != 3
                         me = ee[0],
                         ve = Math.min(ue.length, me.length);
                     Y < ve && ue.charCodeAt(Y) == me.charCodeAt(Y);
-
                 )
                     ++Y;
                 for (
@@ -9597,7 +9584,6 @@ b`.split(/\n/).length != 3
                     ie < Ce &&
                     _e.charCodeAt(_e.length - ie - 1) ==
                         be.charCodeAt(be.length - ie - 1);
-
                 )
                     ++ie;
                 if (B.length == 1 && ee.length == 1 && l == r.line)
@@ -9607,7 +9593,6 @@ b`.split(/\n/).length != 3
                         Y > r.ch &&
                         _e.charCodeAt(_e.length - ie - 1) ==
                             be.charCodeAt(be.length - ie - 1);
-
                     )
                         (Y--, ie++);
                 ((B[B.length - 1] = _e
@@ -9778,7 +9763,6 @@ b`.split(/\n/).length != 3
                 t.firstChild.nodeType == 3 &&
                 ((l = t.firstChild), n && (n = l.nodeValue.length));
                 u.parentNode != r;
-
             )
                 u = u.parentNode;
             var f = e.measure,
@@ -10039,7 +10023,6 @@ b`.split(/\n/).length != 3
                 for (
                     var l = 0, u = Math.min(r.length, i.length);
                     l < u && r.charCodeAt(l) == i.charCodeAt(l);
-
                 )
                     ++l;
                 return (
@@ -10617,7 +10600,6 @@ var ys = Ke((vs, bs) => {
                         M = w.state.markedSelectionStyle,
                         _ = c.line;
                     ;
-
                 ) {
                     var W = _ == c.line ? c : b(_, 0),
                         E = _ + C,
@@ -10662,7 +10644,6 @@ var ys = Ke((vs, bs) => {
                     ? (k.shift().clear(), s(w, c, z.to, 0))
                     : s(w, c, z.from, 0));
                 S(d, M.to) < 0;
-
             )
                 (k.pop().clear(), (M = k[k.length - 1].find()));
             S(d, M.to) > 0 &&
@@ -10792,7 +10773,6 @@ var ks = Ke((xs, _s) => {
                     re = E.line,
                     q = _.firstLine();
                 re >= q;
-
             ) {
                 for (var I = 0; I < G && re >= q; I++) {
                     var D = _.getLine(re--);
@@ -11021,7 +11001,6 @@ var ks = Ke((xs, _s) => {
                         O = this.getSearchCursor(_, this.getCursor("from"), W);
                     O.findNext() &&
                     !(o.cmpPos(O.to(), this.getCursor("to")) > 0);
-
                 )
                     E.push({ anchor: O.from(), head: O.to() });
                 E.length && this.setSelections(E, 0);
@@ -11208,7 +11187,6 @@ var Vo = Ke((ws, Ss) => {
                         for (
                             Le.type == "}" && (Le = C(Me));
                             Le.type == "statement";
-
                         )
                             Le = C(Me);
                     } else
@@ -11258,7 +11236,6 @@ var Vo = Ke((ws, Ss) => {
                             ;
                             Le.type == "statement" &&
                             R.dontIndentStatements.test(Le.info);
-
                         )
                             Le = Le.prev;
                     if (Oe.indent) {
@@ -11855,7 +11832,6 @@ var Cs = Ke((Ts, Ls) => {
                 for (
                     var s, h, g = !1;
                     !b.eol() && (s = b.next()) != S.pending;
-
                 ) {
                     if (s === "$" && h != "\\" && S.pending == '"') {
                         g = !0;
@@ -14428,7 +14404,6 @@ var vn = Ke((Is, Ns) => {
                         x.lexical.hasOwnProperty("align") ||
                             (x.lexical.align = !0);
                     ;
-
                 ) {
                     var Xe = ye.length ? ye.pop() : s ? Se : Oe;
                     if (Xe(ae, he)) {
@@ -15207,7 +15182,6 @@ var vn = Ke((Is, Ns) => {
                             ((ne = x.cc[x.cc.length - 1]) &&
                                 (ne == Re || ne == Ge) &&
                                 !/^[,\.=+\-*:?[\(]/.test(P)));
-
                     )
                         he = he.prev;
                     b &&
@@ -17049,7 +17023,6 @@ var Jo = Ke((Ys, Qs) => {
                         for (
                             L.list = null;
                             qe < L.listStack[L.listStack.length - 1];
-
                         )
                             (L.listStack.pop(),
                                 L.listStack.length
@@ -17441,7 +17414,6 @@ var Jo = Ke((Ys, Qs) => {
                                         ? " "
                                         : F.string.charAt(F.pos - 2);
                             Re < 3 && F.eat(pe);
-
                         )
                             Re++;
                         var U = F.peek() || " ",
@@ -18569,7 +18541,6 @@ var gu = Ke((pu, hu) => {
                     for (
                         var _ = !1, W;
                         (W = z.next()) != null && !(W == k && !_);
-
                     )
                         _ = !_ && W == "\\";
                     return (_ || (M.tokenize = T), g("string", "string"));
@@ -19561,7 +19532,6 @@ var Su = Ke((ku, wu) => {
                     d === !1 ||
                     (!T.match("{$", !1) &&
                         !T.match(/^(\$[a-zA-Z_][a-zA-Z0-9_]*|\$\{)/, !1)));
-
             ) {
                 if (!k && T.match(c)) {
                     ((w.tokenize = null), w.tokStack.pop(), w.tokStack.pop());
@@ -20177,7 +20147,6 @@ var Mu = Ke((Eu, zu) => {
                 for (
                     var N = K.indentation();
                     X.scopes.length > 1 && S(X).offset > N;
-
                 ) {
                     if (S(X).type != "py") return !0;
                     X.scopes.pop();
@@ -20488,7 +20457,6 @@ var qu = Ke((Au, Du) => {
                 for (
                     var O = E.pos, G = 0, J, re = !1, q = !1;
                     (J = E.next()) != null;
-
                 )
                     if (q) q = !1;
                     else {
@@ -20538,7 +20506,6 @@ var qu = Ke((Au, Du) => {
                         q.context.type === "read-quoted-paused" &&
                         ((q.context = q.context.prev), re.eat("}"));
                         (D = re.next()) != null;
-
                     ) {
                         if (D == E && (J || !I)) {
                             q.tokenize.pop();
@@ -21762,7 +21729,6 @@ var ta = Ke(($u, Ku) => {
                     Ee,
                     ge;
                 G.length < O;
-
             )
                 G += " ";
             function Oe($, H) {

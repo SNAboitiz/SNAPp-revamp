@@ -3,7 +3,9 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\DashboardPage;
-use App\Filament\Widgets\CrssDailyMeterDataResChart;
+use App\Filament\Widgets\DailyReportWidget;
+use App\Filament\Widgets\HourlyReportWidget;
+use App\Filament\Widgets\MonthlyReportWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -24,6 +26,7 @@ class AppPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+            ->spa()
             ->id('app')
             ->path('app')
             ->topbar(false)
@@ -40,7 +43,9 @@ class AppPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
-                CrssDailyMeterDataResChart::class,
+                MonthlyReportWidget::class,
+                DailyReportWidget::class,
+                HourlyReportWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

@@ -218,7 +218,6 @@
                         Z = this.blocks,
                         ze = this.buffer8;
                     j < R;
-
                 ) {
                     if (
                         (this.hashed &&
@@ -2653,7 +2652,6 @@
             ;
             e.length > 0 &&
             (e[0].value === "&&" || e[0].value === "|" || e[0].value === "||");
-
         ) {
             let r = e.shift().value,
                 n = lo(e);
@@ -3065,7 +3063,6 @@
             var r = e.lastElementChild;
             r &&
             (r === se.ghost || ae(r, "display") === "none" || (t && !Tr(r, t)));
-
         )
             r = r.previousElementSibling;
         return r || null;
@@ -4009,7 +4006,6 @@
                         Ot.clientY,
                     )),
                     t !== r);
-
                 )
                     r = t;
                 if ((k.parentNode[st]._isOutsideThisEl(t), r))
@@ -4092,7 +4088,6 @@
                         ae(nt, "position") === "static" &&
                         ae(nt, "transform") === "none" &&
                         nt !== document;
-
                     )
                         nt = nt.parentNode;
                     (nt !== document.body && nt !== document.documentElement
@@ -4767,7 +4762,6 @@
                 r = t.length,
                 n = 0;
             r--;
-
         )
             n += t.charCodeAt(r);
         return n.toString(36);
@@ -5327,7 +5321,6 @@
                 for (
                     var P = I(u);
                     o(P) && ["html", "body"].indexOf(d(P)) < 0;
-
                 ) {
                     var F = O(P);
                     if (
@@ -5348,7 +5341,6 @@
                 for (
                     var s = r(u), b = Y(u);
                     b && N(b) && O(b).position === "static";
-
                 )
                     b = Y(b);
                 return b &&

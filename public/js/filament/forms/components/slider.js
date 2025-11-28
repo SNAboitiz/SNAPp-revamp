@@ -238,7 +238,6 @@ var Kt = (function () {
                               (this.xPct[u + 1] - t) /
                               (this.xPct[u + 1] - this.xPct[u]));
                     w > 0;
-
                 )
                     ((C = this.xPct[u + 1 + y] - this.xPct[u + y]),
                         s[u + y] * v + 100 - d * 100 > 100
@@ -1483,7 +1482,6 @@ function ir(r, t, s) {
                     et(v, t.cssClasses[e]);
                 });
             v.firstChild;
-
         )
             v.removeChild(v.firstChild);
         delete v.noUiSlider;

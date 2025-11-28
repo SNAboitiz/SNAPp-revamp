@@ -160,6 +160,12 @@
                             <flux:icon name="megaphone" class="w-6 h-6 text-white" />
                             <span x-show="!collapsed" class="text-white">{{ __('Manage Advisories') }}</span>
                         </a>
+                        <a href="{{ route('reports') }}"
+                            class="group flex items-center p-2 rounded-md hover:bg-blue-500 transition-colors"
+                            :class="{ 'justify-center': collapsed, 'space-x-2': !collapsed }">
+                            <flux:icon name="chart-bar" class="w-6 h-6 text-white" />
+                            <span x-show="!collapsed" class="text-white">{{ __('Manage Reports') }}</span>
+                        </a>
                     @endrole
                 </nav>
             </div>
