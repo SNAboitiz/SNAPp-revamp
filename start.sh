@@ -18,7 +18,6 @@ mkdir -p storage/logs
 mkdir -p storage/framework/cache
 mkdir -p storage/framework/sessions
 mkdir -p storage/framework/views
-mkdir -p storage/app/livewire-tmp
 mkdir -p bootstrap/cache
 
 # Set permissions
