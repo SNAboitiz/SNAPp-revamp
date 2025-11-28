@@ -30,9 +30,9 @@ class ListReports extends ListRecords
                         ->multiple()
                         ->directory('reports')
                         ->maxFiles(50)
-                        ->storeFiles(false)
+                        // ->storeFiles(false)
                         ->acceptedFileTypes(['text/csv', '.csv'])
-                        ->disk('gcs')
+                        // ->disk('gcs')
                         ->required(),
                 ])
                 ->action(function (array $data) {
@@ -113,7 +113,7 @@ class ListReports extends ListRecords
 
                         Notification::make()
                             ->title('Import Failed')
-                            ->body('An error occurred during import: '.$th->getMessage())
+                            ->body('An error occurred during import: ' . $th->getMessage())
                             ->danger()
                             ->send();
                     }
