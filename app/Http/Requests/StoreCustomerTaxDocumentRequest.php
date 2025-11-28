@@ -28,7 +28,7 @@ class StoreCustomerTaxDocumentRequest extends FormRequest
                 'exists:customers,id',
             ],
             'facility_id' => [
-                'required',
+                'nullable',
                 'integer',
                 'exists:facilities,id',
             ],

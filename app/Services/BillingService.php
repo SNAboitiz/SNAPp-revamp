@@ -94,6 +94,7 @@ class BillingService
 
         return $this->paginate($allBills, 5, $request, 'bills.show');
     }
+    
 
     protected function prepareBillData(Collection $items, ?string $customerShortname): Collection
     {

@@ -12,7 +12,6 @@ use App\Http\Requests\UpdateAERequest;
 use App\Mail\CustomerPasswordMail;
 use App\Models\Customer;
 use App\Models\Facility;
-use App\Models\Profile;
 use App\Models\Scopes\HasActiveScope;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -60,7 +59,7 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified customer and their profile in the database.
+     * Update the specified customer and their customer in the database.
      * Note: This logic is unique to customers and is not refactored.
      */
     public function update(EditCustomerRequest $request, User $user)
@@ -103,10 +102,10 @@ class UserController extends Controller
 
     public function showAdmins()
     {
-        $admins = User::role('admin')->with('profile')->paginate(10);
-        $profiles = Profile::orderBy('account_name')->get();
+        $admins = User::role('admin')->with('customer')->paginate(10);
+        $customers = customer::orderBy('account_name')->get();
 
-        return view('admin.admin-account.admin-list', compact('admins', 'profiles'));
+        return view('admin.admin-account.admin-list', compact('admins', 'customers'));
     }
 
     public function storeAdmins(StoreAdminRequest $request)
@@ -135,7 +134,7 @@ class UserController extends Controller
 
     public function showAE(Request $request)
     {
-        $query = User::query()->role('account executive')->with('profile');
+        $query = User::query()->role('account executive')->with('customer');
 
         $accountExecutives = $this->applyCommonFiltersAndPagination(
             $query,
@@ -189,11 +188,11 @@ class UserController extends Controller
             $request,
             ['role', 'active', 'search', 'sort']
         );
-        $profiles = Profile::orderBy('account_name')->get();
+        $customers = customer::orderBy('account_name')->get();
 
         $roles = Role::all();
 
-        return view('admin.all-users.all-users-list', compact('allUsers', 'roles', 'profiles'));
+        return view('admin.all-users.all-users-list', compact('allUsers', 'roles', 'customers'));
     }
 
     /**

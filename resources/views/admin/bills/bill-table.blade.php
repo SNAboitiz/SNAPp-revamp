@@ -15,6 +15,7 @@
             <thead>
                 <tr>
                     <th>Customer Name</th>
+                    <th>Facility</th>
                     <th>Billing Period</th>
                     <th>Bill Number</th>
                     <th>Uploaded At</th>
@@ -33,6 +34,7 @@
                     data-uploaded-at="{{ $item['uploadedAt'] }}"
                     data-gcs-pdf-url="{{ $item['gcsPdfUrl'] }}">
                     <td>{{ $item['accountName'] }}</td>
+                    <td>{{ $item['Facility'] ?? 'N/A' }}</td>
                     <td>{{ $item['billingPeriod'] }}</td>
                     <td>{{ $item['billNumber'] }}</td>
                     <td>{{ $item['uploadedAt'] }}</td>

@@ -24,9 +24,13 @@ class UploadBillRequest extends FormRequest
         return [
             'customer_id' => [
                 'required',
-                'numeric',
-                'exists:customers,id',
+                'exists:customers,id'
             ],
+            'facility_id' => [
+                'nullable',
+                'exists:facilities,id'
+            ],
+
             'billing_start_date' => [
                 'required',
                 'date',

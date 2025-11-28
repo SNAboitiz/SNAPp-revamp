@@ -46,10 +46,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/bills/export', [BillController::class, 'exportBills'])->name('bills.export');
         Route::get('/payments/export', [BillController::class, 'exportPayments'])->name('payments.export');
         Route::get('/energy-consumption', [GhgController::class, 'calculateEmissions'])->name('energy-consumption');
-        Route::post(
-            '/admin/customers/{customer}/facilities/{facility?}/tax-documents',
-            [CustomerTaxDocumentController::class, 'store']
-        )->name('tax-documents.store');
+        Route::post('/admin/customers/{customer}/tax-documents/{facility?}',[CustomerTaxDocumentController::class, 'store'])->name('tax-documents.store');
     });
 
     Route::redirect('settings', 'settings/profile');

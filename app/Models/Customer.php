@@ -38,9 +38,14 @@ class Customer extends Model
         return $this->hasMany(CustomerTaxDocument::class);
     }
 
-    public function profiles()
+    public function profiles(): HasMany
     {
         return $this->hasMany(Profile::class);
+    }
+
+    public function contracts(): HasMany
+    {
+        return $this->hasMany(Contract::class);
     }
 
     protected static function boot()

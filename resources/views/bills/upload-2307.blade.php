@@ -2,33 +2,32 @@
     <form
         method="POST"
         enctype="multipart/form-data"
-        class="space-y-6"
         id="upload-2307-form">
         @csrf
 
         <div>
-            <flux:heading size="lg">Upload 2307 Form</flux:heading>
+            <flux:heading size="lg">Upload 2307 Document</flux:heading>
             <flux:text class="mt-2">
-                Upload 2307 form for Payment Reference:
-                <span id="modal-payment-ref" class="font-semibold"></span>
+                Upload 2307 for Payment Reference:
+                <span id="modal-document-number" class="font-semibold"></span>
             </flux:text>
         </div>
 
         <!-- Hidden fields -->
-        <input type="hidden" name="document_number" id="document_number">
-        <input type="hidden" name="customer_id" id="customer_id">
-        <input type="hidden" name="facility_id" id="facility_id">
+        <input type="hidden" name="customer_id" id="tax_customer_id">
+        <input type="hidden" name="facility_id" id="tax_facility_id">
+        <input type="hidden" name="document_number" id="tax_document_number">
 
-        <flux:field class="md:col-span-2">
+        <flux:field>
             <flux:input
                 type="file"
                 name="file"
-                label="2307 Document File"
+                label="2307 Document"
                 badge="Required"
-                accept=".pdf"
+                accept=".pdf,.doc,.docx"
                 required />
             @error('file')
-            <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+            <p class="mt-2 text-xs text-red-5 00">{{ $message }}</p>
             @enderror
         </flux:field>
 
@@ -48,26 +47,39 @@
 </flux:modal>
 
 <script>
-    // Called when the "Upload 2307" button in the table is clicked
-    function prepare2307Upload(button) {
-        const ds = button.dataset;
-        const form = document.getElementById('upload-2307-form');
+function prepare2307Upload(button) {
+    const ds = button.dataset;
+    const form = document.getElementById('upload-2307-form');
 
-        // Replace placeholders dynamically
-        form.action = `/admin/customers/${ds.customerId}/facilities/${ds.facilityId}/tax-documents`;
+    console.log('Customer ID:', ds.customerId);
+    console.log('Facility ID:', ds.facilityId);
+    console.log('Document Number:', ds.documentNumber);
 
-        // Fill hidden values
-        document.getElementById('document_number').value = ds.documentNumber;
-        document.getElementById('customer_id').value = ds.customerId;
-        document.getElementById('facility_id').value = ds.facilityId;
-        document.getElementById('modal-payment-ref').textContent = ds.documentNumber;
+    // Build route - if no facility, don't include it in the URL at all
+    const customerId = ds.customerId;
+    const facilityId = ds.facilityId && ds.facilityId !== 'null' && ds.facilityId !== '' ? ds.facilityId : null;
+    
+    let route;
+    if (facilityId) {
+        route = `/admin/customers/${customerId}/tax-documents/${facilityId}`;
+    } else {
+        route = `/admin/customers/${customerId}/tax-documents`;
     }
+    
+    console.log('Final route:', route);
+    form.action = route;
 
-    // Reset form after modal closes
-    document.addEventListener('flux-modal-hide', function (event) {
-        if (event.detail.name === 'upload-2307') {
-            const form = document.getElementById('upload-2307-form');
-            form.reset();
-        }
-    });
+    // Fill hidden fields
+    document.getElementById('tax_customer_id').value = customerId;
+    document.getElementById('tax_facility_id').value = facilityId || '';
+    document.getElementById('tax_document_number').value = ds.documentNumber;
+    document.getElementById('modal-document-number').textContent = ds.documentNumber;
+}
+
+// Reset form after modal closes
+document.addEventListener('flux-modal-hide', function(event) {
+    if (event.detail.name === 'upload-2307') {
+        document.getElementById('upload-2307-form').reset();
+    }
+});
 </script>
