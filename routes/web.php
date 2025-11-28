@@ -46,7 +46,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/bills/export', [BillController::class, 'exportBills'])->name('bills.export');
         Route::get('/payments/export', [BillController::class, 'exportPayments'])->name('payments.export');
         Route::get('/energy-consumption', [GhgController::class, 'calculateEmissions'])->name('energy-consumption');
-        Route::post('/admin/customers/{customer}/tax-documents/{facility?}',[CustomerTaxDocumentController::class, 'store'])->name('tax-documents.store');
+        Route::post('/admin/customers/{customer}/tax-documents/{facility?}', [CustomerTaxDocumentController::class, 'store'])->name('tax-documents.store');
     });
 
     Route::redirect('settings', 'settings/profile');
@@ -91,7 +91,9 @@ Route::middleware(['auth'])->group(function () {
         // this is the cutomers route
         Route::resource('customers', CustomerController::class);
         Route::resource('facilities', FacilityController::class);
+
+        Route::view('reports', 'admin.reports')->name('reports');
     });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
