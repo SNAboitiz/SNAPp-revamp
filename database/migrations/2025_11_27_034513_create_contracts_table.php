@@ -14,8 +14,8 @@ return new class extends Migration
         if (! Schema::hasTable('contracts')) {
             Schema::create('contracts', function (Blueprint $table) {
                 $table->id();
-                $table->string('reference_number')->unique();
-                $table->string('short_name');
+                $table->foreignId('customer_id')->nullable()->constrained('customers')->nullOnDelete();
+                $table->foreignId('facility_id')->nullable()->constrained('facilities')->nullOnDelete();
                 $table->string('description');
                 $table->date('contract_start');
                 $table->date('contract_end');
