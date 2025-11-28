@@ -32,6 +32,7 @@ class ListReports extends ListRecords
                         ->maxFiles(50)
                         ->storeFiles(false)
                         ->acceptedFileTypes(['text/csv', '.csv'])
+                        ->disk('gcs')
                         ->required(),
                 ])
                 ->action(function (array $data) {
