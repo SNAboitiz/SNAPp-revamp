@@ -20,10 +20,10 @@ class DashboardController extends Controller
     public function showDashboardFields()
     {
         $user = Auth::user();
-        $customerId = $user->customer_id;
+        $customerNumber = $user->customer?->customer_number;
 
         // Fetch invoice data
-        $items = $this->oracleInvoiceService->fetchInvoiceData($customerId);
+        $items = $this->oracleInvoiceService->fetchInvoiceData($customerNumber);
         $latestInvoice = collect($items)->first();
 
         $billingPeriod = isset($latestInvoice['TransactionDate'])
@@ -51,7 +51,7 @@ class DashboardController extends Controller
 
         return view('dashboard', [
             'customerName' => $user->name ?? 'Customer',
-            'customerId' => $customerId,
+            'customerId' => $customerNumber,
             'billingPeriod' => $billingPeriod,
             'consumption' => $consumption,
             'previousBalance' => number_format($previousBalance, 2),

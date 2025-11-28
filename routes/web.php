@@ -3,7 +3,10 @@
 use App\Http\Controllers\AdvisoryController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerTaxDocumentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\GhgController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Security\PermissionController;
@@ -25,12 +28,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/help', function () {
             return view('help');
         })->name('help');
-        Route::resource('profiles', ProfileController::class)->only([
-            'index',
-            'edit',
-            'update',
-        ]);
-        // Route::resource('profiles', ProfileController::class);
+        Route::get('profiles', [ProfileController::class, 'index'])->name('profiles.index');
+        Route::get('profiles/edit', [ProfileController::class, 'edit'])->name('profiles.edit');
+        Route::post('profiles', [ProfileController::class, 'store'])->name('profiles.store');
+        Route::put('profiles/{id}', [ProfileController::class, 'update'])->name('profiles.update');
+
         Route::get('/dashboard/load-more', [DashboardController::class, 'loadMore'])->name('dashboard.load-more');
         Route::post('contracts/store', [ContractController::class, 'store'])->name('contracts.store');
         Route::get('contracts', [ContractController::class, 'showContractsPage'])->name('my-contracts');
@@ -44,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/bills/export', [BillController::class, 'exportBills'])->name('bills.export');
         Route::get('/payments/export', [BillController::class, 'exportPayments'])->name('payments.export');
         Route::get('/energy-consumption', [GhgController::class, 'calculateEmissions'])->name('energy-consumption');
+        Route::post('/admin/customers/{customer}/tax-documents/{facility?}',[CustomerTaxDocumentController::class, 'store'])->name('tax-documents.store');
     });
 
     Route::redirect('settings', 'settings/profile');
@@ -76,16 +79,19 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/advisories/{advisory}', [AdvisoryController::class, 'update'])->name('advisories.update');
 
         Route::get('profiles', [ProfileController::class, 'profileList'])->name('admin.profiles.list');
+        Route::get('profiles/create', [ProfileController::class, 'adminCreateProfileForm'])->name('admin.profiles.create');
+        Route::get('profiles/facilities', [ProfileController::class, 'getFacilitiesByCustomer'])->name('admin.profiles.get-facilities');
         Route::post('profiles', [ProfileController::class, 'createProfile'])->name('admin.profiles.store');
+        Route::get('profiles/{profile}/edit', [ProfileController::class, 'editProfileForm'])->name('admin.profiles.edit');
         Route::put('profiles/{profile}', [ProfileController::class, 'updateProfile'])->name('admin.profiles.update');
+        Route::delete('profiles/{profile}', [ProfileController::class, 'destroy'])->name('admin.profiles.destroy');
 
         Route::get('/bills/manage', [BillController::class, 'showManageBillsPage'])->name('bills.manage');
         Route::post('/bills/upload', [BillController::class, 'uploadBills'])->name('bills.upload');
-
-        Route::view('reports', 'admin.reports')->name('reports');
+        // this is the cutomers route
+        Route::resource('customers', CustomerController::class);
+        Route::resource('facilities', FacilityController::class);
     });
 });
 
 require __DIR__.'/auth.php';
-
-Route::webhooks('webhook/inquiry');

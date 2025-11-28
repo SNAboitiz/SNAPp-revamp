@@ -7,8 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Contract extends Model
 {
     protected $fillable = [
+        'customer_id',
+        'facility_id',
+
         'reference_number',
-        'shortname',
+        'short_name',
         'description',
         'contract_start',
         'contract_end',
@@ -18,8 +21,13 @@ class Contract extends Model
         'created_by',
     ];
 
-    public function profile()
+    public function customer()
     {
-        return $this->belongsTo(Profile::class);
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function facility()
+    {
+        return $this->belongsTo(Facility::class);
     }
 }

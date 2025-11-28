@@ -22,6 +22,14 @@ class StoreContractRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'customer_id' => [
+                'required', 
+                'exists:customers,id'
+            ],
+            'facility_id' => [
+                'nullable', 
+                'exists:facilities,id'
+            ],
 
             'contract_start' => [
                 'required',
@@ -43,12 +51,6 @@ class StoreContractRequest extends FormRequest
                 'string',
                 'max:255',
             ],
-            'shortname' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-
         ];
     }
 }

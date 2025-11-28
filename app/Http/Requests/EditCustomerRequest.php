@@ -33,6 +33,11 @@ class EditCustomerRequest extends FormRequest
                 'string',
                 'max:255',
             ],
+            'edit_name' => [
+                'sometimes',
+                'string',
+                'max:255',
+            ],
             'edit_customer_id' => [
                 'sometimes',
                 'numeric',
@@ -43,12 +48,27 @@ class EditCustomerRequest extends FormRequest
                 Rule::unique('users', 'email')->ignore($user->id),
             ],
 
+            'edit_customer_id' => [
+                'sometimes',
+                'numeric',
+                'exists:customers,id',
+
+            ],
+
+            'edit_facility_id' => [
+                'sometimes',
+                'nullable',
+                'numeric',
+                'exists:facilities,id',
+
+            ],
+
         ];
     }
 
     protected function failedValidation(Validator $validator)
     {
-        session()->flash('show_modal', 'edit-customer-modal'); // 👈 Add this
+        session()->flash('show_modal', 'edit-customer-modal');
 
         throw new HttpResponseException(
             redirect()

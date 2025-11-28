@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('profiles', function (Blueprint $table) {
-            $table->renameColumn('user_id', 'customer_id');
+        Schema::create('facilities', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('sein');
+            $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 
@@ -21,9 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('profiles', function (Blueprint $table) {
-            $table->renameColumn('customer_id', 'user_id');
-
-        });
+        Schema::dropIfExists('facilities');
     }
 };

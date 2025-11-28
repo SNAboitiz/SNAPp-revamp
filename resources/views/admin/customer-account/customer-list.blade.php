@@ -48,22 +48,30 @@
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Customer ID</th>
+                        <th>Customer</th>
+                        <th>Facility</th>
+
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($users as $user)
                         <tr class="cursor-pointer hover:bg-gray-100 transition flux-btn-info
                                    {{ $user->active ? 'hover:bg-gray-100' : 'bg-red-50 text-gray-400' }}"
-                            data-id="{{ $user->id }}" data-name="{{ $user->name }}"
-                            data-email="{{ $user->email }}" data-customer-id="{{ $user->customer_id }}"
-                            data-account-name="{{ $user->profile?->account_name }}"
-                            onclick="document.getElementById('open-edit-modal').click()">
+                        data-id="{{ $user->id }}"
+                        data-name="{{ $user->name }}"
+                        data-email="{{ $user->email }}"
+                        data-customer-id="{{ $user->customer_id }}"
+                        data-facility-id="{{ $user->facility_id }}"
+                        data-account-name="{{ $user->customer?->account_name }}"
+                        data-facility-name="{{ $user->facility?->name }}"
+                        onclick="document.getElementById('open-edit-modal').click()">
 
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->profile?->account_name ?? '-' }}</td>
-                        </tr>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->customer?->account_name ?? '-' }}</td>
+                        <td>{{ $user->facility?->name ?? '-' }}</td>
+
+                    </tr>
                     @endforeach
                 </tbody>
             </table>

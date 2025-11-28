@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UploadBillRequest;
 use App\Models\Bill;
-use App\Models\Profile;
+use App\Models\Customer;
+use App\Models\Facility;
 use App\Services\BillingService;
 use App\Services\OracleInvoiceService;
 use Carbon\Carbon;
@@ -21,12 +22,12 @@ class BillController extends Controller
     public function showBillsPage(Request $request)
     {
         $billsPaginator = $this->billingService->getPaginatedBillsForUser(Auth::user(), $request);
-        $profiles = Profile::orderBy('account_name')->get();
+        $customers = Customer::orderBy('account_name')->get();
 
         // Extract unique facilities from paginated bills
         $facilities = collect($billsPaginator->items())
             ->pluck('Facility')
-            ->filter(fn ($value) => $value !== 'N/A' && ! empty($value))
+            ->filter(fn($value) => $value !== 'N/A' && ! empty($value))
             ->unique()
             ->sort()
             ->values();
@@ -35,65 +36,79 @@ class BillController extends Controller
             'bills' => $billsPaginator,
             'payments' => null,
             'activeTab' => 'bills',
-            'profiles' => $profiles,
-            'facilities' => $facilities, // 👈 for the dropdown
+            'customers' => $customers,
+            'facilities' => $facilities,
         ]);
     }
 
     public function showPaymentHistory(Request $request)
     {
-        // The controller's only job is to call the service...
         $paymentsPaginator = $this->billingService->getPaginatedPaymentHistoryForUser(Auth::user(), $request);
-        $profiles = Profile::orderBy('account_name')->get();
+        $customers = customer::orderBy('account_name')->get();
 
-        // ...and return the view with the prepared data.
         return view('my-bills', [
             'payments' => $paymentsPaginator,
             'bills' => null,
             'activeTab' => 'payments',
-            'profiles' => $profiles,
+            'customers' => $customers,
         ]);
     }
 
     public function showManageBillsPage(Request $request)
     {
-        // Delegate bill retrieval to the BillingService
         $bills = $this->billingService->getPaginatedUploadedBills($request);
 
-        // Load profiles as before for filtering or display
-        $profiles = Profile::orderBy('account_name')->get();
+        $customers = Customer::orderBy('account_name')->get();
 
-        return view('admin.bills.bill-card', compact('bills', 'profiles'));
+        // Load all facilities
+        $facilities = Facility::orderBy('name')->get();
+
+        return view('admin.bills.bill-card', compact('bills', 'customers', 'facilities'));
     }
 
-    public function uploadBills(UploadBillRequest $request)
-    {
-        $user = Auth::user();
-        $profile = Profile::where('customer_id', $request->customer_id)->firstOrFail();
+   public function uploadBills(UploadBillRequest $request)
+{
+    $user = Auth::user();
 
-        // Format billing period as "26-APR-23 to 25-MAY-23"
-        $start = Carbon::parse($request->billing_start_date)->format('d-M-y');
-        $end = Carbon::parse($request->billing_end_date)->format('d-M-y');
-        $billingPeriod = strtoupper("{$start} to {$end}");
+    // Use only validated fields
+    $validated = $request->validated();
 
-        // Format filename using shortname, billing period, and bill number
-        $filename = "{$profile->short_name}_{$billingPeriod}_{$request->bill_number}.pdf";
+    // Find customer
+    $customer = Customer::findOrFail($validated['customer_id']);
 
-        // Store the file
-        $path = $request->file('file_path')->storeAs('snapp_bills', $filename, config('filesystems.default'));
+    // Find facility if provided
+    $facility = !empty($validated['facility_id']) ? Facility::find($validated['facility_id']) : null;
 
-        // Create the bill record
+    // Format billing period
+    $start = Carbon::parse($validated['billing_start_date'])->format('d-M-y');
+    $end = Carbon::parse($validated['billing_end_date'])->format('d-M-y');
+    $billingPeriod = strtoupper("{$start} to {$end}");
 
-        Bill::create([
-            'customer_id' => $request->customer_id,
-            'billing_start_date' => $request->billing_start_date,
-            'billing_end_date' => $request->billing_end_date,
-            'billing_period' => $billingPeriod,
-            'bill_number' => $request->bill_number,
-            'file_path' => $path,
-            'uploaded_by' => $user->id,
-        ]);
+    // Build filename
+    $sein = $facility?->sein ?? 'NOFAC';
+    $ext = $request->file('file_path')->getClientOriginalExtension();
+    $filename = "BILL_{$customer->short_name}_{$sein}_{$billingPeriod}_{$validated['bill_number']}.{$ext}";
 
-        return redirect()->route('bills.manage')->with('success', 'Bill uploaded successfully.');
-    }
+    // Store file
+    $path = $request->file('file_path')->storeAs('snapp_bills', $filename, config('filesystems.default'));
+
+    // Prepare data to save
+    $billData = [
+        'customer_id' => $customer->id,
+        'facility_id' => $facility?->id,
+        'billing_start_date' => $validated['billing_start_date'],
+        'billing_end_date' => $validated['billing_end_date'],
+        'billing_period' => $billingPeriod,
+        'bill_number' => $validated['bill_number'],
+        'file_path' => $path,
+        'uploaded_by' => $user->id,
+    ];
+
+    // Save bill
+    $bill = Bill::create($billData);
+
+    return redirect()->route('bills.manage')->with('success', 'Bill uploaded successfully.');
+}
+
+
 }

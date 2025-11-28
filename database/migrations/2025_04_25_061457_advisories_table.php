@@ -18,7 +18,8 @@ return new class extends Migration
             $table->text('content');
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->boolean('is_latest')->default(0);
-            $table->string('attachment_id')->nullable();
+            $table->string('attachment')->nullable();
+            $table->string('link')->nullable();
             $table->boolean('is_archive')->default(0);
             $table->timestamps();
         });

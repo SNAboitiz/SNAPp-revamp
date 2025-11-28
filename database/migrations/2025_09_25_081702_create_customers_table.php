@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('profiles', function (Blueprint $table) {
-            $table->unsignedBigInteger('customer_id')->change();
+        Schema::create('customers', function (Blueprint $table) {
+            $table->id();
+            $table->string('account_name');
+            $table->string('customer_number');
+            $table->string('short_name');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('profiles', function (Blueprint $table) {
-            $table->unsignedBigInteger('customer_id')->change();
-        });
+        Schema::dropIfExists('customers');
     }
 };
