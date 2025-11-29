@@ -27,7 +27,7 @@ class BillController extends Controller
         // Extract unique facilities from paginated bills
         $facilities = collect($billsPaginator->items())
             ->pluck('Facility')
-            ->filter(fn($value) => $value !== 'N/A' && ! empty($value))
+            ->filter(fn ($value) => $value !== 'N/A' && ! empty($value))
             ->unique()
             ->sort()
             ->values();
@@ -66,49 +66,47 @@ class BillController extends Controller
         return view('admin.bills.bill-card', compact('bills', 'customers', 'facilities'));
     }
 
-   public function uploadBills(UploadBillRequest $request)
-{
-    $user = Auth::user();
+    public function uploadBills(UploadBillRequest $request)
+    {
+        $user = Auth::user();
 
-    // Use only validated fields
-    $validated = $request->validated();
+        // Use only validated fields
+        $validated = $request->validated();
 
-    // Find customer
-    $customer = Customer::findOrFail($validated['customer_id']);
+        // Find customer
+        $customer = Customer::findOrFail($validated['customer_id']);
 
-    // Find facility if provided
-    $facility = !empty($validated['facility_id']) ? Facility::find($validated['facility_id']) : null;
+        // Find facility if provided
+        $facility = ! empty($validated['facility_id']) ? Facility::find($validated['facility_id']) : null;
 
-    // Format billing period
-    $start = Carbon::parse($validated['billing_start_date'])->format('d-M-y');
-    $end = Carbon::parse($validated['billing_end_date'])->format('d-M-y');
-    $billingPeriod = strtoupper("{$start} to {$end}");
+        // Format billing period
+        $start = Carbon::parse($validated['billing_start_date'])->format('d-M-y');
+        $end = Carbon::parse($validated['billing_end_date'])->format('d-M-y');
+        $billingPeriod = strtoupper("{$start} to {$end}");
 
-    // Build filename
-    $sein = $facility?->sein ?? 'NOFAC';
-    $ext = $request->file('file_path')->getClientOriginalExtension();
-    $filename = "BILL_{$customer->short_name}_{$sein}_{$billingPeriod}_{$validated['bill_number']}.{$ext}";
+        // Build filename
+        $sein = $facility?->sein ?? 'NOFAC';
+        $ext = $request->file('file_path')->getClientOriginalExtension();
+        $filename = "BILL_{$customer->short_name}_{$sein}_{$billingPeriod}_{$validated['bill_number']}.{$ext}";
 
-    // Store file
-    $path = $request->file('file_path')->storeAs('snapp_bills', $filename, config('filesystems.default'));
+        // Store file
+        $path = $request->file('file_path')->storeAs('snapp_bills', $filename, config('filesystems.default'));
 
-    // Prepare data to save
-    $billData = [
-        'customer_id' => $customer->id,
-        'facility_id' => $facility?->id,
-        'billing_start_date' => $validated['billing_start_date'],
-        'billing_end_date' => $validated['billing_end_date'],
-        'billing_period' => $billingPeriod,
-        'bill_number' => $validated['bill_number'],
-        'file_path' => $path,
-        'uploaded_by' => $user->id,
-    ];
+        // Prepare data to save
+        $billData = [
+            'customer_id' => $customer->id,
+            'facility_id' => $facility?->id,
+            'billing_start_date' => $validated['billing_start_date'],
+            'billing_end_date' => $validated['billing_end_date'],
+            'billing_period' => $billingPeriod,
+            'bill_number' => $validated['bill_number'],
+            'file_path' => $path,
+            'uploaded_by' => $user->id,
+        ];
 
-    // Save bill
-    $bill = Bill::create($billData);
+        // Save bill
+        $bill = Bill::create($billData);
 
-    return redirect()->route('bills.manage')->with('success', 'Bill uploaded successfully.');
-}
-
-
+        return redirect()->route('bills.manage')->with('success', 'Bill uploaded successfully.');
+    }
 }

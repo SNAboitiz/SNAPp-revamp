@@ -20,7 +20,8 @@ class ReportsTable
         return $table
             ->defaultSort('created_at', 'desc')
             ->columns([
-                // TODO: add customer short name
+                TextColumn::make('customer.short_name')
+                    ->label('Customer Short Name'),
 
                 TextColumn::make('filename')
                     ->label('Filename'),

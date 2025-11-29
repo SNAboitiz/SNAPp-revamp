@@ -164,10 +164,12 @@
                 </div>
             </div>
         </div>
-
-        <iframe src="{{ config('app.url') }}/app" class="w-full h-[600px] rounded-xl border-none" frameborder="0"
-            allowFullScreen="true"></iframe>
     </div>
+
+    @role('customer')
+        <iframe src="{{ config('app.url') }}/app" class="w-full h-full rounded-xl border-none" frameborder="0"
+            allowFullScreen="true"></iframe>
+    @endrole
 </x-layouts.app>
 
 @vite('resources/js/app.js')

@@ -112,24 +112,6 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
-        'bigquery' => [
-            'driver' => 'bigquery',
-            'project_id' => env('BIGQUERY_PROJECT_ID', ''),
-            'dataset' => env('BIGQUERY_DATASET', ''),
-            'key_file_path' => env('BIGQUERY_KEY_FILE', ''), // Optional: Only if using service account key file (not recommended)
-            'key_file' => [
-                'type' => env('GOOGLE_CLOUD_ACCOUNT_TYPE'),
-                'private_key_id' => env('GOOGLE_CLOUD_PRIVATE_KEY_ID'),
-                'private_key' => env('GOOGLE_CLOUD_PRIVATE_KEY'),
-                'client_email' => env('GOOGLE_CLOUD_CLIENT_EMAIL'),
-                'client_id' => env('GOOGLE_CLOUD_CLIENT_ID'),
-                'auth_uri' => env('GOOGLE_CLOUD_AUTH_URI'),
-                'token_uri' => env('GOOGLE_CLOUD_TOKEN_URI'),
-                'auth_provider_x509_cert_url' => env('GOOGLE_CLOUD_AUTH_PROVIDER_CERT_URL'),
-                'client_x509_cert_url' => env('GOOGLE_CLOUD_CLIENT_CERT_URL'),
-            ],
-        ],
-
     ],
 
     /*

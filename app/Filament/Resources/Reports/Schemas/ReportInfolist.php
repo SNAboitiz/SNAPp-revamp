@@ -11,7 +11,8 @@ class ReportInfolist
     {
         return $schema
             ->components([
-                // TODO: add customer short name
+                TextEntry::make('customer.short_name')
+                    ->label('Customer Short Name'),
 
                 TextEntry::make('period')
                     ->label('Period'),
