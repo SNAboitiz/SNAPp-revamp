@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCustomerTaxDocumentRequest;
 use App\Models\Customer;
-use App\Models\Facility;
 use App\Models\CustomerTaxDocument;
-use Illuminate\Http\Request;
+use App\Models\Facility;
 
 class CustomerTaxDocumentController extends Controller
 {
-    public function store(StoreCustomerTaxDocumentRequest $request, Customer $customer, Facility $facility = null)
+    public function store(StoreCustomerTaxDocumentRequest $request, Customer $customer, ?Facility $facility = null)
     {
         $validated = $request->validated();
 

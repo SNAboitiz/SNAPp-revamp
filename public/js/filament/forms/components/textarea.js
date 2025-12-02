@@ -1,11 +1,11 @@
-function r({ initialHeight: t, shouldAutosize: i, state: s }) {
+function r({ initialHeight: i, shouldAutosize: s, state: h }) {
     return {
-        state: s,
+        state: h,
         wrapperEl: null,
         init() {
             ((this.wrapperEl = this.$el.parentNode),
                 this.setInitialHeight(),
-                i
+                s
                     ? this.$watch("state", () => {
                           this.resize();
                       })
@@ -13,13 +13,16 @@ function r({ initialHeight: t, shouldAutosize: i, state: s }) {
         },
         setInitialHeight() {
             this.$el.scrollHeight <= 0 ||
-                (this.wrapperEl.style.height = t + "rem");
+                (this.wrapperEl.style.height = i + "rem");
         },
         resize() {
-            if ((this.setInitialHeight(), this.$el.scrollHeight <= 0)) return;
-            let e = this.$el.scrollHeight + "px";
-            this.wrapperEl.style.height !== e &&
-                (this.wrapperEl.style.height = e);
+            if (this.$el.scrollHeight <= 0) return;
+            let e = this.$el.style.height;
+            this.$el.style.height = "0px";
+            let t = this.$el.scrollHeight + "px";
+            ((this.$el.style.height = e),
+                this.wrapperEl.style.height !== t &&
+                    (this.wrapperEl.style.height = t));
         },
         setUpResizeObserver() {
             new ResizeObserver(() => {

@@ -43,17 +43,6 @@ class GhgController extends Controller
         $treesGrown = $avoidedEmissions / $SequestrationRate;
         $trashBagsRecycled = $avoidedEmissions / $TrashBagConversionFactor;
 
-        // Build in your controller:
-        $upper = strtoupper($user->customer?->account_name);
-        $filterJson = json_encode(['df50' => "include IN {$upper}"]);
-        $encodedFilter = rawurlencode($filterJson);
-
-        // NOTE the `/u/0/` here:
-        $lookerUrl = 'https://lookerstudio.google.com/embed/u/0/reporting/'
-            .'4d1cf425-bcf4-4164-bf00-0e16b20bc79a/'
-            .'page/p_n0steo0jnc'
-            ."?params={$encodedFilter}";
-
         return view('energy-consumption', [
             'consumption' => number_format($consumption, 2),
             'avoidedEmissions' => number_format($avoidedEmissions, 2),
@@ -61,7 +50,6 @@ class GhgController extends Controller
             'treesGrown' => number_format($treesGrown, 2),
             'trashBagsRecycled' => number_format($trashBagsRecycled, 2),
             'accountName' => $accountName,
-            'lookerUrl' => $lookerUrl,
         ]);
     }
 }

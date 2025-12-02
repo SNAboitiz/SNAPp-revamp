@@ -2,8 +2,8 @@ var tt = Math.min,
     $ = Math.max,
     et = Math.round;
 var k = (s) => ({ x: s, y: s }),
-    Gt = { left: "right", right: "left", bottom: "top", top: "bottom" },
-    Qt = { start: "end", end: "start" };
+    Qt = { left: "right", right: "left", bottom: "top", top: "bottom" },
+    Gt = { start: "end", end: "start" };
 function mt(s, t, e) {
     return $(s, tt(t, e));
 }
@@ -44,12 +44,12 @@ function Ot(s, t, e) {
                   : "top";
     return (t.reference[o] > t.floating[o] && (r = Z(r)), [r, Z(r)]);
 }
-function At(s) {
+function St(s) {
     let t = Z(s);
     return [lt(s), t, lt(t)];
 }
 function lt(s) {
-    return s.replace(/start|end/g, (t) => Qt[t]);
+    return s.replace(/start|end/g, (t) => Gt[t]);
 }
 var vt = ["left", "right"],
     Lt = ["right", "left"],
@@ -67,7 +67,7 @@ function ie(s, t, e) {
             return [];
     }
 }
-function St(s, t, e, i) {
+function At(s, t, e, i) {
     let n = st(s),
         o = ie(z(s), e === "start", i);
     return (
@@ -76,7 +76,7 @@ function St(s, t, e, i) {
     );
 }
 function Z(s) {
-    return s.replace(/left|right|bottom|top/g, (t) => Gt[t]);
+    return s.replace(/left|right|bottom|top/g, (t) => Qt[t]);
 }
 function se(s) {
     return { top: 0, right: 0, bottom: 0, left: 0, ...s };
@@ -251,7 +251,7 @@ async function wt(s, t) {
         right: (x.right - w.right + p.right) / O.x,
     };
 }
-var Rt = function (s) {
+var It = function (s) {
     return (
         s === void 0 && (s = {}),
         {
@@ -281,72 +281,72 @@ var Rt = function (s) {
                     b = B(l),
                     v = z(l) === l,
                     O = await (a.isRTL == null ? void 0 : a.isRTL(c.floating)),
-                    x = u || (v || !m ? [Z(l)] : At(l)),
+                    x = u || (v || !m ? [Z(l)] : St(l)),
                     J = p !== "none";
-                !u && J && x.push(...St(l, m, p, O));
+                !u && J && x.push(...At(l, m, p, O));
                 let Y = [l, ...x],
                     W = await wt(t, g),
                     L = [],
-                    S = ((i = o.flip) == null ? void 0 : i.overflows) || [];
+                    A = ((i = o.flip) == null ? void 0 : i.overflows) || [];
                 if ((h && L.push(W[w]), d)) {
                     let E = Ot(n, r, O);
                     L.push(W[E[0]], W[E[1]]);
                 }
                 if (
-                    ((S = [...S, { placement: n, overflows: L }]),
+                    ((A = [...A, { placement: n, overflows: L }]),
                     !L.every((E) => E <= 0))
                 ) {
-                    var V, G;
+                    var V, Q;
                     let E =
                             (((V = o.flip) == null ? void 0 : V.index) || 0) +
                             1,
-                        j = Y[E];
+                        q = Y[E];
                     if (
-                        j &&
-                        (!(d === "alignment" ? b !== B(j) : !1) ||
-                            S.every((I) =>
-                                B(I.placement) === b ? I.overflows[0] > 0 : !0,
+                        q &&
+                        (!(d === "alignment" ? b !== B(q) : !1) ||
+                            A.every((R) =>
+                                B(R.placement) === b ? R.overflows[0] > 0 : !0,
                             ))
                     )
                         return {
-                            data: { index: E, overflows: S },
-                            reset: { placement: j },
+                            data: { index: E, overflows: A },
+                            reset: { placement: q },
                         };
-                    let R =
-                        (G = S.filter((M) => M.overflows[0] <= 0).sort(
-                            (M, I) => M.overflows[1] - I.overflows[1],
+                    let I =
+                        (Q = A.filter((M) => M.overflows[0] <= 0).sort(
+                            (M, R) => M.overflows[1] - R.overflows[1],
                         )[0]) == null
                             ? void 0
-                            : G.placement;
-                    if (!R)
+                            : Q.placement;
+                    if (!I)
                         switch (f) {
                             case "bestFit": {
-                                var Q;
+                                var G;
                                 let M =
-                                    (Q = S.filter((I) => {
+                                    (G = A.filter((R) => {
                                         if (J) {
-                                            let H = B(I.placement);
+                                            let H = B(R.placement);
                                             return H === b || H === "y";
                                         }
                                         return !0;
                                     })
-                                        .map((I) => [
-                                            I.placement,
-                                            I.overflows
+                                        .map((R) => [
+                                            R.placement,
+                                            R.overflows
                                                 .filter((H) => H > 0)
                                                 .reduce((H, Yt) => H + Yt, 0),
                                         ])
-                                        .sort((I, H) => I[1] - H[1])[0]) == null
+                                        .sort((R, H) => R[1] - H[1])[0]) == null
                                         ? void 0
-                                        : Q[0];
-                                M && (R = M);
+                                        : G[0];
+                                M && (I = M);
                                 break;
                             }
                             case "initialPlacement":
-                                R = l;
+                                I = l;
                                 break;
                         }
-                    if (n !== R) return { reset: { placement: R } };
+                    if (n !== I) return { reset: { placement: I } };
                 }
                 return {};
             },
@@ -379,7 +379,7 @@ async function oe(s, t) {
         a ? { x: f * h, y: u * c } : { x: u * c, y: f * h }
     );
 }
-var It = function (s) {
+var Rt = function (s) {
         return (
             s === void 0 && (s = 0),
             {
@@ -461,7 +461,7 @@ function ct() {
 function K(s) {
     return Pt(s) ? (s.nodeName || "").toLowerCase() : "#document";
 }
-function A(s) {
+function S(s) {
     var t;
     return (
         (s == null || (t = s.ownerDocument) == null ? void 0 : t.defaultView) ||
@@ -476,23 +476,23 @@ function P(s) {
         : t.documentElement;
 }
 function Pt(s) {
-    return ct() ? s instanceof Node || s instanceof A(s).Node : !1;
+    return ct() ? s instanceof Node || s instanceof S(s).Node : !1;
 }
 function C(s) {
-    return ct() ? s instanceof Element || s instanceof A(s).Element : !1;
+    return ct() ? s instanceof Element || s instanceof S(s).Element : !1;
 }
 function T(s) {
     return ct()
-        ? s instanceof HTMLElement || s instanceof A(s).HTMLElement
+        ? s instanceof HTMLElement || s instanceof S(s).HTMLElement
         : !1;
 }
 function Tt(s) {
     return !ct() || typeof ShadowRoot > "u"
         ? !1
-        : s instanceof ShadowRoot || s instanceof A(s).ShadowRoot;
+        : s instanceof ShadowRoot || s instanceof S(s).ShadowRoot;
 }
 var re = new Set(["inline", "contents"]);
-function q(s) {
+function j(s) {
     let { overflow: t, overflowX: e, overflowY: i, display: n } = D(s);
     return /auto|scroll|overlay|hidden|clip/.test(t + i + e) && !re.has(n);
 }
@@ -544,7 +544,7 @@ function _(s) {
     return fe.has(K(s));
 }
 function D(s) {
-    return A(s).getComputedStyle(s);
+    return S(s).getComputedStyle(s);
 }
 function ot(s) {
     return C(s)
@@ -562,7 +562,7 @@ function Nt(s) {
         ? s.ownerDocument
             ? s.ownerDocument.body
             : s.body
-        : T(t) && q(t)
+        : T(t) && j(t)
           ? t
           : Nt(t);
 }
@@ -571,13 +571,13 @@ function at(s, t, e) {
     (t === void 0 && (t = []), e === void 0 && (e = !0));
     let n = Nt(s),
         o = n === ((i = s.ownerDocument) == null ? void 0 : i.body),
-        r = A(n);
+        r = S(n);
     if (o) {
         let l = ft(r);
         return t.concat(
             r,
             r.visualViewport || [],
-            q(n) ? n : [],
+            j(n) ? n : [],
             l && e ? at(l) : [],
         );
     }
@@ -614,13 +614,13 @@ function X(s) {
 }
 var ue = k(0);
 function Wt(s) {
-    let t = A(s);
+    let t = S(s);
     return !dt() || !t.visualViewport
         ? ue
         : { x: t.visualViewport.offsetLeft, y: t.visualViewport.offsetTop };
 }
 function pe(s, t, e) {
-    return (t === void 0 && (t = !1), !e || (t && e !== A(s)) ? !1 : t);
+    return (t === void 0 && (t = !1), !e || (t && e !== S(s)) ? !1 : t);
 }
 function rt(s, t, e, i) {
     (t === void 0 && (t = !1), e === void 0 && (e = !1));
@@ -634,8 +634,8 @@ function rt(s, t, e, i) {
         h = n.width / r.x,
         d = n.height / r.y;
     if (o) {
-        let u = A(o),
-            f = i && C(i) ? A(i) : i,
+        let u = S(o),
+            f = i && C(i) ? S(i) : i,
             p = u,
             m = ft(p);
         for (; m && i && f !== p; ) {
@@ -650,7 +650,7 @@ function rt(s, t, e, i) {
                 (d *= g.y),
                 (a += v),
                 (c += O),
-                (p = A(m)),
+                (p = S(m)),
                 (m = ft(p)));
         }
     }
@@ -676,7 +676,7 @@ function me(s) {
         c = k(1),
         h = k(0),
         d = T(i);
-    if ((d || (!d && !o)) && ((K(i) !== "body" || q(r)) && (a = ot(i)), T(i))) {
+    if ((d || (!d && !o)) && ((K(i) !== "body" || j(r)) && (a = ot(i)), T(i))) {
         let f = rt(i);
         ((c = X(i)), (h.x = f.x + i.clientLeft), (h.y = f.y + i.clientTop));
     }
@@ -706,7 +706,7 @@ function be(s) {
 }
 var Ft = 25;
 function ye(s, t) {
-    let e = A(s),
+    let e = S(s),
         i = P(s),
         n = e.visualViewport,
         o = i.clientWidth,
@@ -779,7 +779,7 @@ function ve(s, t) {
                           l.position === "static" &&
                           !!n &&
                           we.has(n.position)) ||
-                      (q(r) && !a && Kt(s, r))
+                      (j(r) && !a && Kt(s, r))
             )
                 ? (i = i.filter((h) => h !== r))
                 : (n = l),
@@ -822,7 +822,7 @@ function Oe(s) {
     let { width: t, height: e } = $t(s);
     return { width: t, height: e };
 }
-function Ae(s, t, e) {
+function Se(s, t, e) {
     let i = T(t),
         n = P(t),
         o = e === "fixed",
@@ -833,7 +833,7 @@ function Ae(s, t, e) {
         a.x = ut(n);
     }
     if (i || (!i && !o))
-        if (((K(t) !== "body" || q(n)) && (l = ot(t)), i)) {
+        if (((K(t) !== "body" || j(n)) && (l = ot(t)), i)) {
             let f = rt(t, !0, o, t);
             ((a.x = f.x + t.clientLeft), (a.y = f.y + t.clientTop));
         } else n && c();
@@ -853,7 +853,7 @@ function Ht(s, t) {
     return (P(s) === e && (e = e.ownerDocument.body), e);
 }
 function _t(s, t) {
-    let e = A(s);
+    let e = S(s);
     if (nt(s)) return e;
     if (!T(s)) {
         let n = N(s);
@@ -867,12 +867,12 @@ function _t(s, t) {
     for (; i && Mt(i) && xt(i); ) i = Ht(i, t);
     return i && _(i) && xt(i) && !ht(i) ? e : i || Bt(s) || e;
 }
-var Se = async function (s) {
+var Ae = async function (s) {
     let t = this.getOffsetParent || _t,
         e = this.getDimensions,
         i = await e(s.floating);
     return {
-        reference: Ae(s.reference, await t(s.floating), s.strategy),
+        reference: Se(s.reference, await t(s.floating), s.strategy),
         floating: { x: 0, y: 0, width: i.width, height: i.height },
     };
 };
@@ -884,16 +884,16 @@ var De = {
     getDocumentElement: P,
     getClippingRect: Le,
     getOffsetParent: _t,
-    getElementRects: Se,
+    getElementRects: Ae,
     getClientRects: ge,
     getDimensions: Oe,
     getScale: X,
     isElement: C,
     isRTL: Ce,
 };
-var Jt = It;
-var jt = kt,
-    qt = Rt;
+var Jt = Rt;
+var qt = kt,
+    jt = It;
 var Xt = (s, t, e) => {
     let i = new Map(),
         n = { platform: De, ...e },
@@ -933,13 +933,13 @@ var pt = class {
         loadingMessage: Y = "Loading...",
         searchingMessage: W = "Searching...",
         noSearchResultsMessage: L = "No results found",
-        maxItems: S = null,
+        maxItems: A = null,
         maxItemsMessage: V = "Maximum number of items selected",
-        optionsLimit: G = null,
-        position: Q = null,
+        optionsLimit: Q = null,
+        position: G = null,
         searchableOptionFields: E = ["label"],
-        livewireId: j = null,
-        statePath: R = null,
+        livewireId: q = null,
+        statePath: I = null,
         onStateChange: M = () => {},
     }) {
         ((this.element = t),
@@ -968,13 +968,14 @@ var pt = class {
             (this.loadingMessage = Y),
             (this.searchingMessage = W),
             (this.noSearchResultsMessage = L),
-            (this.maxItems = S),
+            (this.activeSearchId = 0),
+            (this.maxItems = A),
             (this.maxItemsMessage = V),
-            (this.optionsLimit = G),
-            (this.position = Q),
+            (this.optionsLimit = Q),
+            (this.position = G),
             (this.searchableOptionFields = Array.isArray(E) ? E : ["label"]),
-            (this.livewireId = j),
-            (this.statePath = R),
+            (this.livewireId = q),
+            (this.statePath = I),
             (this.onStateChange = M),
             (this.labelRepository = {}),
             (this.isOpen = !1),
@@ -1699,6 +1700,15 @@ var pt = class {
                 ((this.scrollListener = () => this.positionDropdown()),
                 window.addEventListener("scroll", this.scrollListener, !0)),
             (this.dropdown.style.opacity = "1"),
+            this.isSearchable &&
+                this.searchInput &&
+                ((this.searchInput.value = ""),
+                (this.searchQuery = ""),
+                this.hasDynamicOptions ||
+                    ((this.options = JSON.parse(
+                        JSON.stringify(this.originalOptions),
+                    )),
+                    this.renderOptions())),
             this.hasDynamicOptions && this.getOptionsUsing)
         ) {
             this.showLoadingState(!1);
@@ -1709,23 +1719,29 @@ var pt = class {
                         : e && Array.isArray(e.options)
                           ? e.options
                           : [];
-                ((this.options = i),
+                if (
+                    ((this.options = i),
                     (this.originalOptions = JSON.parse(JSON.stringify(i))),
                     this.populateLabelRepositoryFromOptions(i),
-                    this.renderOptions());
+                    this.isSearchable &&
+                        this.searchInput &&
+                        ((this.searchInput.value &&
+                            this.searchInput.value.trim() !== "") ||
+                            (this.searchQuery &&
+                                this.searchQuery.trim() !== "")))
+                ) {
+                    let n = (this.searchInput.value || this.searchQuery || "")
+                        .trim()
+                        .toLowerCase();
+                    (this.hideLoadingState(), this.filterOptions(n));
+                } else this.renderOptions();
             } catch (e) {
                 (console.error("Error fetching options:", e),
                     this.hideLoadingState());
             }
         }
         if ((this.hideLoadingState(), this.isSearchable && this.searchInput))
-            ((this.searchInput.value = ""),
-                this.searchInput.focus(),
-                (this.searchQuery = ""),
-                (this.options = JSON.parse(
-                    JSON.stringify(this.originalOptions),
-                )),
-                this.renderOptions());
+            this.searchInput.focus();
         else {
             this.selectedIndex = -1;
             let e = this.getVisibleOptions();
@@ -1755,8 +1771,8 @@ var pt = class {
     }
     positionDropdown() {
         let t = this.position === "top" ? "top-start" : "bottom-start",
-            e = [Jt(4), jt({ padding: 5 })];
-        this.position !== "top" && this.position !== "bottom" && e.push(qt());
+            e = [Jt(4), qt({ padding: 5 })];
+        this.position !== "top" && this.position !== "bottom" && e.push(jt());
         let i =
             this.selectButton.closest(".fi-fixed-positioning-context") !==
                 null &&
@@ -1777,6 +1793,11 @@ var pt = class {
         ((this.dropdown.style.display = "none"),
             this.selectButton.setAttribute("aria-expanded", "false"),
             (this.isOpen = !1),
+            this.searchTimeout &&
+                (clearTimeout(this.searchTimeout), (this.searchTimeout = null)),
+            this.activeSearchId++,
+            (this.isSearching = !1),
+            this.hideLoadingState(),
             this.resizeListener &&
                 (window.removeEventListener("resize", this.resizeListener),
                 (this.resizeListener = null)),
@@ -1785,7 +1806,8 @@ var pt = class {
                 (this.scrollListener = null)),
             this.getVisibleOptions().forEach((e) => {
                 e.classList.remove("fi-selected");
-            }));
+            }),
+            this.dropdown.removeAttribute("aria-activedescendant"));
     }
     focusNextOption() {
         let t = this.getVisibleOptions();
@@ -1910,30 +1932,34 @@ var pt = class {
             return;
         }
         this.searchTimeout = setTimeout(async () => {
-            ((this.searchTimeout = null), (this.isSearching = !0));
+            this.searchTimeout = null;
+            let i = ++this.activeSearchId;
+            this.isSearching = !0;
             try {
                 this.showLoadingState(!0);
-                let i = await this.getSearchResultsUsing(e),
-                    n = Array.isArray(i)
-                        ? i
-                        : i && Array.isArray(i.options)
-                          ? i.options
-                          : [];
-                ((this.options = n),
-                    this.populateLabelRepositoryFromOptions(n),
+                let n = await this.getSearchResultsUsing(e);
+                if (i !== this.activeSearchId || !this.isOpen) return;
+                let o = Array.isArray(n)
+                    ? n
+                    : n && Array.isArray(n.options)
+                      ? n.options
+                      : [];
+                ((this.options = o),
+                    this.populateLabelRepositoryFromOptions(o),
                     this.hideLoadingState(),
                     this.renderOptions(),
                     this.isOpen && this.positionDropdown(),
                     this.options.length === 0 && this.showNoResultsMessage());
-            } catch (i) {
-                (console.error("Error fetching search results:", i),
+            } catch (n) {
+                i === this.activeSearchId &&
+                    (console.error("Error fetching search results:", n),
                     this.hideLoadingState(),
                     (this.options = JSON.parse(
                         JSON.stringify(this.originalOptions),
                     )),
                     this.renderOptions());
             } finally {
-                this.isSearching = !1;
+                i === this.activeSearchId && (this.isSearching = !1);
             }
         }, this.searchDebounce);
     }
@@ -2241,12 +2267,12 @@ function Ee({
                     "commit",
                     ({
                         component: L,
-                        commit: S,
+                        commit: A,
                         succeed: V,
-                        fail: G,
-                        respond: Q,
+                        fail: Q,
+                        respond: G,
                     }) => {
-                        V(({ snapshot: E, effect: j }) => {
+                        V(({ snapshot: E, effect: q }) => {
                             this.$nextTick(() => {
                                 if (
                                     this.isLoading ||
@@ -2255,10 +2281,10 @@ function Ee({
                                             ?.attributes["wire:id"].value
                                 )
                                     return;
-                                let R = this.getServerState();
-                                R === void 0 ||
-                                    this.getNormalizedState() === R ||
-                                    (this.state = R);
+                                let I = this.getServerState();
+                                I === void 0 ||
+                                    this.getNormalizedState() === I ||
+                                    (this.state = I);
                             });
                         });
                     },
@@ -2270,8 +2296,8 @@ function Ee({
                         ((this.select.state = L),
                         this.select.updateSelectedDisplay(),
                         this.select.renderOptions());
-                    let S = this.getServerState();
-                    if (S === void 0 || this.getNormalizedState() === S) return;
+                    let A = this.getServerState();
+                    if (A === void 0 || this.getNormalizedState() === A) return;
                     this.isLoading = !0;
                     let V = await this.$wire.updateTableColumnState(
                         f,

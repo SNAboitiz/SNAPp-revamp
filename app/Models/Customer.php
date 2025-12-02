@@ -77,4 +77,14 @@ class Customer extends Model
             ]);
         });
     }
+
+    /**
+     * Get the report files associated with the customer.
+     *
+     * @return HasMany<ReportFile>
+     */
+    public function reportFiles(): HasMany
+    {
+        return $this->hasMany(ReportFile::class);
+    }
 }

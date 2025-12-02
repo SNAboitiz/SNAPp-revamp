@@ -7,7 +7,7 @@ use App\Models\Customer;
 use App\Models\Report;
 use App\Models\ReportFile;
 use Filament\Actions\Action;
-use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Contracts\View\View;
@@ -25,12 +25,13 @@ class ListReports extends ListRecords
                 ->databaseTransaction()
                 ->label('Import Reports')
                 ->schema([
-                    FileUpload::make('files')
+                    SpatieMediaLibraryFileUpload::make('files')
                         ->label('Select Report CSV Files')
                         ->multiple()
                         ->directory('reports')
                         ->maxFiles(50)
                         ->storeFiles(false)
+                        ->disk(config('filesystems.default'))
                         ->acceptedFileTypes(['text/csv', '.csv'])
                         ->required(),
                 ])

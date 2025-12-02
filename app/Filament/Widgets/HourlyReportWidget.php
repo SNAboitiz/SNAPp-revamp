@@ -21,9 +21,8 @@ class HourlyReportWidget extends ChartWidget
 
         $results = Report::with('reportFile')
             ->whereHas('reportFile', function ($query) {
-                $query->whereNotNull('published_at');
-                // TODO: add customer
-                // ->where('customer_id', 1);
+                $query->whereNotNull('published_at')
+                    ->where('customer_id', auth()->user()->customer_id);
             })
             ->whereBetween('data->interval_start', [
                 Carbon::createFromDate($year)->startOfYear(),
