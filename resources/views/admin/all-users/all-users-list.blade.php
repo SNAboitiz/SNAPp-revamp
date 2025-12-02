@@ -70,7 +70,7 @@
                         {{ $user->active ? 'hover:bg-gray-100' : 'bg-red-50 text-gray-400' }}"
                             data-id="{{ $user->id }}" data-name="{{ $user->name }}"
                             data-email="{{ $user->email }}" data-customer-id="{{ $user->customer_id }}"
-                            data-account-name="{{ $user->profile?->account_name }}"
+                            data-account-name="{{ $user->customer?->account_name }}"
                             data-role="{{ $user->roles->pluck('name')->join(', ') }}"
                             data-active="{{ $user->active ? '1' : '0' }}"
                             onclick="document.getElementById('open-edit-modal').click()">
@@ -78,7 +78,7 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->roles->pluck('name')->join(', ') }}</td>
-                            <td>{{ $user->profile?->account_name ?? '-' }}</td>
+                            <td>{{ $user->customer?->account_name ?? '-' }}</td>
                         </tr>
                     @endforeach
                 </tbody>

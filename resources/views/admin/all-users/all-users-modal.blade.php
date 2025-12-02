@@ -25,12 +25,12 @@
             <flux:input name="email" value="{{ old('email', '') }}" placeholder="Enter customer email" />
         </flux:field>
 
-        <flux:field label="Assign Profile" for="customer_id" required>
+        <flux:field label="Assign customer" for="customer_id" required>
             <flux:select id="customer_id" name="customer_id" placeholder="— Select account —" required
                 :error="$errors->first('customer_id')">
-                @foreach ($profiles as $profile)
-                    <option value="{{ $profile->customer_id }}" class="text-black" @selected(old('customer_id') == $profile->customer_id)>
-                        {{ $profile->account_name }} ({{ $profile->short_name }})
+                @foreach ($customers as $customer)
+                    <option value="{{ $customer->id }}" class="text-black" @selected(old('customer_id') == $customer->id)>
+                        {{ $customer->account_name }} ({{ $customer->short_name }})
                     </option>
                 @endforeach
             </flux:select>

@@ -58,7 +58,7 @@
                         <tr class="cursor-pointer hover:bg-gray-100 transition flux-btn-info"
                             data-id="{{ $admin->id }}" data-name="{{ $admin->name }}"
                             data-email="{{ $admin->email }}" data-customer-id="{{ $admin->customer_id }}"
-                            data-account-name="{{ $admin->profile?->account_name }}"
+                            data-account-name="{{ $admin->customer?->account_name }}"
                             onclick="document.getElementById('open-edit-modal').click()">
 
                             <td>{{ $admin->id }}</td>
