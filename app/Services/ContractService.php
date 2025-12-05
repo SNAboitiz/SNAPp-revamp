@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class ContractService
 {
@@ -20,6 +20,7 @@ class ContractService
     public function uploadFile(UploadedFile $file, string $filename): string
     {
         $disk = config('filesystems.default');
+
         return $file->storeAs('snapp_contracts', $filename, $disk);
     }
 
@@ -33,6 +34,7 @@ class ContractService
         if ($disk === 'gcs') {
             // Use GCS service to generate signed URL
             $url = $this->gcsService->generateSignedUrl($path);
+
             return $url ?: null;
         }
 
@@ -50,6 +52,7 @@ class ContractService
     public function fileExists(string $path): bool
     {
         $disk = config('filesystems.default');
+
         return Storage::disk($disk)->exists($path);
     }
 
@@ -59,6 +62,7 @@ class ContractService
     public function deleteFile(string $path): bool
     {
         $disk = config('filesystems.default');
+
         return Storage::disk($disk)->delete($path);
     }
 }

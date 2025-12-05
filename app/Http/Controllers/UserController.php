@@ -100,12 +100,19 @@ class UserController extends Controller
     // ADMIN ACCOUNT MANAGEMENT
     // ======================================================================
 
-    public function showAdmins()
+    public function showAdmins(Request $request)
     {
-        $admins = User::role('admin')->with('customer')->paginate(10);
-        $customers = customer::orderBy('account_name')->get();
+        $query = User::role('admin')->with('customer');
 
-        return view('admin.admin-account.admin-list', compact('admins', 'customers'));
+        $admins = $this->applyCommonFiltersAndPagination(
+            $query,
+            $request,
+            ['active', 'search', 'sort']
+        );
+        $customers = Customer::with('facilities')->orderBy('account_name')->get();
+        $facilities = Facility::orderBy('name')->get();
+
+        return view('admin.admin-account.admin-list', compact('admins', 'customers', 'facilities'));
     }
 
     public function storeAdmins(StoreAdminRequest $request)
@@ -134,7 +141,7 @@ class UserController extends Controller
 
     public function showAE(Request $request)
     {
-        $query = User::query()->role('account executive')->with('customer');
+        $query = User::query()->role('account executive')->with('customer', 'facility');
 
         $accountExecutives = $this->applyCommonFiltersAndPagination(
             $query,
@@ -142,8 +149,9 @@ class UserController extends Controller
             ['active', 'search', 'sort']
         );
         $customers = Customer::orderBy('account_name')->get();
+        $facilities = Facility::orderBy('name')->get();
 
-        return view('admin.account-executive.account-executive-list', compact('accountExecutives', 'customers'));
+        return view('admin.account-executive.account-executive-list', compact('accountExecutives', 'customers', 'facilities'));
     }
 
     public function storeAE(StoreAccountExecutive $request)
@@ -188,11 +196,12 @@ class UserController extends Controller
             $request,
             ['role', 'active', 'search', 'sort']
         );
-        $customers = customer::orderBy('account_name')->get();
+        $customers = Customer::orderBy('account_name')->get();
+        $facilities = Facility::orderBy('name')->get();
 
         $roles = Role::all();
 
-        return view('admin.all-users.all-users-list', compact('allUsers', 'roles', 'customers'));
+        return view('admin.all-users.all-users-list', compact('allUsers', 'roles', 'customers', 'facilities'));
     }
 
     /**
@@ -209,6 +218,8 @@ class UserController extends Controller
         $user->fill($validated);
 
         // Update active status from the hidden input in your modal
+        $user->facility_id = $request->input('facility_id', null);
+
         $user->active = (int) $request->input('active', $user->active);
 
         $user->save();
@@ -294,7 +305,7 @@ class UserController extends Controller
         $user->update([
             'name' => $validated['edit_name'],
             'email' => $validated['edit_email'],
-            'customer_id' => $validated['edit_customer_id'],
+            'customer_id' => $validated['edit_customer_id'] ?? null,
         ]);
 
         return redirect()->route($redirectRoute)->with('success', $successMessage);

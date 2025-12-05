@@ -17,12 +17,12 @@
                 class="w-full md:w-1/4 min-w-[150px] max-w-[200px]">
                 <flux:select.option value="">All Roles</flux:select.option>
                 @foreach ($roles as $role)
-                    <flux:select.option value="{{ $role->name }}"
-                        :selected="request('role') === '{{ $role->name }}'">
-                        <div class="flex items-center gap-2">
-                            <flux:icon.user variant="mini" class="text-zinc-400" /> {{ ucfirst($role->name) }}
-                        </div>
-                    </flux:select.option>
+                <flux:select.option value="{{ $role->name }}"
+                    :selected="request('role') === '{{ $role->name }}'">
+                    <div class="flex items-center gap-2">
+                        <flux:icon.user variant="mini" class="text-zinc-400" /> {{ ucfirst($role->name) }}
+                    </div>
+                </flux:select.option>
                 @endforeach
             </flux:select>
 
@@ -61,29 +61,43 @@
                         <th>Full Name</th>
                         <th>Email Address</th>
                         <th>Role</th>
-                        <th>Customer ID</th>
+                        <th>Customer</th>
+                        <th>Facility</th>
+
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($allUsers as $user)
-                        <tr class="cursor-pointer transition flux-btn-info
+                    <tr class="cursor-pointer transition flux-btn-info
                         {{ $user->active ? 'hover:bg-gray-100' : 'bg-red-50 text-gray-400' }}"
-                            data-id="{{ $user->id }}" data-name="{{ $user->name }}"
-                            data-email="{{ $user->email }}" data-customer-id="{{ $user->customer_id }}"
-                            data-account-name="{{ $user->profile?->account_name }}"
-                            data-role="{{ $user->roles->pluck('name')->join(', ') }}"
-                            data-active="{{ $user->active ? '1' : '0' }}"
-                            onclick="document.getElementById('open-edit-modal').click()">
-                            <td>{{ $user->id }}</td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->roles->pluck('name')->join(', ') }}</td>
-                            <td>{{ $user->profile?->account_name ?? '-' }}</td>
-                        </tr>
+                        data-id="{{ $user->id }}" data-name="{{ $user->name }}"
+                        data-email="{{ $user->email }}" data-customer-id="{{ $user->customer_id }}"
+                        data-account-name="{{ $user->customer?->account_name }}"
+                        data-role="{{ $user->roles->pluck('name')->join(', ') }}"
+                        data-active="{{ $user->active ? '1' : '0' }}"
+                        data-facility-id="{{ $user->facility_id }}"
+                        data-facility-name="{{ $user->facility?->name }}"
+
+                        onclick="document.getElementById('open-edit-modal').click()">
+                        <td>{{ $user->id }}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->roles->pluck('name')->join(', ') }}</td>
+                        <td>{{ $user->customer?->account_name ?? '-' }}</td>
+                        <td>{{ $user->facility?->name ?? '-' }}</td>
+
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
+
+        {{-- Pagination Links --}}
+        @if ($allUsers->hasPages())
+        <div class="mt-4 px-4 py-3 bg-white border-t border-gray-200">
+            {{ $allUsers->links() }}
+        </div>
+        @endif
 
         <!-- Hidden Modal Trigger -->
         <flux:modal.trigger name="all-users-modal">

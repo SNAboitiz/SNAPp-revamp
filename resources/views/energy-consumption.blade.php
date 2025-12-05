@@ -27,9 +27,8 @@
 
                     <!-- Looker Embed -->
                     <div class="mt-6 flex-1 bg-white rounded-2xl shadow overflow-hidden">
-                        <iframe src="{{ $lookerUrl }}" width="100%" height="600" frameborder="0" allowfullscreen
-                            class="w-full h-[600px]">
-                        </iframe>
+                        <iframe src="{{ config('app.url') }}/app" class="w-full h-full rounded-xl border-none"
+                            frameborder="0" allowFullScreen="true"></iframe>
                     </div>
 
                 </div>

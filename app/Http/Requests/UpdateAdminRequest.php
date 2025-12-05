@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Facility;
 use App\Models\User;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -33,16 +34,43 @@ class UpdateAdminRequest extends FormRequest
                 'string',
                 'max:255',
             ],
-            'edit_customer_id' => [
-                'sometimes',
-                'numeric',
-            ],
+
             'edit_email' => [
                 'sometimes',
                 'email',
                 Rule::unique('users', 'email')->ignore($user->id),
             ],
+
+            'edit_customer_id' => [
+                'sometimes',
+                'nullable',
+                'integer',
+                'exists:customers,id',
+            ],
+
+            'edit_facility_id' => [
+                'sometimes',
+                'nullable',
+                'integer',
+                'exists:facilities,id',
+            ],
         ];
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($this->filled('edit_facility_id') && $this->filled('edit_customer_id')) {
+                $facility = Facility::find($this->edit_facility_id);
+
+                if ($facility && $facility->customer_id != $this->edit_customer_id) {
+                    $validator->errors()->add(
+                        'edit_facility_id',
+                        'The selected facility does not belong to the chosen customer.'
+                    );
+                }
+            }
+        });
     }
 
     protected function failedValidation(Validator $validator)

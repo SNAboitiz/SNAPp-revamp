@@ -23,12 +23,12 @@ class StoreContractRequest extends FormRequest
     {
         return [
             'customer_id' => [
-                'required', 
-                'exists:customers,id'
+                'required',
+                'exists:customers,id',
             ],
             'facility_id' => [
-                'nullable', 
-                'exists:facilities,id'
+                'nullable',
+                'exists:facilities,id',
             ],
 
             'contract_start' => [
