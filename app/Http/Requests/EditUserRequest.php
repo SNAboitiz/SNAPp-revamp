@@ -40,24 +40,24 @@ class EditUserRequest extends FormRequest
                 'sometimes',
                 'nullable',
                 'numeric',
-                'exists:customers,id'
+                'exists:customers,id',
             ],
 
             'facility_id' => [
                 'sometimes',
                 'nullable',
                 'numeric',
-                'exists:facilities,id'
+                'exists:facilities,id',
             ],
 
             'role' => [
                 'sometimes',
                 'string',
-                Rule::exists('roles', 'name')
+                Rule::exists('roles', 'name'),
             ],
             'active' => [
                 'sometimes',
-                'boolean'
+                'boolean',
             ],
             'resend_welcome_email' => [
                 'sometimes',
@@ -65,6 +65,7 @@ class EditUserRequest extends FormRequest
             ]
         ];
     }
+
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {

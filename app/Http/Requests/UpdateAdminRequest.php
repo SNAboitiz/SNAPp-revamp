@@ -45,14 +45,14 @@ class UpdateAdminRequest extends FormRequest
                 'sometimes',
                 'nullable',
                 'integer',
-                'exists:customers,id'
+                'exists:customers,id',
             ],
 
             'edit_facility_id' => [
                 'sometimes',
                 'nullable',
                 'integer',
-                'exists:facilities,id'
+                'exists:facilities,id',
             ],
         ];
     }

@@ -45,13 +45,13 @@ class EditCustomerRequest extends FormRequest
                 'nullable',
                 'sometimes',
                 'integer',
-                'exists:customers,id'
+                'exists:customers,id',
             ],
 
             'edit_facility_id' => [
                 'nullable',
                 'integer',
-                'exists:facilities,id'
+                'exists:facilities,id',
             ],
         ];
     }
