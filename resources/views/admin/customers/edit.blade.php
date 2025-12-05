@@ -34,10 +34,10 @@
         </flux:field>
 
         <flux:field>
-            <flux:label badge="Required">Customer Number</flux:label>
+            <flux:label badge="Required">Oracle Customer ID</flux:label>
             <flux:input
                 name="edit_customer_number"
-                placeholder="Enter customer number" />
+                placeholder="Enter oracle customer ID" />
             @error('edit_customer_number')
             <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
             @enderror

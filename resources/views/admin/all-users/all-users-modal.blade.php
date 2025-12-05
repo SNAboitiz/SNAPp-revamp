@@ -25,25 +25,55 @@
             <flux:input name="email" value="{{ old('email', '') }}" placeholder="Enter customer email" />
         </flux:field>
 
-        <flux:field label="Assign Profile" for="customer_id" required>
-            <flux:select id="customer_id" name="customer_id" placeholder="— Select account —" required
-                :error="$errors->first('customer_id')">
-                @foreach ($profiles as $profile)
-                    <option value="{{ $profile->customer_id }}" class="text-black" @selected(old('customer_id') == $profile->customer_id)>
-                        {{ $profile->account_name }} ({{ $profile->short_name }})
-                    </option>
+        <!-- Assign Customer -->
+        <flux:field>
+            <flux:label>Customer</flux:label>
+            <flux:select
+                id="customer_id"
+                name="customer_id"
+                placeholder="— Select customer —">
+                @foreach ($customers as $customer)
+                <option
+                    value="{{ $customer->id }}"
+                    @selected(old('customer_id')==$customer->id)>
+                    {{ $customer->account_name }} ({{ $customer->short_name ?? '—' }})
+                </option>
                 @endforeach
             </flux:select>
+            @error('customer_id')
+            <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
+            @enderror
         </flux:field>
 
+        <!-- Assign Facility -->
+        <flux:field>
+            <flux:label>Facility</flux:label>
+            <flux:select
+                id="facility_id"
+                name="facility_id"
+                placeholder="— Select facility (optional) —">
+                <option value="">— No facility —</option>
+                @foreach ($facilities as $facility)
+                <option
+                    value="{{ $facility->id }}"
+                    data-customer-id="{{ $facility->customer_id }}"
+                    @selected(old('facility_id')==$facility->id)>
+                    {{ $facility->name }}
+                </option>
+                @endforeach
+            </flux:select>
+            @error('facility_id')
+            <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
+            @enderror
+        </flux:field>
 
         <flux:field>
             <flux:label>Role</flux:label>
             <flux:select name="role" id="role-select" placeholder="Choose role...">
                 @foreach ($roles as $role)
-                    <flux:select.option value="{{ $role->name }}">
-                        {{ $role->name }}
-                    </flux:select.option>
+                <flux:select.option value="{{ $role->name }}">
+                    {{ $role->name }}
+                </flux:select.option>
                 @endforeach
             </flux:select>
         </flux:field>
@@ -58,9 +88,7 @@
             <flux:error name="active" />
         </flux:field>
 
-        {{-- ======================================================= --}}
         {{-- UPDATED CHECKBOX TEXT --}}
-        {{-- ======================================================= --}}
         <div class="form-check pt-2">
             <input class="form-check-input" type="checkbox" name="resend_welcome_email" id="resend_welcome_email_modal"
                 value="1">
@@ -77,56 +105,86 @@
     </form>
 </flux:modal>
 
-{{-- This is your existing script, now with one line added to reset the checkbox --}}
 <script>
-    document.querySelectorAll('.flux-btn-info').forEach(button => {
-        button.addEventListener('click', function() {
-            // Gather data-attributes
-            const userId = this.dataset.id;
-            const userName = this.dataset.name;
-            const userEmail = this.dataset.email;
-            const customerId = this.dataset.customerId;
-            const userRole = this.dataset.role;
-            const active = this.dataset.active; // "1" or "0"
+    document.addEventListener('click', function(event) {
+        const button = event.target.closest('.flux-btn-info');
+        if (!button) return;
 
-            // Populate form fields + action
-            const form = document.getElementById('edit-user-form');
-            const baseAction = form.dataset.baseAction;
-            form.action = baseAction.replace(':user_id', userId);
+        const form = document.getElementById('edit-user-form');
+        const ds = button.dataset;
+        form.action = form.dataset.baseAction.replace(':user_id', ds.id);
 
-            // This was a minor bug in your original script; it's better to select by name attribute
-            form.querySelector('[name="user_id"]').value = userId;
-            form.querySelector('[name="name"]').value = userName;
-            form.querySelector('[name="email"]').value = userEmail;
-            form.querySelector('[name="customer_id"]').value = customerId;
-            form.querySelector('[name="role"]').value = userRole;
+        const set = (name, val) => {
+            const el = form.querySelector(`[name="${name}"]`);
+            if (el) el.value = val || '';
+        };
 
-            // *** NEW LINE: This resets the checkbox every time the modal opens ***
-            form.querySelector('[name="resend_welcome_email"]').checked = false;
+        set('user_id', ds.id);
+        set('name', ds.name);
+        set('email', ds.email);
+        set('customer_id', ds.customerId);
+        set('facility_id', ds.facilityId);
+        set('role', ds.role);
+        
+        const resendCheckbox = form.querySelector('[name="resend_welcome_email"]');
+        if (resendCheckbox) {
+            resendCheckbox.checked = false;
+        }
+        
+        const activeValue = ds.active;
+        let isActive = activeValue === '1';
+        const label = document.getElementById('account-status-label');
+        const hidden = document.getElementById('active-value');
+        const switchContainer = document.getElementById('account-status-switch');
 
-            // Initialize state for the status switch
-            let isActive = active === '1';
-            const label = document.getElementById('account-status-label');
-            const hidden = document.getElementById('active-value');
-            const switchContainer = document.getElementById('account-status-switch');
+        label.textContent = isActive ? 'Active' : 'Inactive';
+        hidden.value = isActive ? '1' : '0';
 
-            // Set initial UI for the switch
-            label.textContent = isActive ? 'Active' : 'Inactive'; // Changed label to be more intuitive
+        const newSwitch = switchContainer.cloneNode(true);
+        switchContainer.parentNode.replaceChild(newSwitch, switchContainer);
+
+        newSwitch.addEventListener('click', () => {
+            isActive = !isActive;
+            label.textContent = isActive ? 'Active' : 'Inactive';
             hidden.value = isActive ? '1' : '0';
-
-            // Remove old handler if any to prevent stacking listeners
-            const newSwitch = switchContainer.cloneNode(true);
-            switchContainer.parentNode.replaceChild(newSwitch, switchContainer);
-
-            // Toggle on click
-            newSwitch.addEventListener('click', () => {
-                isActive = !isActive;
-                label.textContent = isActive ? 'Active' : 'Inactive';
-                hidden.value = isActive ? '1' : '0';
-            });
-
-            // Show the modal
-            $flux.modal('all-users-modal').show();
         });
+
+        setTimeout(filterFacilities, 10);
     });
+
+    // EXACT LOGIC FROM WORKING DOCUMENT 3
+    const customerSelect = document.getElementById('customer_id');
+    const facilitySelect = document.getElementById('facility_id');
+
+    if (customerSelect && facilitySelect) {
+        const facilityOptions = Array.from(facilitySelect.querySelectorAll('option'));
+
+        function filterFacilities() {
+            const selectedCustomerId = customerSelect.value;
+            const selectedFacilityId = facilitySelect.value;
+
+            facilityOptions.forEach(option => {
+                if (!option.value) {
+                    option.style.display = '';
+                    return;
+                }
+
+                const facilityCustomerId = option.dataset.customerId;
+
+                if (selectedCustomerId && facilityCustomerId && facilityCustomerId !== selectedCustomerId) {
+                    option.style.display = 'none';
+
+                    // Clear selection if facility doesn't belong to new customer
+                    if (option.value === selectedFacilityId) {
+                        facilitySelect.value = '';
+                    }
+                } else {
+                    option.style.display = '';
+                }
+            });
+        }
+
+        // Run filtering when customer changes
+        customerSelect.addEventListener('change', filterFacilities);
+    }
 </script>
