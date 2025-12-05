@@ -2,7 +2,7 @@
     <div class="p-6 bg-white rounded-xl shadow-md">
         <!-- Header -->
         <div class="flex items-center justify-between mb-4">
-            <h2 class="text-xl font-semibold text-gray-800">Profiles</h2>
+            <h2 class="text-xl font-semibold text-gray-800">Customer Profile List</h2>
         </div>
 
         <!-- Filter Form -->
@@ -72,7 +72,7 @@
                         onclick="document.getElementById('open-edit-profile-modal').click()">
 
                         <td>{{ $profile->customer?->account_name ?? '—' }}</td>
-                        <td>{{ $profile->facility?->name ?? 'Customer-level' }}</td>
+                        <td>{{ $profile->facility?->name ?? $profile->customer?->account_name }}</td>
                         <td>{{ $profile->business_address ?? '—' }}</td>
                         <td>{{ $profile->facility_address ?? '—' }}</td>
                         <td>{{ $profile->customer_category ?? '—' }}</td>
