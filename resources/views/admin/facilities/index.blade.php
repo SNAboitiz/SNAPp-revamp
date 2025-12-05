@@ -18,10 +18,9 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Sein</th>
+                        <th>Short Name</th>
                         <th>Customer</th>
                         <th>Actions</th>
-
                     </tr>
                 </thead>
                 <tbody>

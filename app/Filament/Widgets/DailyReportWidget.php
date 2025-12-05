@@ -13,7 +13,7 @@ class DailyReportWidget extends ChartWidget
 
     protected static ?int $sort = 1;
 
-    protected ?string $heading = 'Daily Report Widget';
+    protected ?string $heading = 'Daily Report';
 
     protected function getData(): array
     {

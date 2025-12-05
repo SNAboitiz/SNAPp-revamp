@@ -3,88 +3,37 @@
         <!-- Top Bar: Search + Export + Tabs -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
 
-<form method="GET" action="" class="w-full sm:w-auto flex items-center gap-4">
+            <form method="GET" class="w-full sm:w-auto flex items-center gap-4">
 
-    <flux:input icon="magnifying-glass" name="search" placeholder="Search..." value="{{ request('search') }}"
-        class="w-full md:w-64" />
+                <flux:input icon="magnifying-glass" name="search" placeholder="Search..." value="{{ request('search') }}"
+                    class="w-full md:w-64" />
 
-    @if ($activeTab === 'payments')
-        @role('admin')
-            <flux:dropdown position="right-start">
-                <button type="button"
-                    class="inline-flex justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50">
-                    Customer
-                    <svg class="-mr-1 size-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
-                        aria-hidden="true" data-slot="icon">
-                        <path fill-rule="evenodd"
-                            d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </button>
-                <flux:menu class="w-48">
-                    @foreach ($customers as $customer)
-                        <flux:menu.item
-                            href="{{ route('bills.show', ['customer_id' => $customer->customer_id]) }}"
-                            icon="user">
-                            {{ $customer->account_name }}
-                        </flux:menu.item>
-                    @endforeach
-                </flux:menu>
-            </flux:dropdown>
-        @endrole
-    @endif
-
-    @if ($activeTab === 'bills')
-        <flux:dropdown position="right-start">
-            <button type="button" 
-                class="inline-flex justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50">
-                Customer
-                <svg class="-mr-1 size-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                    <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                </svg>
-            </button>
-            <flux:menu class="w-48">
-                @foreach ($customers as $customer)
-                    <flux:menu.item
-                        href="{{ route('bills.show', ['customer_id' => $customer->customer_id]) }}"
-                        icon="user">
-                        {{ $customer->account_name }}
-                    </flux:menu.item>
-                @endforeach
-
-                <flux:menu.item href="#" icon="x-circle">
-                    {{ __('Clear Filters') }}
-                </flux:menu.item>
-            </flux:menu>
-        </flux:dropdown>
-
-        <flux:dropdown position="right-start">
-            <button type="button"
-                class="inline-flex justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50">
-                Facility
-                <svg class="-mr-1 size-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
-                    aria-hidden="true">
-                    <path fill-rule="evenodd"
-                        d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
-                        clip-rule="evenodd" />
-                </svg>
-            </button>
-            <flux:menu class="w-48">
-                @foreach ($facilities as $facility)
-                    <flux:menu.item
-                        href="{{ route('bills.show', array_merge(request()->query(), ['facility' => $facility])) }}">
-                        {{ $facility }}
-                    </flux:menu.item>
-                @endforeach
-
-                <flux:menu.item href="{{ route('bills.show', request()->except('facility')) }}"
-                    icon="x-circle">
-                    {{ __('Clear Facility Filter') }}
-                </flux:menu.item>
-            </flux:menu>
-        </flux:dropdown>
-    @endif
-</form>
+                @if ($activeTab === 'payments')
+                    @role('admin')
+                        <flux:dropdown position="right-start">
+                            <button type="button"
+                                class="inline-flex justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50">
+                                Customer
+                                <svg class="-mr-1 size-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
+                                    aria-hidden="true" data-slot="icon">
+                                    <path fill-rule="evenodd"
+                                        d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                            <flux:menu class="w-48">
+                                @foreach ($customers as $customer)
+                                    <flux:menu.item
+                                        href="{{ route('bills.show', ['customer_id' => $customer->customer_id]) }}"
+                                        icon="user">
+                                        {{ $customer->account_name }}
+                                    </flux:menu.item>
+                                @endforeach
+                            </flux:menu>
+                        </flux:dropdown>
+                    @endrole
+                @endif
+            </form>
 
             <!-- Button Group -->
             <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mt-2">
@@ -106,11 +55,11 @@
         <!-- Tables -->
         <div class="overflow-x-auto rounded-lg border border-gray-200">
             @if ($activeTab === 'bills')
-            @include('bills.bill-summary-table', ['data' => $bills])
+                @include('bills.bill-summary-table', ['data' => $bills])
             @endif
 
             @if ($activeTab === 'payments')
-            @include('bills.payments-history-table', ['data' => $payments])
+                @include('bills.payments-history-table', ['data' => $payments])
             @endif
         </div>
     </div>

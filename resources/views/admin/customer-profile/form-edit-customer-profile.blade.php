@@ -16,27 +16,30 @@
             </div>
             @endif
 
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-                {{-- Hidden fields for customer and facility --}}
-                <input type="hidden" name="edit_customer_id" id="hidden_customer_id" />
-                <input type="hidden" name="edit_facility_id" id="hidden_facility_id" />
+            {{-- Hidden fields for customer and facility --}}
+            <input type="hidden" name="edit_customer_id" id="hidden_customer_id" />
+            <input type="hidden" name="edit_facility_id" id="hidden_facility_id" />
 
-                {{-- IDENTIFIERS --}}
+            {{-- IDENTIFIERS ROW --}}
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
                 <!-- Customer Read-Only -->
-                <flux:field class="md:col-span-4">
-                    <flux:label>Customer</flux:label>
+                <flux:field class="md:col-span-6">
+                    <flux:label>Customer Name</flux:label>
                     <input type="text" id="readonly_customer_name" readonly
                         class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700" />
                 </flux:field>
 
                 <!-- Facility Read-Only -->
-                <flux:field class="md:col-span-4">
-                    <flux:label>Facility</flux:label>
+                <flux:field class="md:col-span-6">
+                    <flux:label>Facility Name</flux:label>
                     <input type="text" id="readonly_facility_name" readonly
                         class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700" />
                 </flux:field>
+            </div>
 
-                <flux:field class="md:col-span-4">
+            {{-- CONTRACT ROW --}}
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <flux:field class="md:col-span-2">
                     <flux:label>Customer Category</flux:label>
                     <flux:input name="edit_customer_category" />
                     @error('edit_customer_category')
@@ -44,8 +47,7 @@
                     @enderror
                 </flux:field>
 
-                {{-- CONTRACT --}}
-                <flux:field class="md:col-span-2">
+                <flux:field class="md:col-span-3">
                     <flux:label>Contract Price</flux:label>
                     <flux:input name="edit_contract_price" />
                     @error('edit_contract_price')
@@ -53,7 +55,7 @@
                     @enderror
                 </flux:field>
 
-                <flux:field class="md:col-span-2">
+                <flux:field class="md:col-span-3">
                     <flux:label>Contracted Demand</flux:label>
                     <flux:input name="edit_contracted_demand" />
                     @error('edit_contracted_demand')
@@ -61,7 +63,7 @@
                     @enderror
                 </flux:field>
 
-                <flux:field class="md:col-span-4">
+                <flux:field class="md:col-span-6">
                     <flux:label>Certificate of Contestability #</flux:label>
                     <flux:input name="edit_certificate_of_contestability_number" />
                     @error('edit_certificate_of_contestability_number')
@@ -69,27 +71,37 @@
                     @enderror
                 </flux:field>
 
-                {{-- DATES --}}
-                <flux:field class="md:col-span-2">
-                    <flux:label>Coop Start</flux:label>
+                {{-- Spacer to fill row --}}
+                <div class="md:col-span-4"></div>
+            </div>
+
+            {{-- DATES ROW --}}
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <flux:field class="md:col-span-3">
+                    <flux:label>Cooperation Period Start Date</flux:label>
                     <flux:input type="date" name="edit_cooperation_period_start_date" />
                     @error('edit_cooperation_period_start_date')
                     <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
-                <flux:field class="md:col-span-2">
-                    <flux:label>Coop End</flux:label>
+                <flux:field class="md:col-span-3">
+                    <flux:label>Cooperation Period End Date</flux:label>
                     <flux:input type="date" name="edit_cooperation_period_end_date" />
                     @error('edit_cooperation_period_end_date')
                     <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
-                {{-- ADDRESSES --}}
+                {{-- Spacer to fill row --}}
+                <div class="md:col-span-8"></div>
+            </div>
+
+            {{-- ADDRESSES ROW --}}
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
                 <flux:field class="md:col-span-6">
                     <flux:label>Business Address</flux:label>
-                    <flux:input name="edit_business_address" />
+                    <flux:textarea name="edit_business_address" />
                     @error('edit_business_address')
                     <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
@@ -97,14 +109,21 @@
 
                 <flux:field class="md:col-span-6">
                     <flux:label>Facility Address</flux:label>
-                    <flux:input name="edit_facility_address" />
+                    <flux:textarea name="edit_facility_address" />
                     @error('edit_facility_address')
                     <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
+            </div>
 
-                {{-- CONTACT --}}
-                <flux:field class="md:col-span-3">
+            {{-- PRIMARY CONTACT HEADING --}}
+            <div class="pt-4">
+                <h3 class="text-lg font-semibold text-gray-700">Primary Contact Information</h3>
+            </div>
+
+            {{-- PRIMARY CONTACT ROW --}}
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <flux:field class="md:col-span-4">
                     <flux:label>Contact Name</flux:label>
                     <flux:input name="edit_contact_name" />
                     @error('edit_contact_name')
@@ -112,7 +131,7 @@
                     @enderror
                 </flux:field>
 
-                <flux:field class="md:col-span-3">
+                <flux:field class="md:col-span-4">
                     <flux:label>Designation</flux:label>
                     <flux:input name="edit_designation" />
                     @error('edit_designation')
@@ -120,7 +139,7 @@
                     @enderror
                 </flux:field>
 
-                <flux:field class="md:col-span-3">
+                <flux:field class="md:col-span-4">
                     <flux:label>Mobile Number</flux:label>
                     <flux:input name="edit_mobile_number" />
                     @error('edit_mobile_number')
@@ -128,7 +147,7 @@
                     @enderror
                 </flux:field>
 
-                <flux:field class="md:col-span-3">
+                <flux:field class="md:col-span-4">
                     <flux:label>Email Address</flux:label>
                     <flux:input name="edit_email" />
                     @error('edit_email')
@@ -136,7 +155,18 @@
                     @enderror
                 </flux:field>
 
-                <flux:field class="md:col-span-3">
+                {{-- Spacer to fill row --}}
+                <div class="md:col-span-1"></div>
+            </div>
+
+            {{-- SECONDARY CONTACT HEADING --}}
+            <div class="pt-4">
+                <h3 class="text-lg font-semibold text-gray-700">Secondary Contact Information</h3>
+            </div>
+
+            {{-- SECONDARY CONTACT ROW --}}
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <flux:field class="md:col-span-4">
                     <flux:label badge="Secondary">Contact Name</flux:label>
                     <flux:input name="edit_contact_name_1" />
                     @error('edit_contact_name_1')
@@ -144,7 +174,7 @@
                     @enderror
                 </flux:field>
 
-                <flux:field class="md:col-span-3">
+                <flux:field class="md:col-span-4">
                     <flux:label badge="Secondary">Designation</flux:label>
                     <flux:input name="edit_designation_1" />
                     @error('edit_designation_1')
@@ -152,7 +182,7 @@
                     @enderror
                 </flux:field>
 
-                <flux:field class="md:col-span-3">
+                <flux:field class="md:col-span-4">
                     <flux:label badge="Secondary">Mobile Number</flux:label>
                     <flux:input name="edit_mobile_number_1" />
                     @error('edit_mobile_number_1')
@@ -160,7 +190,7 @@
                     @enderror
                 </flux:field>
 
-                <flux:field class="md:col-span-3">
+                <flux:field class="md:col-span-4">
                     <flux:label badge="Secondary">Email Address</flux:label>
                     <flux:input name="edit_email_1" />
                     @error('edit_email_1')
@@ -168,7 +198,12 @@
                     @enderror
                 </flux:field>
 
-                {{-- NOTES --}}
+                {{-- Spacer to fill row --}}
+                <div class="md:col-span-1"></div>
+            </div>
+
+            {{-- NOTES ROW --}}
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
                 <flux:field class="md:col-span-12">
                     <flux:label>Other Information</flux:label>
                     <flux:input name="edit_other_information" placeholder="Any remarks or notes" />
@@ -239,10 +274,10 @@
     // CRITICAL FIX: Prevent default form submission and ensure _method field exists
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('edit-customer-form');
-        
+
         form.addEventListener('submit', function(e) {
             e.preventDefault(); // Prevent default submission
-            
+
             // Ensure _method field exists and is set to PUT
             let methodField = form.querySelector('input[name="_method"]');
             if (!methodField) {
@@ -254,7 +289,7 @@
             } else {
                 methodField.value = 'PUT';
             }
-            
+
             // Ensure CSRF token exists
             let csrfField = form.querySelector('input[name="_token"]');
             if (!csrfField) {
@@ -264,10 +299,10 @@
                 csrfField.value = '{{ csrf_token() }}';
                 form.appendChild(csrfField);
             }
-            
+
             console.log('Submitting with method:', methodField.value);
             console.log('Action:', form.action);
-            
+
             // Now submit the form
             form.submit();
         });

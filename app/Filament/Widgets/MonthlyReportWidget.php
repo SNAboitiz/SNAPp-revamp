@@ -13,7 +13,7 @@ class MonthlyReportWidget extends ChartWidget
 
     protected static ?int $sort = 0;
 
-    protected ?string $heading = 'Monthly Report Widget';
+    protected ?string $heading = 'Monthly Report';
 
     protected function getData(): array
     {

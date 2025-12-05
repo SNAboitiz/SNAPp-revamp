@@ -33,7 +33,7 @@
             </flux:field>
 
             <flux:field>
-                <flux:label badge="Required">Sein (Identifier)</flux:label>
+                <flux:label badge="Required">Short Name</flux:label>
                 <flux:input
                     name="sein"
                     value="{{ old('sein') }}"
