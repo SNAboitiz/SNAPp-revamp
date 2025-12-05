@@ -1,6 +1,6 @@
 <div x-data="{}" x-init="@if (session('show_modal') === 'edit-admin-modal') $nextTick(() => $flux.modal('edit-admin-modal').show()) @endif">
     <flux:modal name="edit-admin-modal" class="md:w-96">
-        <form data-base-action="{{ route('admin.users.update-admin', ['user' => ':user_id']) }}"
+        <form data-base-action="/admin/users/:user_id/update-admin"
             method="POST" id="edit-admin-form" class="space-y-6">
             @csrf
             @method('PUT')
@@ -11,36 +11,62 @@
                 <flux:heading size="lg">
                     Edit admin Account
                 </flux:heading>
-
-                <flux:text class="mt-2">
-                    Update the admin details below.
-                </flux:text>
             </div>
 
             <flux:field>
                 <flux:label>Name</flux:label>
-                <flux:input name="edit_name" value="{{ old('name', '') }}" placeholder="Enter admin name" />
+                <flux:input
+                    name="edit_name"
+                    placeholder="Enter admin name" />
                 @error('edit_name')
-                    <p class="mt-2 text-red-500 dark:text-red-400 text-xs">{{ $message }}</p>
+                <p class="mt-2 text-red-500 dark:text-red-400 text-xs">{{ $message }}</p>
                 @enderror
             </flux:field>
 
             <flux:field>
                 <flux:label>Email</flux:label>
-                <flux:input name="edit_email" value="{{ old('email', '') }}" placeholder="Enter admin email" />
+                <flux:input
+                    name="edit_email"
+                    value="{{ old('email', '') }}"
+                    placeholder="Enter admin email" />
                 @error('edit_email')
-                    <p class="mt-2 text-red-500 dark:text-red-400 text-xs">{{ $message }}</p>
+                <p class="mt-2 text-red-500 dark:text-red-400 text-xs">{{ $message }}</p>
                 @enderror
             </flux:field>
 
             <flux:field>
                 <flux:label>Customer</flux:label>
-                <flux:select id="edit_customer_id" name="edit_customer_id" placeholder="— Select account —" required
+                <flux:select
+                    id="edit_customer_id"
+                    name="edit_customer_id"
+                    placeholder="— Select account —"
                     :error="$errors->first('edit_customer_id')">
-                    @foreach ($profiles as $profile)
-                        <option value="{{ $profile->customer_id }}" class="text-black" @selected(old('edit_customer_id') == $profile->customer_id)>
-                            {{ $profile->account_name }} ({{ $profile->short_name }})
-                        </option>
+                    <option value="">— No Customer —</option>
+                    @foreach ($customers as $customer)
+                    <option value="{{ $customer->id }}" class="text-black" @selected(old('edit_customer_id')==$customer->id)>
+                        {{ $customer->account_name }} ({{ $customer->short_name }})
+                    </option>
+                    @endforeach
+                </flux:select>
+            </flux:field>
+
+            {{-- Facility Field - Updated to be optional --}}
+            <flux:field>
+                <flux:label>Facility</flux:label>
+                <flux:select
+                    id="edit_facility_id"
+                    name="edit_facility_id"
+                    placeholder="— Select facility (optional) —"
+                    :error="$errors->first('edit_facility_id')">
+                    <option value="">— No facility —</option>
+                    @foreach ($facilities as $facility)
+                    <option
+                        value="{{ $facility->id }}"
+                        class="text-black"
+                        data-customer-id="{{ $facility->customer_id }}"
+                        @selected(old('edit_facility_id', $existingFacilityId ?? '' )==$facility->id)>
+                        {{ $facility->name }}
+                    </option>
                     @endforeach
                 </flux:select>
             </flux:field>
@@ -54,24 +80,66 @@
 </div>
 
 <script>
-    document.querySelectorAll('.flux-btn-info').forEach(button => {
-        button.addEventListener('click', function() {
-            const userId = this.getAttribute('data-id');
-            const userName = this.getAttribute('data-name');
-            const userEmail = this.getAttribute('data-email');
-            const customerId = this.getAttribute('data-customer-id');
+        document.addEventListener('click', function(event) {
+            const button = event.target.closest('.flux-btn-info');
+            if (!button) return;
 
-            // Dynamically update the form action URL with the correct user ID
             const form = document.getElementById('edit-admin-form');
-            const baseAction = form.getAttribute('data-base-action');
-            form.action = baseAction.replace(':user_id', userId);
+            const ds = button.dataset;
+            form.action = form.dataset.baseAction.replace(':user_id', ds.id);
 
-            // Set the values in the form fields
-            document.querySelector('input[name="user_id"]').value = userId;
-            document.querySelector('input[name="edit_name"]').value = userName;
-            document.querySelector('input[name="edit_email"]').value = userEmail;
-            document.querySelector('input[name="edit_customer_id"]').value = customerId;
+            const set = (name, val) => {
+                const el = form.querySelector(`[name="${name}"]`);
+                if (el) el.value = val || '';
+            };
 
+            set('edit_name', ds.name);
+            set('edit_email', ds.email);
+            set('edit_customer_id', ds.customerId);
+            set('edit_facility_id', ds.facilityId);
+
+            setTimeout(filterEditFacilities, 10);
         });
+
+        const editCustomerSelect = document.getElementById('edit_customer_id');
+        const editFacilitySelect = document.getElementById('edit_facility_id');
+
+        if (editCustomerSelect && editFacilitySelect) {
+            const editFacilityOptions = Array.from(editFacilitySelect.querySelectorAll('option'));
+
+            function filterEditFacilities() {
+                const selectedCustomerId = editCustomerSelect.value;
+                const selectedFacilityId = editFacilitySelect.value;
+
+                editFacilityOptions.forEach(option => {
+                    if (!option.value) {
+                        option.style.display = '';
+                        return;
+                    }
+
+                    const facilityCustomerId = option.dataset.customerId;
+
+                    if (selectedCustomerId && facilityCustomerId && facilityCustomerId !== selectedCustomerId) {
+                        option.style.display = 'none';
+
+                        // Clear selection if facility doesn't belong to new customer
+                        if (option.value === selectedFacilityId) {
+                            editFacilitySelect.value = '';
+                        }
+                    } else {
+                        option.style.display = '';
+                    }
+                });
+            }
+
+            // Run filtering when customer changes
+            editCustomerSelect.addEventListener('change', filterEditFacilities);
+        }
+
+
+    // Loading state
+    document.getElementById('save-admin-button')?.addEventListener('click', function(e) {
+        this.disabled = true;
+        this.innerText = 'Saving…';
     });
 </script>

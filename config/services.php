@@ -48,5 +48,6 @@ return [
 
     'kissflow' => [
         'url' => env('KISSFLOW_URL'),
+        'inquiry_webhook' => env('KISSFLOW_INQUIRY_WEBHOOK'),
     ],
 ];

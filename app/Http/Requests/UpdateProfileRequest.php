@@ -17,21 +17,11 @@ class UpdateProfileRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, \Illuminate\contracteds\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'account_name' => [
-                'nullable',
-                'string',
-                'max:100',
-            ],
-            'short_name' => [
-                'nullable',
-                'string',
-                'max:100',
-            ],
             'business_address' => [
                 'nullable',
                 'string',
@@ -47,21 +37,28 @@ class UpdateProfileRequest extends FormRequest
                 'string',
                 'max:255',
             ],
-            'cooperation_start_date' => [
+            'cooperation_period_start_date' => [
                 'nullable',
                 'date',
             ],
-            'cooperation_end_date' => [
+            'cooperation_period_end_date' => [
                 'nullable',
                 'date',
             ],
             'contract_price' => [
                 'nullable',
                 'string',
+                'max:100',
             ],
-            'contract_demand' => [
+            'contracted_demand' => [
                 'nullable',
                 'string',
+                'max:100',
+            ],
+            'certificate_of_contestability_number' => [
+                'nullable',
+                'string',
+                'max:100',
             ],
             'other_information' => [
                 'nullable',
@@ -84,6 +81,28 @@ class UpdateProfileRequest extends FormRequest
                 'max:100',
             ],
             'mobile_number' => [
+                'nullable',
+                'string',
+                'max:20',
+            ],
+
+            // Secondary Contact Information
+            'contact_name_1' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'designation_1' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'email_1' => [
+                'nullable',
+                'email',
+                'max:100',
+            ],
+            'mobile_number_1' => [
                 'nullable',
                 'string',
                 'max:20',

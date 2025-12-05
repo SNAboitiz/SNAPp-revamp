@@ -1,10 +1,11 @@
 <x-layouts.app>
     <div class="p-6 bg-white rounded-xl shadow-md">
 
-        <!-- Header with Add Button -->
+        <!-- Header-->
         <div class="flex items-center justify-between mb-4">
             <h2 class="text-xl font-semibold text-gray-800">Customer Accounts</h2>
             <div class="flex gap-2">
+                <!-- Add Button -->
                 <flux:modal.trigger name="customer-modal">
                     <flux:button variant="primary">
                         Add Customer Account
@@ -48,26 +49,41 @@
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Customer ID</th>
+                        <th>Customer</th>
+                        <th>Facility</th>
+
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($users as $user)
-                        <tr class="cursor-pointer hover:bg-gray-100 transition flux-btn-info
+                    <tr class="cursor-pointer hover:bg-gray-100 transition flux-btn-info
                                    {{ $user->active ? 'hover:bg-gray-100' : 'bg-red-50 text-gray-400' }}"
-                            data-id="{{ $user->id }}" data-name="{{ $user->name }}"
-                            data-email="{{ $user->email }}" data-customer-id="{{ $user->customer_id }}"
-                            data-account-name="{{ $user->profile?->account_name }}"
-                            onclick="document.getElementById('open-edit-modal').click()">
+                        data-id="{{ $user->id }}"
+                        data-name="{{ $user->name }}"
+                        data-email="{{ $user->email }}"
+                        data-customer-id="{{ $user->customer_id }}"
+                        data-facility-id="{{ $user->facility_id }}"
+                        data-account-name="{{ $user->customer?->account_name }}"
+                        data-facility-name="{{ $user->facility?->name }}"
+                        onclick="document.getElementById('open-edit-modal').click()">
 
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->profile?->account_name ?? '-' }}</td>
-                        </tr>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->customer?->account_name ?? '-' }}</td>
+                        <td>{{ $user->facility?->name ?? '-' }}</td>
+
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
+
+        {{-- Pagination Links --}}
+        @if ($users->hasPages())
+        <div class="mt-4 px-4 py-3 bg-white border-t border-gray-200">
+            {{ $users->links() }}
+        </div>
+        @endif
 
         <!-- Hidden Modal Trigger for Edit -->
         <flux:modal.trigger name="edit-customer-modal">

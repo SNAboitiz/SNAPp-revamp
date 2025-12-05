@@ -2,8 +2,8 @@ var tt = Math.min,
     H = Math.max,
     et = Math.round;
 var E = (s) => ({ x: s, y: s }),
-    Gt = { left: "right", right: "left", bottom: "top", top: "bottom" },
-    Qt = { start: "end", end: "start" };
+    Qt = { left: "right", right: "left", bottom: "top", top: "bottom" },
+    Gt = { start: "end", end: "start" };
 function mt(s, t, e) {
     return H(s, tt(t, e));
 }
@@ -49,7 +49,7 @@ function At(s) {
     return [lt(s), t, lt(t)];
 }
 function lt(s) {
-    return s.replace(/start|end/g, (t) => Qt[t]);
+    return s.replace(/start|end/g, (t) => Gt[t]);
 }
 var vt = ["left", "right"],
     Lt = ["right", "left"],
@@ -76,7 +76,7 @@ function St(s, t, e, i) {
     );
 }
 function Z(s) {
-    return s.replace(/left|right|bottom|top/g, (t) => Gt[t]);
+    return s.replace(/left|right|bottom|top/g, (t) => Qt[t]);
 }
 function se(s) {
     return { top: 0, right: 0, bottom: 0, left: 0, ...s };
@@ -251,7 +251,7 @@ async function wt(s, t) {
         right: (x.right - w.right + u.right) / L.x,
     };
 }
-var Rt = function (s) {
+var It = function (s) {
     return (
         s === void 0 && (s = {}),
         {
@@ -282,38 +282,38 @@ var Rt = function (s) {
                     v = z(l) === l,
                     L = await (a.isRTL == null ? void 0 : a.isRTL(c.floating)),
                     x = p || (v || !m ? [Z(l)] : At(l)),
-                    q = u !== "none";
-                !p && q && x.push(...St(l, m, u, L));
-                let Q = [l, ...x],
+                    J = u !== "none";
+                !p && J && x.push(...St(l, m, u, L));
+                let G = [l, ...x],
                     W = await wt(t, g),
                     F = [],
-                    I = ((i = o.flip) == null ? void 0 : i.overflows) || [];
+                    R = ((i = o.flip) == null ? void 0 : i.overflows) || [];
                 if ((h && F.push(W[w]), d)) {
                     let A = Ot(n, r, L);
                     F.push(W[A[0]], W[A[1]]);
                 }
                 if (
-                    ((I = [...I, { placement: n, overflows: F }]),
+                    ((R = [...R, { placement: n, overflows: F }]),
                     !F.every((A) => A <= 0))
                 ) {
-                    var J, j;
+                    var q, j;
                     let A =
-                            (((J = o.flip) == null ? void 0 : J.index) || 0) +
+                            (((q = o.flip) == null ? void 0 : q.index) || 0) +
                             1,
-                        k = Q[A];
+                        k = G[A];
                     if (
                         k &&
                         (!(d === "alignment" ? b !== M(k) : !1) ||
-                            I.every((D) =>
+                            R.every((D) =>
                                 M(D.placement) === b ? D.overflows[0] > 0 : !0,
                             ))
                     )
                         return {
-                            data: { index: A, overflows: I },
+                            data: { index: A, overflows: R },
                             reset: { placement: k },
                         };
                     let $ =
-                        (j = I.filter((P) => P.overflows[0] <= 0).sort(
+                        (j = R.filter((P) => P.overflows[0] <= 0).sort(
                             (P, D) => P.overflows[1] - D.overflows[1],
                         )[0]) == null
                             ? void 0
@@ -323,8 +323,8 @@ var Rt = function (s) {
                             case "bestFit": {
                                 var X;
                                 let P =
-                                    (X = I.filter((D) => {
-                                        if (q) {
+                                    (X = R.filter((D) => {
+                                        if (J) {
                                             let V = M(D.placement);
                                             return V === b || V === "y";
                                         }
@@ -379,7 +379,7 @@ async function oe(s, t) {
         a ? { x: f * h, y: p * c } : { x: p * c, y: f * h }
     );
 }
-var It = function (s) {
+var Rt = function (s) {
         return (
             s === void 0 && (s = 0),
             {
@@ -481,7 +481,7 @@ function Pt(s) {
 function S(s) {
     return ct() ? s instanceof Element || s instanceof O(s).Element : !1;
 }
-function R(s) {
+function I(s) {
     return ct()
         ? s instanceof HTMLElement || s instanceof O(s).HTMLElement
         : !1;
@@ -527,7 +527,7 @@ function ht(s) {
 }
 function Bt(s) {
     let t = B(s);
-    for (; R(t) && !_(t); ) {
+    for (; I(t) && !_(t); ) {
         if (ht(t)) return t;
         if (nt(t)) return null;
         t = B(t);
@@ -562,7 +562,7 @@ function Nt(s) {
         ? s.ownerDocument
             ? s.ownerDocument.body
             : s.body
-        : R(t) && Y(t)
+        : I(t) && Y(t)
           ? t
           : Nt(t);
 }
@@ -590,7 +590,7 @@ function zt(s) {
     let t = C(s),
         e = parseFloat(t.width) || 0,
         i = parseFloat(t.height) || 0,
-        n = R(s),
+        n = I(s),
         o = n ? s.offsetWidth : e,
         r = n ? s.offsetHeight : i,
         l = et(e) !== o || et(i) !== r;
@@ -599,9 +599,9 @@ function zt(s) {
 function Wt(s) {
     return S(s) ? s : s.contextElement;
 }
-function G(s) {
+function Q(s) {
     let t = Wt(s);
-    if (!R(t)) return E(1);
+    if (!I(t)) return E(1);
     let e = t.getBoundingClientRect(),
         { width: i, height: n, $: o } = zt(t),
         r = (o ? et(e.width) : e.width) / i,
@@ -627,7 +627,7 @@ function rt(s, t, e, i) {
     let n = s.getBoundingClientRect(),
         o = Wt(s),
         r = E(1);
-    t && (i ? S(i) && (r = G(i)) : (r = G(s)));
+    t && (i ? S(i) && (r = Q(i)) : (r = Q(s)));
     let l = ue(o, e, i) ? $t(o) : E(0),
         a = (n.left + l.x) / r.x,
         c = (n.top + l.y) / r.y,
@@ -639,7 +639,7 @@ function rt(s, t, e, i) {
             u = p,
             m = ft(u);
         for (; m && i && f !== u; ) {
-            let g = G(m),
+            let g = Q(m),
                 w = m.getBoundingClientRect(),
                 b = C(m),
                 v = w.left + (m.clientLeft + parseFloat(b.paddingLeft)) * g.x,
@@ -675,10 +675,10 @@ function me(s) {
     let a = { scrollLeft: 0, scrollTop: 0 },
         c = E(1),
         h = E(0),
-        d = R(i);
-    if ((d || (!d && !o)) && ((K(i) !== "body" || Y(r)) && (a = ot(i)), R(i))) {
+        d = I(i);
+    if ((d || (!d && !o)) && ((K(i) !== "body" || Y(r)) && (a = ot(i)), I(i))) {
         let f = rt(i);
-        ((c = G(i)), (h.x = f.x + i.clientLeft), (h.y = f.y + i.clientTop));
+        ((c = Q(i)), (h.x = f.x + i.clientLeft), (h.y = f.y + i.clientTop));
     }
     let p = r && !d && !o ? Ut(r, a) : E(0);
     return {
@@ -737,7 +737,7 @@ function xe(s, t) {
     let e = rt(s, !0, t === "fixed"),
         i = e.top + s.clientTop,
         n = e.left + s.clientLeft,
-        o = R(s) ? G(s) : E(1),
+        o = I(s) ? Q(s) : E(1),
         r = s.clientWidth * o.x,
         l = s.clientHeight * o.y,
         a = n * o.x,
@@ -823,7 +823,7 @@ function Oe(s) {
     return { width: t, height: e };
 }
 function Ae(s, t, e) {
-    let i = R(t),
+    let i = I(t),
         n = T(t),
         o = e === "fixed",
         r = rt(s, !0, o, t),
@@ -847,7 +847,7 @@ function xt(s) {
     return C(s).position === "static";
 }
 function Ht(s, t) {
-    if (!R(s) || C(s).position === "fixed") return null;
+    if (!I(s) || C(s).position === "fixed") return null;
     if (t) return t(s);
     let e = s.offsetParent;
     return (T(s) === e && (e = e.ownerDocument.body), e);
@@ -855,7 +855,7 @@ function Ht(s, t) {
 function _t(s, t) {
     let e = O(s);
     if (nt(s)) return e;
-    if (!R(s)) {
+    if (!I(s)) {
         let n = B(s);
         for (; n && !_(n); ) {
             if (S(n) && !xt(n)) return n;
@@ -887,13 +887,13 @@ var De = {
     getElementRects: Se,
     getClientRects: ge,
     getDimensions: Oe,
-    getScale: G,
+    getScale: Q,
     isElement: S,
     isRTL: Ce,
 };
-var qt = It;
-var Jt = kt,
-    jt = Rt;
+var Jt = Rt;
+var qt = kt,
+    jt = It;
 var Xt = (s, t, e) => {
     let i = new Map(),
         n = { platform: De, ...e },
@@ -929,12 +929,12 @@ var ut = class {
         hasDynamicOptions: v = !1,
         hasDynamicSearchResults: L = !0,
         searchPrompt: x = "Search...",
-        searchDebounce: q = 1e3,
-        loadingMessage: Q = "Loading...",
+        searchDebounce: J = 1e3,
+        loadingMessage: G = "Loading...",
         searchingMessage: W = "Searching...",
         noSearchResultsMessage: F = "No results found",
-        maxItems: I = null,
-        maxItemsMessage: J = "Maximum number of items selected",
+        maxItems: R = null,
+        maxItemsMessage: q = "Maximum number of items selected",
         optionsLimit: j = null,
         position: X = null,
         searchableOptionFields: A = ["label"],
@@ -964,12 +964,13 @@ var ut = class {
             (this.hasDynamicOptions = v),
             (this.hasDynamicSearchResults = L),
             (this.searchPrompt = x),
-            (this.searchDebounce = q),
-            (this.loadingMessage = Q),
+            (this.searchDebounce = J),
+            (this.loadingMessage = G),
             (this.searchingMessage = W),
             (this.noSearchResultsMessage = F),
-            (this.maxItems = I),
-            (this.maxItemsMessage = J),
+            (this.activeSearchId = 0),
+            (this.maxItems = R),
+            (this.maxItemsMessage = q),
             (this.optionsLimit = j),
             (this.position = X),
             (this.searchableOptionFields = Array.isArray(A) ? A : ["label"]),
@@ -1699,6 +1700,15 @@ var ut = class {
                 ((this.scrollListener = () => this.positionDropdown()),
                 window.addEventListener("scroll", this.scrollListener, !0)),
             (this.dropdown.style.opacity = "1"),
+            this.isSearchable &&
+                this.searchInput &&
+                ((this.searchInput.value = ""),
+                (this.searchQuery = ""),
+                this.hasDynamicOptions ||
+                    ((this.options = JSON.parse(
+                        JSON.stringify(this.originalOptions),
+                    )),
+                    this.renderOptions())),
             this.hasDynamicOptions && this.getOptionsUsing)
         ) {
             this.showLoadingState(!1);
@@ -1709,23 +1719,29 @@ var ut = class {
                         : e && Array.isArray(e.options)
                           ? e.options
                           : [];
-                ((this.options = i),
+                if (
+                    ((this.options = i),
                     (this.originalOptions = JSON.parse(JSON.stringify(i))),
                     this.populateLabelRepositoryFromOptions(i),
-                    this.renderOptions());
+                    this.isSearchable &&
+                        this.searchInput &&
+                        ((this.searchInput.value &&
+                            this.searchInput.value.trim() !== "") ||
+                            (this.searchQuery &&
+                                this.searchQuery.trim() !== "")))
+                ) {
+                    let n = (this.searchInput.value || this.searchQuery || "")
+                        .trim()
+                        .toLowerCase();
+                    (this.hideLoadingState(), this.filterOptions(n));
+                } else this.renderOptions();
             } catch (e) {
                 (console.error("Error fetching options:", e),
                     this.hideLoadingState());
             }
         }
         if ((this.hideLoadingState(), this.isSearchable && this.searchInput))
-            ((this.searchInput.value = ""),
-                this.searchInput.focus(),
-                (this.searchQuery = ""),
-                (this.options = JSON.parse(
-                    JSON.stringify(this.originalOptions),
-                )),
-                this.renderOptions());
+            this.searchInput.focus();
         else {
             this.selectedIndex = -1;
             let e = this.getVisibleOptions();
@@ -1755,7 +1771,7 @@ var ut = class {
     }
     positionDropdown() {
         let t = this.position === "top" ? "top-start" : "bottom-start",
-            e = [qt(4), Jt({ padding: 5 })];
+            e = [Jt(4), qt({ padding: 5 })];
         this.position !== "top" && this.position !== "bottom" && e.push(jt());
         let i =
             this.selectButton.closest(".fi-fixed-positioning-context") !==
@@ -1777,6 +1793,11 @@ var ut = class {
         ((this.dropdown.style.display = "none"),
             this.selectButton.setAttribute("aria-expanded", "false"),
             (this.isOpen = !1),
+            this.searchTimeout &&
+                (clearTimeout(this.searchTimeout), (this.searchTimeout = null)),
+            this.activeSearchId++,
+            (this.isSearching = !1),
+            this.hideLoadingState(),
             this.resizeListener &&
                 (window.removeEventListener("resize", this.resizeListener),
                 (this.resizeListener = null)),
@@ -1785,7 +1806,8 @@ var ut = class {
                 (this.scrollListener = null)),
             this.getVisibleOptions().forEach((e) => {
                 e.classList.remove("fi-selected");
-            }));
+            }),
+            this.dropdown.removeAttribute("aria-activedescendant"));
     }
     focusNextOption() {
         let t = this.getVisibleOptions();
@@ -1891,7 +1913,7 @@ var ut = class {
         return t;
     }
     handleSearch(t) {
-        let e = t.target.value.trim().toLowerCase();
+        let e = t.target.value.trim();
         if (
             ((this.searchQuery = e),
             this.searchTimeout && clearTimeout(this.searchTimeout),
@@ -1910,30 +1932,34 @@ var ut = class {
             return;
         }
         this.searchTimeout = setTimeout(async () => {
-            ((this.searchTimeout = null), (this.isSearching = !0));
+            this.searchTimeout = null;
+            let i = ++this.activeSearchId;
+            this.isSearching = !0;
             try {
                 this.showLoadingState(!0);
-                let i = await this.getSearchResultsUsing(e),
-                    n = Array.isArray(i)
-                        ? i
-                        : i && Array.isArray(i.options)
-                          ? i.options
-                          : [];
-                ((this.options = n),
-                    this.populateLabelRepositoryFromOptions(n),
+                let n = await this.getSearchResultsUsing(e);
+                if (i !== this.activeSearchId || !this.isOpen) return;
+                let o = Array.isArray(n)
+                    ? n
+                    : n && Array.isArray(n.options)
+                      ? n.options
+                      : [];
+                ((this.options = o),
+                    this.populateLabelRepositoryFromOptions(o),
                     this.hideLoadingState(),
                     this.renderOptions(),
                     this.isOpen && this.positionDropdown(),
                     this.options.length === 0 && this.showNoResultsMessage());
-            } catch (i) {
-                (console.error("Error fetching search results:", i),
+            } catch (n) {
+                i === this.activeSearchId &&
+                    (console.error("Error fetching search results:", n),
                     this.hideLoadingState(),
                     (this.options = JSON.parse(
                         JSON.stringify(this.originalOptions),
                     )),
                     this.renderOptions());
             } finally {
-                this.isSearching = !1;
+                i === this.activeSearchId && (this.isSearching = !1);
             }
         }, this.searchDebounce);
     }
@@ -1961,8 +1987,9 @@ var ut = class {
     }
     filterOptions(t) {
         let e = this.searchableOptionFields.includes("label"),
-            i = this.searchableOptionFields.includes("value"),
-            n = [];
+            i = this.searchableOptionFields.includes("value");
+        t = t.toLowerCase();
+        let n = [];
         for (let o of this.originalOptions)
             if (o.options && Array.isArray(o.options)) {
                 let r = o.options.filter(
@@ -2197,12 +2224,12 @@ function Ee({
     maxItemsMessage: v,
     noSearchResultsMessage: L,
     options: x,
-    optionsLimit: q,
-    placeholder: Q,
+    optionsLimit: J,
+    placeholder: G,
     position: W,
     searchDebounce: F,
-    searchingMessage: I,
-    searchPrompt: J,
+    searchingMessage: R,
+    searchPrompt: q,
     searchableOptionFields: j,
     state: X,
     statePath: A,
@@ -2214,7 +2241,7 @@ function Ee({
             ((this.select = new ut({
                 element: this.$refs.select,
                 options: x,
-                placeholder: Q,
+                placeholder: G,
                 state: this.state,
                 canOptionLabelsWrap: s,
                 canSelectPlaceholder: t,
@@ -2232,14 +2259,14 @@ function Ee({
                 getSearchResultsUsing: r,
                 hasDynamicOptions: u,
                 hasDynamicSearchResults: m,
-                searchPrompt: J,
+                searchPrompt: q,
                 searchDebounce: F,
                 loadingMessage: w,
-                searchingMessage: I,
+                searchingMessage: R,
                 noSearchResultsMessage: L,
                 maxItems: b,
                 maxItemsMessage: v,
-                optionsLimit: q,
+                optionsLimit: J,
                 position: W,
                 searchableOptionFields: j,
                 livewireId: g,

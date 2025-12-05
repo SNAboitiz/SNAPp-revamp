@@ -4,14 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Profile extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'account_name',
-        'short_name',
+        'customer_id',
+        'facility_id',
         'business_address',
         'facility_address',
         'customer_category',
@@ -22,7 +23,6 @@ class Profile extends Model
         'other_information',
         'contact_name',
         'designation',
-        'customer_id',
         'email',
         'mobile_number',
 
@@ -43,5 +43,15 @@ class Profile extends Model
     public function bills()
     {
         return $this->hasMany(Bill::class, 'customer_id', 'customer_id');
+    }
+
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function facility(): BelongsTo
+    {
+        return $this->belongsTo(Facility::class);
     }
 }

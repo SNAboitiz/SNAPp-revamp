@@ -917,7 +917,6 @@ function Ms(O, e, t) {
                     (c += o),
                     o && i && (h = h.append(i[(s - 2) >> 1])),
                     !(t || s == O.sections.length || O.sections[s + 1] < 0);
-
             )
                 ((a = O.sections[s++]), (o = O.sections[s++]));
             (e(r, l, n, c, h), (r = l), (n = c));
@@ -1468,7 +1467,6 @@ var We = {
                     this.facets = s,
                     this.statusTemplate = [];
                 this.statusTemplate.length < i.length;
-
             )
                 this.statusTemplate.push(0);
         }
@@ -2567,7 +2565,6 @@ var Nr = class {
                         ;
                         this.chunkIndex < this.layer.chunk.length &&
                         this.skip.has(this.layer.chunk[this.chunkIndex]);
-
                     )
                         this.chunkIndex++;
                 this.rangeIndex = 0;
@@ -2677,7 +2674,6 @@ var dO = class {
             this.minActive > -1 &&
             (this.activeTo[this.minActive] - e ||
                 this.active[this.minActive].endSide - t) < 0;
-
         )
             this.removeActive(this.minActive);
         this.cursor.forward(e, t);
@@ -2695,7 +2691,6 @@ var dO = class {
             ;
             t < this.activeRank.length &&
             (n - this.activeRank[t] || r - this.activeTo[t]) > 0;
-
         )
             t++;
         (Er(this.active, t, i),
@@ -3580,7 +3575,6 @@ var Re = class O {
                     n = r ? r.nextSibling : i.firstChild,
                         n && t && t.node == i && (t.written = !0);
                     n;
-
                 )
                     n = Gh(n);
             } else if (this.flags & 1)
@@ -3803,7 +3797,6 @@ function Rf(O, e, t, i, r, n, s, a, o) {
                       c.merge(t, c.length, null, !1, a, 0),
                 e++));
             e < i && n.length;
-
         )
             if (l[i - 1].become(n[n.length - 1]))
                 (i--, n.pop(), (o = n.length ? 0 : a));
@@ -6107,7 +6100,6 @@ var Yi = v.define(),
                         this.view.viewState.lineGapDeco,
                     ];
                 e < this.decorations.length;
-
             )
                 this.dynamicDecorationMap[e++] = !1;
             return this.decorations;
@@ -6395,7 +6387,6 @@ function rd(O, e, t, i = -1) {
     for (
         let T = O.viewState.heightOracle.textHeight / 2, X = !1;
         (o = O.elementAtHeight(f)), o.type != _e.Text;
-
     )
         for (; (f = i > 0 ? o.bottom + T : o.top - T), !(f >= 0 && f <= l); ) {
             if (X) return t ? null : 0;
@@ -8238,7 +8229,6 @@ var Sn = class extends Ie {
                     r.from > t &&
                     s.push(new O(r.from - t - 1).updateHeight(e, t));
                     a <= n && r.more;
-
                 ) {
                     let c = e.doc.lineAt(a).length;
                     s.length && s.push(null);
@@ -8941,13 +8931,8 @@ var ji = class {
             let i = t.mapPos(e.from, -1),
                 r = t.mapPos(e.to, 1);
             return new KO(
-                this.heightMap.lineAt(
-                    i,
-                    ce.ByPos,
-                    this.heightOracle,
-                    0,
-                    0,
-                ).from,
+                this.heightMap.lineAt(i, ce.ByPos, this.heightOracle, 0, 0)
+                    .from,
                 this.heightMap.lineAt(r, ce.ByPos, this.heightOracle, 0, 0).to,
             );
         }
@@ -11796,7 +11781,6 @@ var Da = class {
                             this.regexp.lastIndex = c - o.from;
                             (u = this.regexp.exec(o.text)) &&
                             u.index < h - o.from;
-
                         )
                             this.addMatch(u, e, u.index + o.from, Q);
                     else
@@ -13694,7 +13678,6 @@ var D = class O {
             for (
                 ;
                 l && i && (a || !o.type.isAnonymous) && i(o), !o.nextSibling();
-
             ) {
                 if (!o.parent()) return;
                 l = !0;
@@ -13832,7 +13815,6 @@ function er(O, e, t, i) {
         O.from == O.to ||
         (t < 1 ? O.from >= e : O.from > e) ||
         (t > -1 ? O.to <= e : O.to < e);
-
     ) {
         let s = !i && O instanceof Ce && O.index < 0 ? null : O.parent;
         if (!s) return O;
@@ -14408,7 +14390,6 @@ var ii = class {
                 (t < 1 ? this.from >= e : this.from > e) ||
                 (t > -1 ? this.to <= e : this.to < e)) &&
             this.parent();
-
         );
         for (; this.enterChild(1, e, t); );
         return this;
@@ -15527,7 +15508,6 @@ var yo = class {
                         (this.highlightRange(e, T, X, r, n),
                         this.startSpan(Math.min(X, e.to), l),
                         !(e.to >= P || !e.nextSibling()));
-
                     );
                 if (!g || P > i) break;
                 ((m = g.to + a),
@@ -15888,7 +15868,6 @@ var Zo = class {
                                       t < this.state.doc.length &&
                                       this.parse.stopAt(t);
                               ;
-
                           ) {
                               let r = this.parse.advance();
                               if (r)
@@ -18279,7 +18258,6 @@ function oQ(O) {
                 c == null &&
                 (c = Ye(/^\s*/.exec(e.doc.lineAt(n).text)[0], e.tabSize));
                 s < a.to && /\s/.test(a.text[s - a.from]);
-
             )
                 s++;
             o
@@ -18367,7 +18345,6 @@ var M1 = ({ state: O, dispatch: e }) => {
                               s < r.length &&
                               s < a.length &&
                               r.charCodeAt(s) == a.charCodeAt(s);
-
                           )
                               s++;
                           i.push({
@@ -18708,7 +18685,6 @@ function rs(O, e) {
     for (
         ;
         e < t.to && (i = t.text.charCodeAt(e - t.from)) >= 56320 && i < 57344;
-
     )
         e++;
     return e;
@@ -19838,7 +19814,6 @@ var ds = V.define(),
             for (
                 let g = 0, P = Math.min(e.length, 200), T = 0;
                 g < P && h < o;
-
             ) {
                 let X = Se(e, g);
                 a < 0 &&
@@ -21160,7 +21135,6 @@ var ZT = (O) => {
                         /[#$]\{(?:(\d+)(?::([^{}]*))?|((?:\\[{}]|[^{}])*))\}/.exec(
                             s,
                         ));
-
                 ) {
                     let a = n[1] ? +n[1] : null,
                         o = n[2] || n[3] || "",
@@ -21175,7 +21149,6 @@ var ZT = (O) => {
                             ;
                             h < t.length &&
                             (a == null || (t[h].seq != null && t[h].seq < a));
-
                         )
                             h++;
                         (t.splice(h, 0, { seq: a, name: c }), (l = h));
@@ -21663,7 +21636,6 @@ var ps = class {
                           )))
                         : ((Q = u.from), ($ = u.to), a.push(u), f++);
                     f < n.length;
-
                 ) {
                     let g = n[f];
                     if (g.from == Q && (g.to > g.from || g.to == Q))
@@ -22091,7 +22063,6 @@ var Xl = class extends Ue {
                 );
                 i < this.items.length &&
                 !(this.items.length == 1 && this.items[0].diagnostic.from < 0);
-
             )
                 ((r = !0), this.items.pop());
             (this.items.length == 0 &&
@@ -23186,7 +23157,6 @@ var Rl = class {
                             ? a$(e.tree, e.to + e.offset, -1) - e.offset
                             : e.to;
                     this.trees.length;
-
                 )
                     (this.trees.pop(), this.start.pop(), this.index.pop());
                 (this.trees.push(e.tree),
@@ -23381,7 +23351,6 @@ var Rl = class {
                     s.forceReduce() &&
                     s.stack.length &&
                     s.stack[s.stack.length - 2] >= this.lastBigReductionStart;
-
                 );
                 this.bigReductionCount = this.lastBigReductionSize = 0;
             }
@@ -23865,7 +23834,6 @@ var ql = class {
                     for (
                         let s = this.dialects[t[n]], a;
                         (a = this.data[s++]) != 65535;
-
                     )
                         (r || (r = new Uint8Array(this.maxTerm + 1)))[a] = 1;
             return new ql(e, i, r);
@@ -25381,7 +25349,6 @@ var Y0 = 177,
                     i == N0) &&
                     O.acceptToken(Y0),
                     !(i != D0 && i != I0);
-
             )
                 i = O.peek(++t);
         },
@@ -28324,7 +28291,6 @@ var ac = class {
                     this.forwardInner(),
                     this.depth = 1;
                 this.markers.length;
-
             )
                 this.markers.pop();
         }
@@ -28877,7 +28843,6 @@ var fc = class {
                         ;
                         i < e.markers.length &&
                         (!r || e.markers[i].from < r.end);
-
                     ) {
                         let n = e.markers[i++];
                         this.addNode(n.type, n.from, n.to);
@@ -28977,7 +28942,6 @@ var fc = class {
                 ;
                 this.rangeI < this.ranges.length - 1 &&
                 this.absoluteLineStart >= this.ranges[this.rangeI].to;
-
             )
                 (this.rangeI++,
                     (this.absoluteLineStart = Math.max(
@@ -29773,7 +29737,6 @@ var Ex = [b.CodeBlock, b.ListItem, b.OrderedList, b.BulletList],
                     this.input.read(n - 1, n) !=
                         `
 `;
-
                 )
                     n--;
                 this.fragmentEnd = n ? n - 1 : 0;
@@ -30519,7 +30482,6 @@ var rw =
                     for (
                         ;
                         p > l.from && /\s/.test(l.text.charAt(p - l.from - 1));
-
                     )
                         p--;
                     return (
@@ -30928,7 +30890,6 @@ var kk = {
             for (
                 ;
                 O.advance(), !(!Vr(O.next) && !(O.next >= 48 && O.next <= 55));
-
             )
                 t += String.fromCharCode(O.next);
             if (e) {
@@ -31520,7 +31481,6 @@ function Av(O, e) {
             O.next != Wm &&
             O.next != Um &&
             O.next != WO;
-
         )
             O.advance();
         O.next == Ym && O.advance();
@@ -32239,7 +32199,6 @@ function Hm(O, e) {
         for (
             O.advance(), (O.next == 43 || O.next == 45) && O.advance();
             O.next >= 48 && O.next <= 57;
-
         )
             O.advance();
 }
@@ -33033,7 +32992,6 @@ function tZ(O, e) {
         i.parent &&
         i.to == e &&
         !(!((t = i.lastChild) === null || t === void 0) && t.type.isError);
-
     )
         i = i.parent;
     return i.name == "Element" || i.name == "Text" || i.name == "Document"

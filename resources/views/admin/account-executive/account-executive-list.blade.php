@@ -13,7 +13,7 @@
                 </flux:modal.trigger>
             </div>
         </div>
-        <form method="GET" action="{{ route('all-user-list') }}" class="mb-4 flex flex-wrap items-center gap-4">
+        <form method="GET" action="{{ route('account-executive-list') }}" class="mb-4 flex flex-wrap items-center gap-4">
             <flux:input icon="magnifying-glass" name="search" placeholder="Search users..."
                 value="{{ request('search') }}" class="w-full md:w-1/4" />
 
@@ -47,27 +47,39 @@
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Full Name</th>
+                        <th>Name</th>
                         <th>Email Address</th>
+                        <th>Customer</th>
+                        <th>Facility</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($accountExecutives as $accountExecutive)
-                        <tr class="cursor-pointer hover:bg-gray-100 transition flux-btn-info"
-                            data-id="{{ $accountExecutive->id }}" data-name="{{ $accountExecutive->name }}"
-                            data-email="{{ $accountExecutive->email }}"
-                            data-customer-id="{{ $accountExecutive->customer_id }}"
-                            data-account-name="{{ $accountExecutive->profile?->account_name }}"
-                            onclick="document.getElementById('open-edit-modal').click()">
-                            <td>{{ $accountExecutive->id }}</td>
-                            <td>{{ $accountExecutive->name }}</td>
-                            <td>{{ $accountExecutive->email }}</td>
-                        </tr>
+                    <tr class="cursor-pointer hover:bg-gray-100 transition flux-btn-info"
+                        data-id="{{ $accountExecutive->id }}" data-name="{{ $accountExecutive->name }}"
+                        data-email="{{ $accountExecutive->email }}"
+                        data-customer-id="{{ $accountExecutive->customer_id }}"
+                        data-facility-id="{{ $accountExecutive->facility_id }}"
+                        data-account-name="{{ $accountExecutive->customer?->account_name }}"
+                        data-facility-name="{{ $accountExecutive->facility?->name }}"
+                        onclick="document.getElementById('open-edit-modal').click()">
+
+                        <td>{{ $accountExecutive->name }}</td>
+                        <td>{{ $accountExecutive->email }}</td>
+                        <td>{{ $accountExecutive->customer?->account_name ?? '-' }}</td>
+                        <td>{{ $accountExecutive->facility?->name ?? '-' }}</td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
+
+        {{-- Pagination Links --}}
+        @if ($accountExecutives->hasPages())
+        <div class="mt-4 px-4 py-3 bg-white border-t border-gray-200">
+            {{ $accountExecutives->links() }}
+        </div>
+        @endif
 
         <!-- Hidden Modal Trigger for Edit -->
         <flux:modal.trigger name="edit-accountexecutive-modal">
@@ -76,6 +88,7 @@
 
     </div>
 
+    <!-- Modals -->
     @include('admin.account-executive.form-create-accountexecutive')
     @include('admin.account-executive.form-edit-accountexecutive')
 

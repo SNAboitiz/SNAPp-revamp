@@ -42,6 +42,10 @@ php artisan storage:link
 echo "Running database migrations..."
 php artisan migrate --force 2>/dev/null || echo "Migration failed or database not available"
 
+# Optionally, run fresh migrations (uncomment if needed)
+# echo "Running fresh database migrations..."
+# php artisan migrate:fresh --force 2>/dev/null || echo "Fresh migration failed or database not available"
+
 # Run database seeders (only if needed)
 # echo "Running database seeders..."
 # php artisan db:seed --force 2>/dev/null || echo "Seeding failed or not needed"

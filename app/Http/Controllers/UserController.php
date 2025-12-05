@@ -10,7 +10,8 @@ use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateAdminRequest;
 use App\Http\Requests\UpdateAERequest;
 use App\Mail\CustomerPasswordMail;
-use App\Models\Profile;
+use App\Models\Customer;
+use App\Models\Facility;
 use App\Models\Scopes\HasActiveScope;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -30,16 +31,21 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $query = User::query()->role('customer')->with('profile');
+        $query = User::query()->role('customer')->with(['customer', 'facility']);
         $users = $this->applyCommonFiltersAndPagination(
             $query,
             $request,
             ['active', 'search', 'sort']
         );
 
-        $profiles = Profile::orderBy('account_name')->get();
+        $customers = Customer::with('facilities')->orderBy('account_name')->get();
+        $facilities = Facility::orderBy('name')->get();
 
-        return view('admin.customer-account.customer-list', compact('users', 'profiles'));
+        return view('admin.customer-account.customer-list', compact(
+            'users',
+            'customers',
+            'facilities'
+        ));
     }
 
     public function store(StoreCustomerRequest $request)
@@ -53,47 +59,21 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified customer and their profile in the database.
+     * Update the specified customer and their customer in the database.
      * Note: This logic is unique to customers and is not refactored.
      */
     public function update(EditCustomerRequest $request, User $user)
     {
         $validated = $request->validated();
 
-        DB::beginTransaction();
-        try {
-            $user->update([
-                'name' => $validated['edit_name'],
-                'email' => $validated['edit_email'],
-                'customer_id' => $validated['edit_customer_id'],
-            ]);
+        $user->update([
+            'name' => $validated['edit_name'],
+            'email' => $validated['edit_email'],
+            'customer_id' => $validated['edit_customer_id'] ?? null,
+            'facility_id' => $validated['edit_facility_id'] ?? null,
+        ]);
 
-            $profileData = [
-                'account_name' => $validated['edit_account_name'] ?? null,
-                'short_name' => $validated['edit_short_name'] ?? null,
-                'customer_category' => $validated['edit_customer_category'] ?? null,
-                'contract_price' => $validated['edit_contract_price'] ?? null,
-                'contracted_demand' => $validated['edit_contracted_demand'] ?? null,
-                'cooperation_period_start_date' => $validated['edit_cooperation_period_start_date'] ?? null,
-                'cooperation_period_end_date' => $validated['edit_cooperation_period_end_date'] ?? null,
-            ];
-
-            $filteredProfileData = array_filter($profileData, fn ($value) => ! is_null($value));
-
-            if (count($filteredProfileData) > 0) {
-                $profile = Profile::firstOrNew(['customer_id' => $user->customer_id]);
-                $profile->fill($filteredProfileData)->save();
-            }
-
-            DB::commit();
-
-            return redirect()->route('users.index')->with('success', 'Customer updated successfully.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('Customer Update Failed: '.$e->getMessage());
-
-            return redirect()->back()->with('error', 'Failed to update customer.');
-        }
+        return redirect()->route('users.index');
     }
 
     /**
@@ -120,12 +100,19 @@ class UserController extends Controller
     // ADMIN ACCOUNT MANAGEMENT
     // ======================================================================
 
-    public function showAdmins()
+    public function showAdmins(Request $request)
     {
-        $admins = User::role('admin')->with('profile')->paginate(10);
-        $profiles = Profile::orderBy('account_name')->get();
+        $query = User::role('admin')->with('customer');
 
-        return view('admin.admin-account.admin-list', compact('admins', 'profiles'));
+        $admins = $this->applyCommonFiltersAndPagination(
+            $query,
+            $request,
+            ['active', 'search', 'sort']
+        );
+        $customers = Customer::with('facilities')->orderBy('account_name')->get();
+        $facilities = Facility::orderBy('name')->get();
+
+        return view('admin.admin-account.admin-list', compact('admins', 'customers', 'facilities'));
     }
 
     public function storeAdmins(StoreAdminRequest $request)
@@ -154,16 +141,17 @@ class UserController extends Controller
 
     public function showAE(Request $request)
     {
-        $query = User::query()->role('account executive')->with('profile');
+        $query = User::query()->role('account executive')->with('customer', 'facility');
 
         $accountExecutives = $this->applyCommonFiltersAndPagination(
             $query,
             $request,
             ['active', 'search', 'sort']
         );
-        $profiles = Profile::orderBy('account_name')->get();
+        $customers = Customer::orderBy('account_name')->get();
+        $facilities = Facility::orderBy('name')->get();
 
-        return view('admin.account-executive.account-executive-list', compact('accountExecutives', 'profiles'));
+        return view('admin.account-executive.account-executive-list', compact('accountExecutives', 'customers', 'facilities'));
     }
 
     public function storeAE(StoreAccountExecutive $request)
@@ -186,7 +174,6 @@ class UserController extends Controller
         );
 
         return redirect()->route('account-executive-list')->with('success', 'Account Executive updated successfully.');
-
     }
 
     // ======================================================================
@@ -209,11 +196,12 @@ class UserController extends Controller
             $request,
             ['role', 'active', 'search', 'sort']
         );
-        $profiles = Profile::orderBy('account_name')->get();
+        $customers = Customer::orderBy('account_name')->get();
+        $facilities = Facility::orderBy('name')->get();
 
         $roles = Role::all();
 
-        return view('admin.all-users.all-users-list', compact('allUsers', 'roles', 'profiles'));
+        return view('admin.all-users.all-users-list', compact('allUsers', 'roles', 'customers', 'facilities'));
     }
 
     /**
@@ -230,6 +218,8 @@ class UserController extends Controller
         $user->fill($validated);
 
         // Update active status from the hidden input in your modal
+        $user->facility_id = $request->input('facility_id', null);
+
         $user->active = (int) $request->input('active', $user->active);
 
         $user->save();
@@ -315,7 +305,7 @@ class UserController extends Controller
         $user->update([
             'name' => $validated['edit_name'],
             'email' => $validated['edit_email'],
-            'customer_id' => $validated['edit_customer_id'],
+            'customer_id' => $validated['edit_customer_id'] ?? null,
         ]);
 
         return redirect()->route($redirectRoute)->with('success', $successMessage);

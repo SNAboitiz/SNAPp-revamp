@@ -43,7 +43,7 @@ class StoreBillRequest extends FormRequest
                 'string',
                 'max:255',
             ],
-            'shortname' => [
+            'short_name' => [
                 'required',
                 'string',
                 'max:255',

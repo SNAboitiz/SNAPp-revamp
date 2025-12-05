@@ -32,15 +32,25 @@ class UpdateAERequest extends FormRequest
                 'string',
                 'max:255',
             ],
-            'edit_customer_id' => [
-                'sometimes',
-                'numeric',
-            ],
+
             'edit_email' => [
                 'sometimes',
                 'email',
                 Rule::unique('users', 'email')->ignore($user->id),
             ],
+
+            'edit_customer_id' => [
+                'sometimes',
+                'numeric',
+                'exists:customers,id',
+            ],
+
+            'edit_facility_id' => [
+                'nullable',
+                'numeric',
+                'exists:facilities,id',
+            ],
+
         ];
     }
 

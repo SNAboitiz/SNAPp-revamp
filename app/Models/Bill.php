@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Bill extends Model
 {
@@ -16,8 +17,23 @@ class Bill extends Model
         'uploaded_by',
     ];
 
-    public function profile()
+    /**
+     * Get the customer associated with the bill.
+     *
+     * @return BelongsTo<Customer>
+     */
+    public function customer(): BelongsTo
     {
-        return $this->belongsTo(Profile::class, 'customer_id', 'customer_id');
+        return $this->belongsTo(Customer::class);
+    }
+
+    /**
+     * Get the facility associated with the bill.
+     *
+     * @return BelongsTo<Facility>
+     */
+    public function facility(): BelongsTo
+    {
+        return $this->belongsTo(Facility::class);
     }
 }

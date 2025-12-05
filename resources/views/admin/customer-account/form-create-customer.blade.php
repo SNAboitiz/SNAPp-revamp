@@ -7,16 +7,13 @@
                 <flux:heading size="lg">
                     Create New Customer Account
                 </flux:heading>
-                <flux:text class="mt-2">
-                    Fill in the required user details and choose an existing profile.
-                </flux:text>
             </div>
 
             <flux:field>
                 <flux:label badge="Required">Name</flux:label>
                 <flux:input name="name" value="{{ old('name') }}" placeholder="Enter customer name" />
                 @error('name')
-                    <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
+                <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
                 @enderror
             </flux:field>
 
@@ -25,21 +22,52 @@
                 <flux:input name="email" type="email" value="{{ old('email') }}"
                     placeholder="Enter customer email" />
                 @error('email')
-                    <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
+                <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
                 @enderror
             </flux:field>
 
-            <flux:field label="Assign Profile" for="customer_id" required>
-                <flux:select id="customer_id" name="customer_id" placeholder="— Select account —" required
-                    :error="$errors->first('customer_id')">
-                    @foreach ($profiles as $profile)
-                        <option value="{{ $profile->customer_id }}" class="text-black" @selected(old('customer_id') == $profile->customer_id)>
-                            {{ $profile->account_name }} ({{ $profile->short_name }})
-                        </option>
+            <!-- Assign Customer -->
+            <flux:field>
+                <flux:label badge="Required">Customer</flux:label>
+                <flux:select
+                    id="customer_id"
+                    name="customer_id"
+                    placeholder="— Select customer —"
+                    required>
+                    @foreach ($customers as $customer)
+                    <option
+                        value="{{ $customer->id }}"
+                        @selected(old('customer_id')==$customer->id)>
+                        {{ $customer->account_name }} ({{ $customer->short_name ?? '—' }})
+                    </option>
                     @endforeach
                 </flux:select>
+                @error('customer_id')
+                <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
+                @enderror
             </flux:field>
 
+            <!-- Assign Facility -->
+            <flux:field>
+                <flux:label>Facility</flux:label>
+                <flux:select
+                    id="facility_id"
+                    name="facility_id"
+                    placeholder="— Select facility (optional) —">
+                    <option value="">— No facility —</option>
+                    @foreach ($facilities as $facility)
+                    <option
+                        value="{{ $facility->id }}"
+                        data-customer-id="{{ $facility->customer_id }}"
+                        @selected(old('facility_id')==$facility->id)>
+                        {{ $facility->name }}
+                    </option>
+                    @endforeach
+                </flux:select>
+                @error('facility_id')
+                <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
+                @enderror
+            </flux:field>
 
             <div class="flex">
                 <flux:spacer />
@@ -51,10 +79,47 @@
     </flux:modal>
 
     <script>
-        document.getElementById('create-button').addEventListener('click', function() {
-            this.disabled = true;
-            this.innerText = 'Creating…';
-            document.getElementById('create-form').submit();
+        // Filter facilities based on selected customer
+        const customerSelect = document.getElementById('customer_id');
+        const facilitySelect = document.getElementById('facility_id');
+        const facilityOptions = Array.from(facilitySelect.querySelectorAll('option'));
+
+        function filterFacilities() {
+            const selectedCustomerId = customerSelect.value;
+
+            // Reset facility selection
+            facilitySelect.value = '';
+
+            // Show/hide options based on customer
+            facilityOptions.forEach(option => {
+                if (!option.value) {
+                    // Keep the placeholder visible
+                    option.style.display = '';
+                    return;
+                }
+
+                const facilityCustomerId = option.dataset.customerId;
+
+                if (selectedCustomerId && facilityCustomerId !== selectedCustomerId) {
+                    option.style.display = 'none';
+                } else {
+                    option.style.display = '';
+                }
+            });
+        }
+
+        // Filter on customer change
+        customerSelect.addEventListener('change', filterFacilities);
+
+        // Filter on page load if customer is pre-selected
+        if (customerSelect.value) {
+            filterFacilities();
+        }
+
+        document.getElementById('create-form').addEventListener('submit', function(e) {
+            const button = document.getElementById('create-button');
+            button.disabled = true;
+            button.innerText = 'Creating…';
         });
     </script>
 </div>

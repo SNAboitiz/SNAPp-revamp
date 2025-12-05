@@ -11979,7 +11979,6 @@ ${p.outerHTML}${_}
                 !((a >= 65504 && a <= 65519) || a === 65534) ||
                 (l || (l = ig(t, i, n)), i + n > t.byteLength)
             ));
-
         )
             i += n;
         return e.slice(0, i);

@@ -38,6 +38,7 @@ class InquiryResource extends Resource
                     ->label('Request details')
                     ->required()
                     ->columnSpanFull()
+                    ->fileAttachmentsDisk(config('filesystems.default'))
                     ->fileAttachmentsDirectory('inquiries')
                     ->fileAttachmentsAcceptedFileTypes(['image/png', 'image/jpeg'])
                     ->toolbarButtons([

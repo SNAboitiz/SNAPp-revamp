@@ -5,7 +5,6 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Rule;
 
 class AdminUpdateProfileRequest extends FormRequest
 {
@@ -26,21 +25,15 @@ class AdminUpdateProfileRequest extends FormRequest
     {
         return [
             'edit_customer_id' => [
-                'required',
-                'integer',
-                Rule::unique('profiles', 'customer_id')->ignore($this->route('profile')),
-            ],
-
-            'edit_short_name' => [
-                'required',
-                'string',
-                'max:100',
-            ],
-
-            'edit_account_name' => [
                 'nullable',
-                'string',
-                'max:100',
+                'integer',
+                'exists:customers,id',
+            ],
+
+            'edit_facility_id' => [
+                'nullable',
+                'integer',
+                'exists:facilities,id',
             ],
 
             'edit_business_address' => [
@@ -142,12 +135,6 @@ class AdminUpdateProfileRequest extends FormRequest
                 'email',
                 'max:100',
             ],
-
-            'edit_account_executive' => [
-                'nullable',
-                'string',
-                'max:100',
-            ],
         ];
     }
 
@@ -156,7 +143,7 @@ class AdminUpdateProfileRequest extends FormRequest
      */
     protected function failedValidation(Validator $validator)
     {
-        session()->flash('show_modal', 'edit-customer-profile-modal');
+        session()->flash('show_modal', 'edit-customer-modal');
         throw new HttpResponseException(
             redirect()
                 ->back()
