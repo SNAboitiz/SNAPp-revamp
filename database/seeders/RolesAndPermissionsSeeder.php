@@ -22,7 +22,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'can upload contracts',
             'can view profile',
             'can view bills',
-            'can view econ',
+            'can view energy consumption page',
             'can view advisories',
             'profile-editable-AE',
             'profile-editable-customer',
@@ -58,6 +58,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'can view bills',
             'can view econ',
             'profile-editable-customer',
+            'can view advisories',
         ]);
     }
 }

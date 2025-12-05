@@ -62,55 +62,53 @@
             </div>
         </div>
 
-        <!-- Bottom Section: Billing and Contract Information -->
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
-            <!-- Billing Statement Card (wider) -->
-            <div class="col-span-1 md:col-span-3 bg-white rounded-2xl shadow p-6 flex flex-col justify-center">
-                <div class="flex items-center gap-2 mb-2">
-                    <span
-                        class="text-[10px] font-semibold leading-tight px-2 py-[1px] rounded-full
+        @role('customer')
+            <!-- Bottom Section: Billing and Contract Information -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+                <!-- Billing Statement Card (wider) -->
+                <div class="col-span-1 md:col-span-3 bg-white rounded-2xl shadow p-6 flex flex-col justify-center">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span
+                            class="text-[10px] font-semibold leading-tight px-2 py-[1px] rounded-full
                         {{ $Status === 'PAID' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                        {{ $Status }}
-                    </span>
+                            {{ $Status }}
+                        </span>
+                    </div>
+
+                    <div
+                        class="flex flex-wrap md:flex-nowrap items-center justify-center md:justify-between gap-4 md:gap-0">
+                        <!-- Total Amount -->
+                        <div class="flex-1 text-center min-w-[120px]">
+                            <span class="text-xs font-medium text-[#1443e0]">Total Amount</span>
+                            <div class="text-2xl font-bold mt-1 truncate">₱{{ $currentAmount }}</div>
+                        </div>
+
+                        <!-- Divider -->
+                        <div class="hidden md:block h-12 w-px bg-gray-300 mx-4"></div>
+
+                        <!-- Due Date -->
+                        <div class="flex-1 text-center min-w-[120px]">
+                            <span class="text-xs font-medium text-[#1443e0]">Due Date</span>
+                            <div class="text-2xl font-bold mt-1 truncate">{{ $dueDate }}</div>
+                        </div>
+                    </div>
                 </div>
 
-
-
-
-
+                <!-- Contract Expiration Card (smaller) -->
                 <div
-                    class="flex flex-wrap md:flex-nowrap items-center justify-center md:justify-between gap-4 md:gap-0">
-                    <!-- Total Amount -->
-                    <div class="flex-1 text-center min-w-[120px]">
-                        <span class="text-xs font-medium text-[#1443e0]">Total Amount</span>
-                        <div class="text-2xl font-bold mt-1 truncate">₱{{ $currentAmount }}</div>
-                    </div>
-
-                    <!-- Divider -->
-                    <div class="hidden md:block h-12 w-px bg-gray-300 mx-4"></div>
-
-                    <!-- Due Date -->
-                    <div class="flex-1 text-center min-w-[120px]">
-                        <span class="text-xs font-medium text-[#1443e0]">Due Date</span>
-                        <div class="text-2xl font-bold mt-1 truncate">{{ $dueDate }}</div>
-                    </div>
+                    class="col-span-1 md:col-span-2 bg-white rounded-2xl shadow p-6 flex flex-col justify-center items-center">
+                    <span class="text-xs font-medium text-[#1443e0]">Contract Expiration</span>
+                    <div class="text-2xl font-bold text-[#1443e0] mt-2"></div>
                 </div>
             </div>
-
-            <!-- Contract Expiration Card (smaller) -->
-            <div
-                class="col-span-1 md:col-span-2 bg-white rounded-2xl shadow p-6 flex flex-col justify-center items-center">
-                <span class="text-xs font-medium text-[#1443e0]">Contract Expiration</span>
-                <div class="text-2xl font-bold text-[#1443e0] mt-2"></div>
-            </div>
-        </div>
+        @endrole
 
         <!-- Advisory Modal -->
         <div x-show="showModal" style="display: none;" x-transition:enter="ease-out duration-300"
             x-transition:leave="ease-in duration-200" class="fixed inset-0 z-50 overflow-y-auto">
             <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                 <div class="fixed inset-0 transition-opacity" @click="showModal = false">
-                    <div class="absolute inset-0 bg-black opacity-50"></div>
+                    {{-- <div class="absolute inset-0 bg-black opacity-50"></div> --}}
                 </div>
                 <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full"
                     @click.away="showModal = false">

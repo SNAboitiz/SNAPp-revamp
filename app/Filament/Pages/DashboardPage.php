@@ -20,6 +20,7 @@ class DashboardPage extends Dashboard
 
     public function filtersForm(Schema $schema): Schema
     {
+        // TODO: add widget legend
         return $schema
             ->components([
                 Section::make()

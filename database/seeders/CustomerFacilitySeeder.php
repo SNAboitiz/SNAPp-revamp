@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Facility;
+use App\Models\Profile;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -36,18 +38,21 @@ class CustomerFacilitySeeder extends Seeder
                 'name' => 'FMC Pasta',
                 'sein' => 'PFMC-Pasta',
                 'customer_id' => $customers[0]['id'],
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
             [
                 'name' => 'FMC Manila',
                 'sein' => 'PFMC-Manila',
                 'customer_id' => $customers[0]['id'],
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
         ];
 
-        DB::table('facilities')->insert($facilities);
+        foreach ($facilities as $facility) {
+            $record = Facility::create($facility);
+
+            Profile::create([
+                'facility_id' => $record->id,
+                'customer_id' => $record->customer_id,
+            ]);
+        }
     }
 }

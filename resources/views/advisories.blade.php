@@ -16,8 +16,10 @@
     }">
 
         <form method="GET" class="flex flex-col sm:flex-row gap-4 mb-4 md:hidden">
-            <flux:select name="date" placeholder="Filter by" class="w-full sm:flex-1" @change="$el.form.submit()">
-                <flux:select.option value="">Filter by</flux:select.option>
+            <flux:select name="date" placeholder="Filter by" class="w-full sm:flex-1" @change="$el.form.submit()"
+                default="latest">
+                <flux:select.option default value="latest" :selected="request('date') === 'latest'">Latest
+                </flux:select.option>
                 <flux:select.option value="last_7_days" :selected="request('date') === 'last_7_days'">Last 7 Days
                 </flux:select.option>
                 <flux:select.option value="last_30_days" :selected="request('date') === 'last_30_days'">Last 30 Days
@@ -28,9 +30,10 @@
                 </flux:select.option>
             </flux:select>
 
-            <flux:select name="sort" placeholder="Sort by" class="w-full sm:flex-1" @change="$el.form.submit()">
-                <flux:select.option value="">Sort by</flux:select.option>
-                <flux:select.option value="date_desc" :selected="request('sort') === 'date_desc'">Date Descending
+            <flux:select name="sort" placeholder="Sort by" class="w-full sm:flex-1" @change="$el.form.submit()"
+                default="date_desc">
+                <flux:select.option default value="date_desc" :selected="request('sort') === 'date_desc'">Date
+                    Descending
                 </flux:select.option>
                 <flux:select.option value="date_asc" :selected="request('sort') === 'date_asc'">Date Ascending
                 </flux:select.option>
@@ -80,9 +83,10 @@
             <div class="w-full md:w-2/5 flex flex-col min-h-[480px]">
 
                 <form method="GET" class="hidden md:flex flex-col sm:flex-row gap-4 mb-4">
-                    <flux:select name="date" placeholder="Filter by" class="w-full sm:flex-1"
+                    <flux:select name="date" placeholder="Filter by" class="w-full sm:flex-1" default="latest"
                         @change="$el.form.submit()">
-                        <flux:select.option value="">Filter by</flux:select.option>
+                        <flux:select.option default value="latest" :selected="request('date') === 'latest'">Latest
+                        </flux:select.option>
                         <flux:select.option value="last_7_days" :selected="request('date') === 'last_7_days'">Last 7
                             Days</flux:select.option>
                         <flux:select.option value="last_30_days" :selected="request('date') === 'last_30_days'">Last 30
@@ -93,10 +97,9 @@
                         </flux:select.option>
                     </flux:select>
 
-                    <flux:select name="sort" placeholder="Sort by" class="w-full sm:flex-1"
+                    <flux:select name="sort" placeholder="Sort by" class="w-full sm:flex-1" default="date_desc"
                         @change="$el.form.submit()">
-                        <flux:select.option value="">Sort by</flux:select.option>
-                        <flux:select.option value="date_desc" :selected="request('sort') === 'date_desc'">Date
+                        <flux:select.option default value="date_desc" :selected="request('sort') === 'date_desc'">Date
                             Descending</flux:select.option>
                         <flux:select.option value="date_asc" :selected="request('sort') === 'date_asc'">Date Ascending
                         </flux:select.option>

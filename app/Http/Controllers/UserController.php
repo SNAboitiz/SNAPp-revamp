@@ -210,34 +210,46 @@ class UserController extends Controller
      */
     public function editAllUsers(EditUserRequest $request, $id)
     {
-        // Bypass global scope so even inactive users can be updated
-        $user = User::withoutGlobalScope(HasActiveScope::class)->findOrFail($id);
+        DB::beginTransaction();
 
-        // Update the user's details from the validated request
-        $validated = $request->validated();
-        $user->fill($validated);
+        try {
+            // Bypass global scope so even inactive users can be updated
+            $user = User::withoutGlobalScope(HasActiveScope::class)->findOrFail($id);
 
-        // Update active status from the hidden input in your modal
-        $user->facility_id = $request->input('facility_id', null);
+            // Update the user's details from the validated request
+            $validated = $request->validated();
+            $user->fill($validated);
 
-        $user->active = (int) $request->input('active', $user->active);
+            // Update active status from the hidden input in your modal
+            $user->facility_id = $request->input('facility_id', null);
 
-        $user->save();
+            $user->active = (int) $request->input('active', $user->active);
 
-        // Update role if provided
-        if ($request->filled('role')) {
-            $user->syncRoles([$request->role]);
+            $user->save();
+
+            // Update role if provided
+            if ($request->filled('role')) {
+                $user->syncRoles([$request->role]);
+            }
+
+            // Check if the "Resend welcome email" box was ticked in the modal form
+            if ($request->boolean('resend_welcome_email')) {
+                $this->sendNewPassword($user);
+                $successMessage = 'User updated and a new password has been sent.';
+            } else {
+                $successMessage = 'User details updated successfully.';
+            }
+
+            DB::commit();
+
+            return redirect()->route('all-user-list')->with('success', $successMessage);
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            Log::error('All Users Edit Failed for user '.$id.': '.$e->getMessage());
+
+            return redirect()->back()->with('error', 'Failed to update user details.');
         }
-
-        // Check if the "Resend welcome email" box was ticked in the modal form
-        if ($request->boolean('resend_welcome_email')) {
-            $this->sendNewPassword($user);
-            $successMessage = 'User updated and a new password has been sent.';
-        } else {
-            $successMessage = 'User details updated successfully.';
-        }
-
-        return redirect()->route('all-user-list')->with('success', $successMessage);
     }
 
     // ======================================================================

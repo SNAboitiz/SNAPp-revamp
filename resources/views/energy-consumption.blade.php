@@ -1,21 +1,6 @@
 <x-layouts.app>
     <div class="h-screen w-full flex flex-col">
         <div class="px-4 py-6 flex flex-col flex-1">
-            <!-- Select Filters Container -->
-            <div class="flex gap-4 mb-6 flex-wrap">
-                <flux:select name="date" placeholder="Select Date" class="w-40 min-w-[150px] max-w-[180px]">
-                    <flux:select.option value="">All Dates</flux:select.option>
-                    <flux:select.option value="last_7_days" :selected="request('date') === 'last_7_days'">Last 3 Months
-                    </flux:select.option>
-                    <flux:select.option value="last_30_days" :selected="request('date') === 'last_30_days'">Last 6 Months
-                    </flux:select.option>
-                    <flux:select.option value="this_month" :selected="request('date') === 'this_month'">This Month
-                    </flux:select.option>
-                    <flux:select.option value="last_month" :selected="request('date') === 'last_month'">Last Month
-                    </flux:select.option>
-                </flux:select>
-            </div>
-
             <!-- Main Grid Content -->
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full">
 
@@ -25,7 +10,7 @@
                         <h2 class="text-lg font-bold text-[#1443e0]">Energy Consumption</h2>
                     </div>
 
-                    <!-- Looker Embed -->
+                    {{-- TODO: filter by date range --}}
                     <div class="mt-6 flex-1 bg-white rounded-2xl shadow overflow-hidden">
                         <iframe src="{{ config('app.url') }}/app" class="w-full h-full rounded-xl border-none"
                             frameborder="0" allowFullScreen="true"></iframe>

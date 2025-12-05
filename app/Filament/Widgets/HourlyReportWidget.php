@@ -13,7 +13,7 @@ class HourlyReportWidget extends ChartWidget
 
     protected static ?int $sort = 2;
 
-    protected ?string $heading = 'Hourly Report Widget';
+    protected ?string $heading = 'Hourly Report';
 
     protected function getData(): array
     {
