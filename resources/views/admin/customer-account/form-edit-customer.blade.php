@@ -17,7 +17,7 @@
                     name="edit_name"
                     placeholder="Enter customer name" />
                 @error('edit_name')
-                    <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
+                <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
                 @enderror
             </flux:field>
 
@@ -28,7 +28,7 @@
                     type="email"
                     placeholder="Enter customer email" />
                 @error('edit_email')
-                    <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
+                <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
                 @enderror
             </flux:field>
 
@@ -39,7 +39,6 @@
                     id="edit_customer_id"
                     name="edit_customer_id"
                     placeholder="— Select customer —"
-                    required
                     :error="$errors->first('edit_customer_id')">
                     @foreach ($customers as $customer)
                     <option
@@ -65,12 +64,14 @@
                     <option
                         value="{{ $facility->id }}"
                         class="text-black"
+                        data-customer-id="{{ $facility->customer_id }}"
                         @selected(old('edit_facility_id', $existingFacilityId ?? '' )==$facility->id)>
                         {{ $facility->name }}
                     </option>
                     @endforeach
                 </flux:select>
             </flux:field>
+
             <div class="flex">
                 <flux:spacer />
                 <flux:button type="submit" variant="primary" id="save-button">
@@ -99,7 +100,43 @@
             set('edit_customer_id', ds.customerId);
             set('edit_facility_id', ds.facilityId);
 
+            setTimeout(filterEditFacilities, 10);
         });
+
+        const editCustomerSelect = document.getElementById('edit_customer_id');
+        const editFacilitySelect = document.getElementById('edit_facility_id');
+
+        if (editCustomerSelect && editFacilitySelect) {
+            const editFacilityOptions = Array.from(editFacilitySelect.querySelectorAll('option'));
+
+            function filterEditFacilities() {
+                const selectedCustomerId = editCustomerSelect.value;
+                const selectedFacilityId = editFacilitySelect.value;
+
+                editFacilityOptions.forEach(option => {
+                    if (!option.value) {
+                        option.style.display = '';
+                        return;
+                    }
+
+                    const facilityCustomerId = option.dataset.customerId;
+
+                    if (selectedCustomerId && facilityCustomerId && facilityCustomerId !== selectedCustomerId) {
+                        option.style.display = 'none';
+
+                        // Clear selection if facility doesn't belong to new customer
+                        if (option.value === selectedFacilityId) {
+                            editFacilitySelect.value = '';
+                        }
+                    } else {
+                        option.style.display = '';
+                    }
+                });
+            }
+
+            // Run filtering when customer changes
+            editCustomerSelect.addEventListener('change', filterEditFacilities);
+        }
 
         document.getElementById('save-button').addEventListener('click', function(e) {
             e.preventDefault();
