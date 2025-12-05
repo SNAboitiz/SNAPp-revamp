@@ -46,9 +46,8 @@
         <!-- Profile Management Section -->
         <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
             <h3 class="text-lg font-semibold text-blue-900 mb-4">Profile Management</h3>
-            <p class="text-sm text-blue-800 mb-4">Manage profiles for this customer and its facilities.</p>
             <a href="#" id="profile-link" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                <span>Create/Edit Profile</span>
+                <span>Update Profile</span>
             </a>
         </div>
 

@@ -24,7 +24,7 @@
         </flux:field>
 
         <flux:field>
-            <flux:label>Sein</flux:label>
+            <flux:label>Short Name</flux:label>
             <flux:input
                 name="edit_sein"
                 placeholder="Enter sein" />
