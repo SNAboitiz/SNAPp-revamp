@@ -45,7 +45,7 @@ class Inquiry extends Model implements HasRichContent
     public function setUpRichContent(): void
     {
         $this->registerRichContent('content')
-            ->fileAttachmentProvider(SpatieMediaLibraryFileAttachmentProvider::class)
+            ->fileAttachmentProvider(SpatieMediaLibraryFileAttachmentProvider::make())
             ->fileAttachmentsDisk(config('filesystems.default'))
             ->fileAttachmentsVisibility('private');
     }

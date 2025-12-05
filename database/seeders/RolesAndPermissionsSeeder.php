@@ -58,6 +58,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'can view bills',
             'can view econ',
             'profile-editable-customer',
+            'can view advisories',
         ]);
     }
 }
