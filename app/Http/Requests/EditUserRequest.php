@@ -27,44 +27,45 @@ class EditUserRequest extends FormRequest
             'name' => [
                 'sometimes',
                 'string',
-                'max:255'
+                'max:255',
             ],
             'email' => [
                 'sometimes',
                 'email',
                 'max:255',
-                Rule::unique('users')->ignore($this->user)
+                Rule::unique('users')->ignore($this->user),
 
             ],
             'customer_id' => [
                 'sometimes',
                 'nullable',
                 'numeric',
-                'exists:customers,id'
+                'exists:customers,id',
             ],
 
             'facility_id' => [
                 'sometimes',
                 'nullable',
                 'numeric',
-                'exists:facilities,id'
+                'exists:facilities,id',
             ],
 
             'role' => [
                 'sometimes',
                 'string',
-                Rule::exists('roles', 'name')
+                Rule::exists('roles', 'name'),
             ],
             'active' => [
                 'sometimes',
-                'boolean'
+                'boolean',
             ],
             'resend_welcome_email' => [
                 'sometimes',
-                'boolean'
-            ]
+                'boolean',
+            ],
         ];
     }
+
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {

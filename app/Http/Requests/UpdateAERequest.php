@@ -42,14 +42,13 @@ class UpdateAERequest extends FormRequest
             'edit_customer_id' => [
                 'sometimes',
                 'numeric',
-                'exists:customers,id'
+                'exists:customers,id',
             ],
 
-            'edit_facility_id' =>
-            [
+            'edit_facility_id' => [
                 'nullable',
                 'numeric',
-                'exists:facilities,id'
+                'exists:facilities,id',
             ],
 
         ];
