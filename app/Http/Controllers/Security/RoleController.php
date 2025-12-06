@@ -9,16 +9,6 @@ use Spatie\Permission\Models\Role;
 class RoleController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        // code here
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -46,17 +36,6 @@ class RoleController extends Controller
         session()->flash('message', 'Post successfully updated.');
 
         return redirect()->route('role.permission.list')->with('success', 'Role created successfully.');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        // code here
     }
 
     /**
@@ -101,18 +80,5 @@ class RoleController extends Controller
         // Redirect back to the admin.role-permission list with a success message
         return redirect()->route('role.permission.list')
             ->with('success', 'Role updated successfully.');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        // $role = Role::findOrFail($id);
-        // $role->delete();
-        // return redirect()->route('role.permission.list')->with('success', 'Role deleted successfully.');
     }
 }

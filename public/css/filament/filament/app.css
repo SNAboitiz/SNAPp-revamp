@@ -1,4 +1,4 @@
-/*! tailwindcss v4.1.16 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.1.17 | MIT License | https://tailwindcss.com */
 @layer properties {
     @supports (((-webkit-hyphens: none)) and (not (margin-trim: inline))) or
         ((-moz-orient: inline) and (not (color: rgb(from red r g b)))) {
@@ -11885,6 +11885,15 @@
     .fi-fo-table-repeater > table > tbody > tr > td.fi-hidden {
         display: none;
     }
+    .fi-fo-table-repeater > table > tbody > tr > td.fi-vertical-align-start {
+        vertical-align: top;
+    }
+    .fi-fo-table-repeater > table > tbody > tr > td.fi-vertical-align-center {
+        vertical-align: middle;
+    }
+    .fi-fo-table-repeater > table > tbody > tr > td.fi-vertical-align-end {
+        vertical-align: bottom;
+    }
     .fi-fo-table-repeater > table .fi-fo-table-repeater-header-required-mark {
         --tw-font-weight: var(--font-weight-medium);
         font-weight: var(--font-weight-medium);
@@ -12302,6 +12311,12 @@
     }
     .fi-fo-rich-editor .fi-fo-rich-editor-tool.fi-active:where(.dark, .dark *) {
         color: var(--primary-400);
+    }
+    .fi-fo-rich-editor
+        .fi-fo-rich-editor-tool.fi-fo-rich-editor-tool-with-label {
+        align-items: center;
+        column-gap: calc(var(--spacing) * 1);
+        padding-inline: calc(var(--spacing) * 1.5);
     }
     .fi-fo-rich-editor .fi-fo-rich-editor-uploading-file-message {
         align-items: center;
@@ -16121,6 +16136,9 @@
         flex-direction: column;
         display: flex;
     }
+    .fi-sc-tabs .fi-tabs.fi-invisible {
+        visibility: hidden;
+    }
     .fi-sc-tabs .fi-sc-tabs-tab {
         --tw-outline-style: none;
         outline-style: none;
@@ -18322,6 +18340,10 @@
         .fi-loading-indicator:where(.dark, .dark *) {
         color: var(--gray-500);
     }
+    .fi-ta-ctn .fi-ta-filters .fi-ta-filters-actions-ctn {
+        gap: calc(var(--spacing) * 3);
+        display: flex;
+    }
     .fi-ta-ctn .fi-ta-filters-above-content-ctn {
         border-bottom-style: var(--tw-border-style);
         border-bottom-width: 1px;
@@ -18358,9 +18380,7 @@
         margin-top: calc(var(--spacing) * 3);
     }
     .fi-ta-ctn
-        .fi-ta-filters-above-content-ctn.fi-open:has(
-            .fi-ta-filters-apply-action-ctn
-        )
+        .fi-ta-filters-above-content-ctn.fi-open:has(.fi-ta-filters-actions-ctn)
         .fi-ta-filters-trigger-action-ctn {
         margin-top: calc(var(--spacing) * -7);
     }
@@ -20534,6 +20554,10 @@
     }
     .fi-ta-col-manager .fi-ta-col-manager-group .fi-ta-col-manager-group-items {
         padding-inline-start: calc(var(--spacing) * 8);
+    }
+    .fi-ta-col-manager .fi-ta-col-manager-actions-ctn {
+        gap: calc(var(--spacing) * 3);
+        display: flex;
     }
     .fi-wi-chart .fi-wi-chart-canvas-ctn {
         margin-inline: auto;
@@ -22887,6 +22911,10 @@
     }
     .fi-topbar-start .fi-logo {
         margin-inline-start: calc(var(--spacing) * 3);
+    }
+    .fi-topbar-collapse-sidebar-btn-ctn {
+        width: calc(var(--spacing) * 9);
+        flex-shrink: 0;
     }
     @media (min-width: 64rem) {
         :is(

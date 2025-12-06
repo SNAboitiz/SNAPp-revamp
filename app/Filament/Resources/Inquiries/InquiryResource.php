@@ -16,6 +16,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class InquiryResource extends Resource
 {
@@ -114,5 +115,15 @@ class InquiryResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->where('user_id', auth()->id());
+    }
+
+    public static function canAccess(): bool
+    {
+        return auth()->user()->hasRole('customer');
+    }
+
+    public static function can(string $action, ?Model $record = null): bool
+    {
+        return auth()->user()->hasRole('customer');
     }
 }

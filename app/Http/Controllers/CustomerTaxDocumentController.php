@@ -11,6 +11,10 @@ class CustomerTaxDocumentController extends Controller
 {
     public function store(StoreCustomerTaxDocumentRequest $request, Customer $customer, ?Facility $facility = null)
     {
+        if (auth()->user()->cant('can view bills')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validated();
 
         $ext = $request->file('file')->getClientOriginalExtension();
