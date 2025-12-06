@@ -55,20 +55,20 @@
                 </thead>
                 <tbody>
                     @foreach ($accountExecutives as $accountExecutive)
-                    <tr class="cursor-pointer hover:bg-gray-100 transition flux-btn-info"
-                        data-id="{{ $accountExecutive->id }}" data-name="{{ $accountExecutive->name }}"
-                        data-email="{{ $accountExecutive->email }}"
-                        data-customer-id="{{ $accountExecutive->customer_id }}"
-                        data-facility-id="{{ $accountExecutive->facility_id }}"
-                        data-account-name="{{ $accountExecutive->customer?->account_name }}"
-                        data-facility-name="{{ $accountExecutive->facility?->name }}"
-                        onclick="document.getElementById('open-edit-modal').click()">
+                        <tr class="cursor-pointer hover:bg-gray-100 transition flux-btn-info"
+                            data-id="{{ $accountExecutive->id }}" data-name="{{ $accountExecutive->name }}"
+                            data-email="{{ $accountExecutive->email }}"
+                            data-customer-id="{{ $accountExecutive->customer_id }}"
+                            data-facility-id="{{ $accountExecutive->facility_id }}"
+                            data-account-name="{{ $accountExecutive->customer?->account_name }}"
+                            data-facility-name="{{ $accountExecutive->facility?->name }}"
+                            onclick="document.getElementById('open-edit-modal').click()">
 
-                        <td>{{ $accountExecutive->name }}</td>
-                        <td>{{ $accountExecutive->email }}</td>
-                        <td>{{ $accountExecutive->customer?->account_name ?? '-' }}</td>
-                        <td>{{ $accountExecutive->facility?->name ?? '-' }}</td>
-                    </tr>
+                            <td>{{ $accountExecutive->name }}</td>
+                            <td>{{ $accountExecutive->email }}</td>
+                            <td>{{ $accountExecutive->customer?->account_name ?? '-' }}</td>
+                            <td>{{ $accountExecutive->facility?->name ?? '-' }}</td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
@@ -76,9 +76,9 @@
 
         {{-- Pagination Links --}}
         @if ($accountExecutives->hasPages())
-        <div class="mt-4 px-4 py-3 bg-white border-t border-gray-200">
-            {{ $accountExecutives->links() }}
-        </div>
+            <div class="mt-4 px-4 py-3 bg-white border-t border-gray-200">
+                {{ $accountExecutives->links() }}
+            </div>
         @endif
 
         <!-- Hidden Modal Trigger for Edit -->

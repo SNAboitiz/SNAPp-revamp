@@ -1,9 +1,7 @@
 <div x-show="show2307Modal" x-transition
-    class="fixed inset-0 z-50 bg-black bg-opacity-75 flex items-center justify-center p-2 sm:p-4" 
-    style="display: none;"
-    role="dialog"
-    x-data="{ show2307Modal: false, taxDocUrl: '', selectedTaxDoc: {} }">
-    
+    class="fixed inset-0 z-50 bg-black bg-opacity-75 flex items-center justify-center p-2 sm:p-4" style="display: none;"
+    role="dialog" x-data="{ show2307Modal: false, taxDocUrl: '', selectedTaxDoc: {} }">
+
     <div @click.outside="show2307Modal = false"
         class="bg-white dark:bg-neutral-900 rounded-xl shadow-xl w-full max-w-[95vw] h-[95vh] flex flex-col md:flex-row">
 
@@ -21,24 +19,25 @@
         </div>
 
         <!-- Right Panel: Details & Actions -->
-        <div class="w-full md:max-w-sm flex-shrink-0 p-4 sm:p-6 flex flex-col border-t md:border-t-0 md:border-l border-gray-200 dark:border-neutral-700 h-1/3 md:h-full">
+        <div
+            class="w-full md:max-w-sm flex-shrink-0 p-4 sm:p-6 flex flex-col border-t md:border-t-0 md:border-l border-gray-200 dark:border-neutral-700 h-1/3 md:h-full">
             <div class="flex-shrink-0 flex items-start justify-between">
                 <div>
                     <h2 class="text-xl font-bold text-gray-900 dark:text-white">2307 Document</h2>
                     <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">
-                        <strong>Payment Ref:</strong> 
+                        <strong>Payment Ref:</strong>
                         <span x-text="selectedTaxDoc.documentNumber"></span>
                     </p>
                     <p class="text-sm text-gray-600 dark:text-gray-300">
-                        <strong>Payment Date:</strong> 
+                        <strong>Payment Date:</strong>
                         <span x-text="selectedTaxDoc.paymentDate"></span>
                     </p>
                     <p class="text-sm text-gray-600 dark:text-gray-300">
-                        <strong>Billing Period:</strong> 
+                        <strong>Billing Period:</strong>
                         <span x-text="selectedTaxDoc.billingPeriod"></span>
                     </p>
                     <p class="text-sm text-gray-600 dark:text-gray-300">
-                        <strong>Amount:</strong> 
+                        <strong>Amount:</strong>
                         <span x-text="selectedTaxDoc.amount"></span>
                     </p>
                 </div>
@@ -61,23 +60,23 @@
 </div>
 
 <script>
-function view2307(element) {
-    const data = {
-        url: element.dataset.fileUrl,
-        documentNumber: element.dataset.documentNumber,
-        paymentDate: element.dataset.paymentDate,
-        billingPeriod: element.dataset.billingPeriod,
-        amount: element.dataset.amount
-    };
+    function view2307(element) {
+        const data = {
+            url: element.dataset.fileUrl,
+            documentNumber: element.dataset.documentNumber,
+            paymentDate: element.dataset.paymentDate,
+            billingPeriod: element.dataset.billingPeriod,
+            amount: element.dataset.amount
+        };
 
-    Alpine.store('taxDoc', data);
-    
-    // Trigger modal
-    const modalElement = document.querySelector('[x-data*="show2307Modal"]');
-    if (modalElement) {
-        modalElement.__x.$data.show2307Modal = true;
-        modalElement.__x.$data.taxDocUrl = data.url;
-        modalElement.__x.$data.selectedTaxDoc = data;
+        Alpine.store('taxDoc', data);
+
+        // Trigger modal
+        const modalElement = document.querySelector('[x-data*="show2307Modal"]');
+        if (modalElement) {
+            modalElement.__x.$data.show2307Modal = true;
+            modalElement.__x.$data.taxDocUrl = data.url;
+            modalElement.__x.$data.selectedTaxDoc = data;
+        }
     }
-}
 </script>

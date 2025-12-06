@@ -95,6 +95,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('facilities', FacilityController::class);
 
         Route::view('reports', 'admin.reports')->name('reports');
+        Route::view('manage-payments', 'admin.manage-payments')->name('manage-payments');
     });
 });
 

@@ -68,22 +68,6 @@ class StoreCustomerRequest extends FormRequest
         });
     }
 
-    public function withValidator($validator)
-    {
-        $validator->after(function ($validator) {
-            if ($this->filled('facility_id') && $this->filled('customer_id')) {
-                $facility = Facility::find($this->facility_id);
-
-                if ($facility && $facility->customer_id != $this->customer_id) {
-                    $validator->errors()->add(
-                        'facility_id',
-                        'The selected facility does not belong to the chosen customer.'
-                    );
-                }
-            }
-        });
-    }
-
     protected function failedValidation(Validator $validator)
     {
         session()->flash('show_modal', 'customer-modal');

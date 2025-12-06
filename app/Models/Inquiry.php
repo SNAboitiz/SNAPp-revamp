@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Observers\InquiryObserver;
-use Filament\Forms\Components\RichEditor\FileAttachmentProviders\SpatieMediaLibraryFileAttachmentProvider;
 use Filament\Forms\Components\RichEditor\Models\Concerns\InteractsWithRichContent;
 use Filament\Forms\Components\RichEditor\Models\Contracts\HasRichContent;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -44,8 +43,7 @@ class Inquiry extends Model implements HasRichContent
 
     public function setUpRichContent(): void
     {
-        $this->registerRichContent('content')
-            ->fileAttachmentProvider(SpatieMediaLibraryFileAttachmentProvider::make())
+        $this->registerRichContent('message')
             ->fileAttachmentsDisk(config('filesystems.default'))
             ->fileAttachmentsVisibility('private');
     }

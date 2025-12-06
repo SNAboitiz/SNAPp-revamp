@@ -17,10 +17,7 @@
                 <flux:button variant="ghost">Cancel</flux:button>
             </flux:modal.close>
 
-            <flux:button
-                type="submit"
-                variant="danger"
-                id="confirm-delete-button">
+            <flux:button type="submit" variant="danger" id="confirm-delete-button">
                 Delete
             </flux:button>
         </div>

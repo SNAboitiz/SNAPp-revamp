@@ -8,10 +8,10 @@
                 <flux:text class="mt-2">Fields marked "Required" must be filled out.</flux:text>
             </div>
 
-            @if($errors->has('duplicate'))
-            <div class="p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-                {{ $errors->first('duplicate') }}
-            </div>
+            @if ($errors->has('duplicate'))
+                <div class="p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                    {{ $errors->first('duplicate') }}
+                </div>
             @endif
 
             {{-- SECTION: Customer Identification --}}
@@ -21,24 +21,31 @@
                     <!-- Customer Dropdown -->
                     <flux:field class="md:col-span-4">
                         <flux:label badge="Required">Customer</flux:label>
-                        <select name="customer_id" id="customer_id" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                        <select name="customer_id" id="customer_id"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            required>
                             <option value="">-- Select Customer --</option>
-                            @foreach($customers as $cust)
-                            <option value="{{ $cust->id }}" @selected(old('customer_id') == $cust->id)>
-                                {{ $cust->account_name }}
-                            </option>
+                            @foreach ($customers as $cust)
+                                <option value="{{ $cust->id }}" @selected(old('customer_id') == $cust->id)>
+                                    {{ $cust->account_name }}
+                                </option>
                             @endforeach
                         </select>
-                        @error('customer_id')<p class="text-xs text-red-500">{{ $message }}</p>@enderror
+                        @error('customer_id')
+                            <p class="text-xs text-red-500">{{ $message }}</p>
+                        @enderror
                     </flux:field>
 
                     <!-- Facility Dropdown -->
                     <flux:field class="md:col-span-4">
                         <flux:label>Facility</flux:label>
-                        <select name="facility_id" id="facility_id" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <select name="facility_id" id="facility_id"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                             <option value="">-- No Facility (Customer-level) --</option>
                         </select>
-                        @error('facility_id')<p class="text-xs text-red-500">{{ $message }}</p>@enderror
+                        @error('facility_id')
+                            <p class="text-xs text-red-500">{{ $message }}</p>
+                        @enderror
                     </flux:field>
 
                     <flux:field class="md:col-span-4">
@@ -222,35 +229,34 @@
 </div>
 
 <script>
-  function loadFacilities(customerId) {
-    const facilitySelect = document.getElementById('facility_id');
-    
-    facilitySelect.innerHTML = '<option value="">Loading...</option>';
+    function loadFacilities(customerId) {
+        const facilitySelect = document.getElementById('facility_id');
 
-    if (!customerId) {
-        facilitySelect.innerHTML = '<option value="">-- No Facility (Customer-level) --</option>';
-        return;
-    }
+        facilitySelect.innerHTML = '<option value="">Loading...</option>';
 
-    fetch("{{ route('admin.profiles.get-facilities') }}?customer_id=" + customerId)
-    .then(res => res.json())
-    .then(data => {
-        if (!data.facilities || data.facilities.length === 0) {
+        if (!customerId) {
             facilitySelect.innerHTML = '<option value="">-- No Facility (Customer-level) --</option>';
             return;
         }
 
-        let html = '<option value="">-- No Facility (Customer-level) --</option>';
+        fetch("{{ route('admin.profiles.get-facilities') }}?customer_id=" + customerId)
+            .then(res => res.json())
+            .then(data => {
+                if (!data.facilities || data.facilities.length === 0) {
+                    facilitySelect.innerHTML = '<option value="">-- No Facility (Customer-level) --</option>';
+                    return;
+                }
 
-        data.facilities.forEach(f => {
-            html += `<option value="${f.id}">${f.name}</option>`;
-        });
+                let html = '<option value="">-- No Facility (Customer-level) --</option>';
 
-        facilitySelect.innerHTML = html;
-    })
-    .catch(() => {
-        facilitySelect.innerHTML = '<option value="">-- No Facility (Customer-level) --</option>';
-    });
-}
+                data.facilities.forEach(f => {
+                    html += `<option value="${f.id}">${f.name}</option>`;
+                });
 
+                facilitySelect.innerHTML = html;
+            })
+            .catch(() => {
+                facilitySelect.innerHTML = '<option value="">-- No Facility (Customer-level) --</option>';
+            });
+    }
 </script>

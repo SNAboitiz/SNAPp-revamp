@@ -7,7 +7,7 @@ use App\Models\Customer;
 use App\Models\Report;
 use App\Models\ReportFile;
 use Filament\Actions\Action;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\FileUpload;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Contracts\View\View;
@@ -25,7 +25,7 @@ class ListReports extends ListRecords
                 ->databaseTransaction()
                 ->label('Import Reports')
                 ->schema([
-                    SpatieMediaLibraryFileUpload::make('files')
+                    FileUpload::make('files')
                         ->label('Select Report CSV Files')
                         ->multiple()
                         ->directory('reports')
@@ -49,19 +49,13 @@ class ListReports extends ListRecords
 
                             if (($handle = fopen($filePath, 'r')) !== false) {
                                 // Skip header row
-                                $customer = fgetcsv($handle)[0];
+                                $name = fgetcsv($handle)[0];
 
-                                $customer = Customer::where('short_name', $customer)->first()?->id;
+                                $customer = Customer::where('short_name', $name)->first()?->id;
 
                                 if (! $customer) {
-                                    Notification::make()
-                                        ->title('Import Failed')
-                                        ->body("Customer with short name '{$customer}' not found.")
-                                        ->danger()
-                                        ->send();
-
                                     fclose($handle);
-                                    exit;
+                                    throw new \Exception("Customer '{$name}' not found");
                                 }
 
                                 fgetcsv($handle); // skip second row
@@ -116,6 +110,8 @@ class ListReports extends ListRecords
                             ->body('An error occurred during import: '.$th->getMessage())
                             ->danger()
                             ->send();
+
+                        $this->halt(true);
                     }
                 }),
         ];

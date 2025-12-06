@@ -72,6 +72,15 @@
                         @endcan
                     @endrole
 
+                    @role('admin')
+                        <a href="{{ route('manage-payments') }}"
+                            class="group flex items-center p-2 rounded-md hover:bg-blue-500 transition-colors"
+                            :class="{ 'justify-center': collapsed, 'space-x-2': !collapsed }">
+                            <flux:icon name="scroll" class="w-6 h-6 text-white" />
+                            <span x-show="!collapsed" class="text-white">{{ __('Manage Payments') }}</span>
+                        </a>
+                    @endrole
+
                     @can('can view contracts')
                         <a href="{{ route('my-contracts') }}"
                             class="group flex items-center p-2 rounded-md hover:bg-blue-500 transition-colors"

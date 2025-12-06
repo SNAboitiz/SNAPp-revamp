@@ -41,6 +41,7 @@ class InquiryResource extends Resource
                     ->columnSpanFull()
                     ->fileAttachmentsDisk(config('filesystems.default'))
                     ->fileAttachmentsDirectory('inquiries')
+                    ->fileAttachmentsVisibility('private')
                     ->fileAttachmentsAcceptedFileTypes(['image/png', 'image/jpeg'])
                     ->toolbarButtons([
                         ['bold', 'italic', 'underline', 'strike', 'link', 'attachFiles'],
@@ -61,8 +62,6 @@ class InquiryResource extends Resource
                     ->placeholder('-'),
 
                 TextEntry::make('message')
-                    ->html()
-                    ->prose()
                     ->columnSpanFull(),
 
                 TextEntry::make('created_at')
