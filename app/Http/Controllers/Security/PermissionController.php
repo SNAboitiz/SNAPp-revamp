@@ -9,16 +9,6 @@ use Spatie\Permission\Models\Permission;
 class PermissionController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        // code here
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -48,17 +38,6 @@ class PermissionController extends Controller
         ]);
 
         return redirect()->route('role.permission.list')->with('success', 'Permission created successfully.');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        // code here
     }
 
     /**
@@ -103,11 +82,4 @@ class PermissionController extends Controller
         return redirect()->route('role.permission.list')
             ->with('success', 'Permission updated successfully.');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
 }

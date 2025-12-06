@@ -17,6 +17,10 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
+        if ($user->cant('can view profile')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         if (! $user || ! $user->customer_id) {
             abort(403, 'No customer assigned.');
         }
@@ -64,6 +68,10 @@ class ProfileController extends Controller
     public function store(StoreProfileRequest $request)
     {
         $user = Auth::user();
+
+        if ($user->cant('can view profile')) {
+            abort(403, 'Unauthorized action.');
+        }
 
         if (! $user->customer_id) {
             abort(403, 'No customer assigned.');
@@ -136,6 +144,10 @@ class ProfileController extends Controller
     public function update(UpdateProfileRequest $request, $id)
     {
         $user = Auth::user();
+
+        if ($user->cant('can view profile')) {
+            abort(403, 'Unauthorized action.');
+        }
 
         if (! $user->customer_id) {
             abort(403, 'No customer assigned.');

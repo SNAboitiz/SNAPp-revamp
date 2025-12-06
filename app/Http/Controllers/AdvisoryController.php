@@ -11,6 +11,10 @@ class AdvisoryController extends Controller
 {
     public function index(Request $request)
     {
+        if (auth()->user()->cant('can view advisories')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $filter = $request->date;
         $sort = $request->sort;
 

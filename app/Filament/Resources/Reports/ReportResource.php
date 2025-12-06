@@ -14,6 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class ReportResource extends Resource
 {
@@ -51,5 +52,15 @@ class ReportResource extends Resource
             'index' => ListReports::route('/'),
             'view' => ViewReport::route('/{record}'),
         ];
+    }
+
+    public static function canAccess(): bool
+    {
+        return auth()->user()->hasRole('admin');
+    }
+
+    public static function can(string $action, ?Model $record = null): bool
+    {
+        return auth()->user()->hasRole('admin');
     }
 }
