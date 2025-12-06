@@ -25,31 +25,23 @@
                 </thead>
                 <tbody>
                     @foreach ($facilities as $facility)
-                    <tr
-                        class="cursor-pointer hover:bg-gray-100 transition flux-btn-info"
-                        data-id="{{ $facility->id }}"
-                        data-name="{{ $facility->name }}"
-                        data-sein="{{ $facility->sein }}"
-                        data-customer-id="{{ $facility->customer_id }}"
-                        onclick="document.getElementById('open-edit-facility').click()">
+                        <tr class="cursor-pointer hover:bg-gray-100 transition flux-btn-info"
+                            data-id="{{ $facility->id }}" data-name="{{ $facility->name }}"
+                            data-sein="{{ $facility->sein }}" data-customer-id="{{ $facility->customer_id }}"
+                            onclick="document.getElementById('open-edit-facility').click()">
 
-                        <td>{{ $facility->name ?? '—' }}</td>
-                        <td>{{ $facility->sein ?? '—' }}</td>
-                        <td>{{ $facility->customer->account_name ?? '—' }}</td>
-                        <td class="text-center">
-                            <div x-data @click.stop>
-                                <flux:modal.trigger
-                                    name="delete-facility"
-                                    :data-facility-id="$facility->id"
-                                    :data-facility-name="$facility->name">
-                                    <flux:button
-                                        icon="trash-2"
-                                        variant="danger"
-                                        class="flux-btn flux-btn-xs" />
-                                </flux:modal.trigger>
-                            </div>
-                        </td>
-                    </tr>
+                            <td>{{ $facility->name ?? '—' }}</td>
+                            <td>{{ $facility->sein ?? '—' }}</td>
+                            <td>{{ $facility->customer->account_name ?? '—' }}</td>
+                            <td class="text-center">
+                                <div x-data @click.stop>
+                                    <flux:modal.trigger name="delete-facility" :data-facility-id="$facility->id"
+                                        :data-facility-name="$facility->name">
+                                        <flux:button icon="trash-2" variant="danger" class="flux-btn flux-btn-xs" />
+                                    </flux:modal.trigger>
+                                </div>
+                            </td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>

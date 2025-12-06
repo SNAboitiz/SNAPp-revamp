@@ -11,6 +11,8 @@ class CustomerTaxDocument extends Model
         'facility_id',
         'document_number',
         'file_path',
+        'billing_period',
+        'official_receipt',
     ];
 
     public function customer()

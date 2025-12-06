@@ -155,7 +155,7 @@
                 form.querySelector('textarea[name="edit_description"]').value = this.dataset
                     .description;
                 form.querySelector('textarea[name="edit_content"]').value = this.dataset
-                .content;
+                    .content;
                 const linkInput = form.querySelector('input[name="edit_link"]');
                 linkInput.value = this.dataset.link || '';
 
