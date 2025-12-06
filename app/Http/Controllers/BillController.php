@@ -21,6 +21,10 @@ class BillController extends Controller
 
     public function showBillsPage(Request $request)
     {
+        if (auth()->user()->cant('can view bills')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $billsPaginator = $this->billingService->getPaginatedBillsForUser(Auth::user(), $request);
         $customers = Customer::orderBy('account_name')->get();
 
@@ -43,6 +47,10 @@ class BillController extends Controller
 
     public function showPaymentHistory(Request $request)
     {
+        if (auth()->user()->cant('can view bills')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $paymentsPaginator = $this->billingService->getPaginatedPaymentHistoryForUser(Auth::user(), $request);
         $customers = customer::orderBy('account_name')->get();
 

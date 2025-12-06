@@ -17,13 +17,16 @@ class ContractController extends Controller
     {
         $user = auth()->user();
 
+        if ($user->cant('can view contracts')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         if ($user->hasRole('admin')) {
 
             // Admin sees ALL contracts
             $contractsQuery = Contract::with(['customer', 'facility'])
                 ->orderBy('created_at', 'desc')
                 ->paginate(5);
-
         } else {
 
             // Customer-side filtering using USER TABLE ONLY
@@ -43,7 +46,6 @@ class ContractController extends Controller
                 $contractsQuery = $query
                     ->orderBy('created_at', 'desc')
                     ->paginate(5);
-
             } else {
                 // User has no assigned customer → return empty paginator
                 $contractsQuery = new \Illuminate\Pagination\LengthAwarePaginator([], 0, 5);
@@ -77,7 +79,6 @@ class ContractController extends Controller
 
             $customers = Customer::with('facilities')->orderBy('account_name')->get();
             $facilities = Facility::orderBy('name')->get();
-
         } else {
 
             $customerId = $user->customer_id;
@@ -99,7 +100,6 @@ class ContractController extends Controller
                         ->orderBy('name')
                         ->get();
                 }
-
             } else {
                 $customers = collect();
                 $facilities = collect();
