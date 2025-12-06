@@ -36,7 +36,10 @@ class ViewReport extends ViewRecord
 
             Action::make('delete')
                 ->label('Delete Report')
-                ->action(fn () => $this->record->delete())
+                ->action(function () {
+                    $this->record->delete();
+                    $this->redirect(static::getResource()::getUrl('index'));
+                })
                 ->requiresConfirmation()
                 ->color('danger'),
         ];

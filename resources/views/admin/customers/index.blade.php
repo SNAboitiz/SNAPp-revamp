@@ -25,34 +25,27 @@
                 </thead>
                 <tbody>
                     @foreach ($customers as $customer)
-                    <tr
-                        class="cursor-pointer hover:bg-gray-100 transition flux-btn-info"
-                        data-id="{{ $customer->id }}"
-                        data-account-name="{{ $customer->account_name }}"
-                        data-short-name="{{ $customer->short_name }}"
-                        data-customer-number="{{ $customer->customer_number }}"
-                        onclick="document.getElementById('open-edit-customer').click()">
+                        <tr class="cursor-pointer hover:bg-gray-100 transition flux-btn-info"
+                            data-id="{{ $customer->id }}" data-account-name="{{ $customer->account_name }}"
+                            data-short-name="{{ $customer->short_name }}"
+                            data-customer-number="{{ $customer->customer_number }}"
+                            onclick="document.getElementById('open-edit-customer').click()">
 
-                        <td>{{ $customer->account_name ?? '—' }}</td>
-                        <td>{{ $customer->short_name ?? '—' }}</td>
-                        <td>{{ $customer->customer_number ?? '—' }}</td>
+                            <td>{{ $customer->account_name ?? '—' }}</td>
+                            <td>{{ $customer->short_name ?? '—' }}</td>
+                            <td>{{ $customer->customer_number ?? '—' }}</td>
 
-                        <td class="text-center">
-                            <div x-data @click.stop>
-                                <flux:modal.trigger
-                                    name="delete-customer"
-                                    :data-customer-id="$customer->id"
-                                    :data-customer-name="$customer->account_name">
-                                    <flux:button
-                                        icon="trash-2"
-                                        variant="danger"
-                                        class="flux-btn flux-btn-xs" />
-                                </flux:modal.trigger>
-                            </div>
-                        </td>
+                            <td class="text-center">
+                                <div x-data @click.stop>
+                                    <flux:modal.trigger name="delete-customer" :data-customer-id="$customer->id"
+                                        :data-customer-name="$customer->account_name">
+                                        <flux:button icon="trash-2" variant="danger" class="flux-btn flux-btn-xs" />
+                                    </flux:modal.trigger>
+                                </div>
+                            </td>
 
 
-                    </tr>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>

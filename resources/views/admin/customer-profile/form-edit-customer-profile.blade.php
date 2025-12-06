@@ -10,10 +10,10 @@
                 <flux:text class="mt-2">Required: Customer & Facility</flux:text>
             </div>
 
-            @if($errors->has('duplicate'))
-            <div class="p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-                {{ $errors->first('duplicate') }}
-            </div>
+            @if ($errors->has('duplicate'))
+                <div class="p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                    {{ $errors->first('duplicate') }}
+                </div>
             @endif
 
             {{-- Hidden fields for customer and facility --}}
@@ -43,7 +43,7 @@
                     <flux:label>Customer Category</flux:label>
                     <flux:input name="edit_customer_category" />
                     @error('edit_customer_category')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -51,7 +51,7 @@
                     <flux:label>Contract Price</flux:label>
                     <flux:input name="edit_contract_price" />
                     @error('edit_contract_price')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -59,7 +59,7 @@
                     <flux:label>Contracted Demand</flux:label>
                     <flux:input name="edit_contracted_demand" />
                     @error('edit_contracted_demand')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -67,7 +67,7 @@
                     <flux:label>Certificate of Contestability #</flux:label>
                     <flux:input name="edit_certificate_of_contestability_number" />
                     @error('edit_certificate_of_contestability_number')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -81,7 +81,7 @@
                     <flux:label>Cooperation Period Start Date</flux:label>
                     <flux:input type="date" name="edit_cooperation_period_start_date" />
                     @error('edit_cooperation_period_start_date')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -89,7 +89,7 @@
                     <flux:label>Cooperation Period End Date</flux:label>
                     <flux:input type="date" name="edit_cooperation_period_end_date" />
                     @error('edit_cooperation_period_end_date')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -103,7 +103,7 @@
                     <flux:label>Business Address</flux:label>
                     <flux:textarea name="edit_business_address" />
                     @error('edit_business_address')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -111,7 +111,7 @@
                     <flux:label>Facility Address</flux:label>
                     <flux:textarea name="edit_facility_address" />
                     @error('edit_facility_address')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
             </div>
@@ -127,7 +127,7 @@
                     <flux:label>Contact Name</flux:label>
                     <flux:input name="edit_contact_name" />
                     @error('edit_contact_name')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -135,7 +135,7 @@
                     <flux:label>Designation</flux:label>
                     <flux:input name="edit_designation" />
                     @error('edit_designation')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -143,7 +143,7 @@
                     <flux:label>Mobile Number</flux:label>
                     <flux:input name="edit_mobile_number" />
                     @error('edit_mobile_number')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -151,7 +151,7 @@
                     <flux:label>Email Address</flux:label>
                     <flux:input name="edit_email" />
                     @error('edit_email')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -170,7 +170,7 @@
                     <flux:label badge="Secondary">Contact Name</flux:label>
                     <flux:input name="edit_contact_name_1" />
                     @error('edit_contact_name_1')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -178,7 +178,7 @@
                     <flux:label badge="Secondary">Designation</flux:label>
                     <flux:input name="edit_designation_1" />
                     @error('edit_designation_1')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -186,7 +186,7 @@
                     <flux:label badge="Secondary">Mobile Number</flux:label>
                     <flux:input name="edit_mobile_number_1" />
                     @error('edit_mobile_number_1')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -194,7 +194,7 @@
                     <flux:label badge="Secondary">Email Address</flux:label>
                     <flux:input name="edit_email_1" />
                     @error('edit_email_1')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
@@ -208,7 +208,7 @@
                     <flux:label>Other Information</flux:label>
                     <flux:input name="edit_other_information" placeholder="Any remarks or notes" />
                     @error('edit_other_information')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
             </div>

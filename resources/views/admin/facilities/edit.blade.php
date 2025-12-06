@@ -1,9 +1,6 @@
 <flux:modal name="edit-facility" class="md:w-96">
-    <form
-        data-base-action="{{ route('facilities.update', ['facility' => ':facility_id']) }}"
-        method="POST"
-        id="edit-facility"
-        class="space-y-6">
+    <form data-base-action="{{ route('facilities.update', ['facility' => ':facility_id']) }}" method="POST"
+        id="edit-facility" class="space-y-6">
         @csrf
         @method('PUT')
 
@@ -15,38 +12,29 @@
 
         <flux:field>
             <flux:label>Facility Name</flux:label>
-            <flux:input
-                name="edit_name"
-                placeholder="Enter facility name" />
+            <flux:input name="edit_name" placeholder="Enter facility name" />
             @error('edit_name')
-            <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
+                <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
             @enderror
         </flux:field>
 
         <flux:field>
             <flux:label>Short Name</flux:label>
-            <flux:input
-                name="edit_sein"
-                placeholder="Enter sein" />
+            <flux:input name="edit_sein" placeholder="Enter sein" />
             @error('edit_sein')
-            <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
+                <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
             @enderror
         </flux:field>
 
         <flux:field>
             <flux:label badge="Required">Customer</flux:label>
-            <flux:select
-                name="customer_id"
-                placeholder="— Select customer —"
-                required
+            <flux:select name="customer_id" placeholder="— Select customer —" required
                 :error="$errors->first('customer_id')">
                 @foreach ($customers as $customer)
-                <option
-                    value="{{ $customer->id }}"
-                    class="text-black"
-                    {{ old('customer_id') == $customer->id ? 'selected' : '' }}>
-                    {{ $customer->account_name }} ({{ $customer->short_name }})
-                </option>
+                    <option value="{{ $customer->id }}" class="text-black"
+                        {{ old('customer_id') == $customer->id ? 'selected' : '' }}>
+                        {{ $customer->account_name }} ({{ $customer->short_name }})
+                    </option>
                 @endforeach
             </flux:select>
         </flux:field>
@@ -54,10 +42,7 @@
 
         <div class="flex">
             <flux:spacer />
-            <flux:button
-                type="submit"
-                variant="primary"
-                id="save-button">
+            <flux:button type="submit" variant="primary" id="save-button">
                 Save Changes
             </flux:button>
         </div>

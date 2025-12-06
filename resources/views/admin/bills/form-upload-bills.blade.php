@@ -13,11 +13,8 @@
         this.filteredFacilities = this.allFacilities.filter(f => f.customer_id == customerId);
         this.selectedFacility = ''; // <-- reset facility on customer change
     }
-}"
-    x-init="
-    if (showModal) { $nextTick(() => $flux.modal('upload-bills').show()); }
-    if (selectedCustomer) { filterFacilities(selectedCustomer); }
-">
+}" x-init="if (showModal) { $nextTick(() => $flux.modal('upload-bills').show()); }
+if (selectedCustomer) { filterFacilities(selectedCustomer); }">
     <flux:modal name="upload-bills" class="md:max-w-3xl">
         <form action="{{ route('bills.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
@@ -32,22 +29,18 @@
             {{-- Customer Dropdown --}}
             <flux:field>
                 <flux:label badge="Required">Select Customer</flux:label>
-                <flux:select
-                    name="customer_id"
-                    placeholder="— Select customer —"
-                    required
-                    x-model="selectedCustomer"
+                <flux:select name="customer_id" placeholder="— Select customer —" required x-model="selectedCustomer"
                     @change="filterFacilities($event.target.value); $el.form.querySelector('[name=facility_id]').value = ''"
                     :error="$errors->first('customer_id')">
                     @foreach ($customers as $customer)
-                    <option value="{{ $customer->id }}" class="text-black"
-                        {{ old('customer_id') == $customer->id ? 'selected' : '' }}>
-                        {{ $customer->account_name }} ({{ $customer->short_name }})
-                    </option>
+                        <option value="{{ $customer->id }}" class="text-black"
+                            {{ old('customer_id') == $customer->id ? 'selected' : '' }}>
+                            {{ $customer->account_name }} ({{ $customer->short_name }})
+                        </option>
                     @endforeach
                 </flux:select>
                 @error('customer_id')
-                <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                 @enderror
             </flux:field>
 
@@ -70,7 +63,7 @@
                 </flux:select>
 
                 @error('facility_id')
-                <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                 @enderror
             </flux:field>
 
@@ -78,32 +71,36 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
                 <flux:field>
                     <flux:label badge="Required">Billing Start Date</flux:label>
-                    <flux:input name="billing_start_date" type="date" value="{{ old('billing_start_date') }}" required />
+                    <flux:input name="billing_start_date" type="date" value="{{ old('billing_start_date') }}"
+                        required />
                     @error('billing_start_date')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
                 <flux:field>
                     <flux:label badge="Required">Billing End Date</flux:label>
-                    <flux:input name="billing_end_date" type="date" value="{{ old('billing_end_date') }}" required />
+                    <flux:input name="billing_end_date" type="date" value="{{ old('billing_end_date') }}"
+                        required />
                     @error('billing_end_date')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
                 <flux:field class="md:col-span-2">
                     <flux:label badge="Required">Bill Number</flux:label>
-                    <flux:input name="bill_number" value="{{ old('bill_number') }}" placeholder="Enter unique bill number" required />
+                    <flux:input name="bill_number" value="{{ old('bill_number') }}"
+                        placeholder="Enter unique bill number" required />
                     @error('bill_number')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
 
                 <flux:field class="md:col-span-2">
-                    <flux:input type="file" name="file_path" label="Document" badge="Required" accept=".pdf,.doc,.docx" required />
+                    <flux:input type="file" name="file_path" label="Document" badge="Required"
+                        accept=".pdf,.doc,.docx" required />
                     @error('file_path')
-                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </flux:field>
             </div>

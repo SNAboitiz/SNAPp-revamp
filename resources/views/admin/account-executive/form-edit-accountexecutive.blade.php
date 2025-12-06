@@ -1,8 +1,7 @@
 <div x-data="{}" x-init="@if (session('show_modal') === 'edit-accountexecutive-modal') $nextTick(() => $flux.modal('edit-accountexecutive-modal').show()) @endif">
     <flux:modal name="edit-accountexecutive-modal" class="md:w-96">
 
-        <form
-            data-base-action="{{ route('admin.users.update-account-executive', ['user' => ':user_id']) }}"
+        <form data-base-action="{{ route('admin.users.update-account-executive', ['user' => ':user_id']) }}"
             method="POST" class="space-y-6" id="edit-ae-form">
             @csrf
             @method('PUT')
@@ -19,8 +18,8 @@
                 <flux:input name="edit_name" value="{{ old('edit_name', '') }}"
                     placeholder="Enter Account Executive name" />
                 @error('edit_name')
-                <!-- Update error key -->
-                <p class="mt-2 text-red-500 dark:text-red-400 text-xs">{{ $message }}</p>
+                    <!-- Update error key -->
+                    <p class="mt-2 text-red-500 dark:text-red-400 text-xs">{{ $message }}</p>
                 @enderror
             </flux:field>
 
@@ -29,24 +28,18 @@
                 <flux:input name="edit_email" value="{{ old('edit_email', '') }}"
                     placeholder="Enter Account Executive email" />
                 @error('edit_email')
-                <p class="mt-2 text-red-500 dark:text-red-400 text-xs">{{ $message }}</p>
+                    <p class="mt-2 text-red-500 dark:text-red-400 text-xs">{{ $message }}</p>
                 @enderror
             </flux:field>
 
             <flux:field>
                 <flux:label>Customer</flux:label>
-                <flux:select
-                    id="edit_customer_id"
-                    name="edit_customer_id"
-                    placeholder="— Select customer —"
+                <flux:select id="edit_customer_id" name="edit_customer_id" placeholder="— Select customer —"
                     :error="$errors->first('edit_customer_id')">
                     @foreach ($customers as $customer)
-                    <option
-                        value="{{ $customer->id }}"
-                        class="text-black"
-                        @selected(old('edit_customer_id', $existingCustomerId ?? '' )==$customer->id)>
-                        {{ $customer->account_name }} ({{ $customer->short_name }})
-                    </option>
+                        <option value="{{ $customer->id }}" class="text-black" @selected(old('edit_customer_id', $existingCustomerId ?? '') == $customer->id)>
+                            {{ $customer->account_name }} ({{ $customer->short_name }})
+                        </option>
                     @endforeach
                 </flux:select>
             </flux:field>
@@ -54,20 +47,14 @@
             {{-- Facility Field - Updated to be optional --}}
             <flux:field>
                 <flux:label>Facility</flux:label>
-                <flux:select
-                    id="edit_facility_id"
-                    name="edit_facility_id"
-                    placeholder="— Select facility (optional) —"
+                <flux:select id="edit_facility_id" name="edit_facility_id" placeholder="— Select facility (optional) —"
                     :error="$errors->first('edit_facility_id')">
                     <option value="">— No facility —</option>
                     @foreach ($facilities as $facility)
-                    <option
-                        value="{{ $facility->id }}"
-                        class="text-black"
-                        data-customer-id="{{ $facility->customer_id }}"
-                        @selected(old('edit_facility_id', $existingFacilityId ?? '' )==$facility->id)>
-                        {{ $facility->name }}
-                    </option>
+                        <option value="{{ $facility->id }}" class="text-black"
+                            data-customer-id="{{ $facility->customer_id }}" @selected(old('edit_facility_id', $existingFacilityId ?? '') == $facility->id)>
+                            {{ $facility->name }}
+                        </option>
                     @endforeach
                 </flux:select>
             </flux:field>

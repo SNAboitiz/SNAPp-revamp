@@ -24,7 +24,7 @@
         <div class="overflow-x-auto rounded-lg border border-gray-200">
             @include('admin.bills.bill-table')
         </div>
-    </div> 
+    </div>
     <!-- Custom Export Loader -->
     <div id="export-loader" class="hidden fixed inset-0 bg-white/75 z-[9999] flex items-center justify-center">
         <button type="button" class="bg-indigo-600 text-white px-4 py-2 rounded inline-flex items-center" disabled>
@@ -37,7 +37,7 @@
             Exporting…
         </button>
     </div>
-    
+
     @include('admin.bills.form-upload-bills')
 
     <!-- JavaScript -->
