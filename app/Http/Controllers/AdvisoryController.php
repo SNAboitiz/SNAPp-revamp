@@ -95,8 +95,7 @@ class AdvisoryController extends Controller
         $validatedRequest = $request->validated();
 
         if ($request->hasFile('attachment')) {
-            // TODO: store to public GCS bucket
-            $filePath = $request->file('attachment')->store('snapp-advisory-attachments', 'gcs');
+            $filePath = $request->file('attachment')->store('snapp-advisory-attachments');
             $validatedRequest['attachment'] = $filePath;
         }
 
