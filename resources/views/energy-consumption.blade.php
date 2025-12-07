@@ -10,7 +10,6 @@
                         <h2 class="text-lg font-bold text-[#1443e0]">Energy Consumption</h2>
                     </div>
 
-                    {{-- TODO: filter by date range --}}
                     <div class="mt-6 flex-1 bg-white rounded-2xl shadow overflow-hidden">
                         <iframe src="{{ config('app.url') }}/app" class="w-full h-full rounded-xl border-none"
                             frameborder="0" allowFullScreen="true"></iframe>
