@@ -19,9 +19,7 @@ class ReportForm
                     ->storeFiles(false)
                     ->disk(config('filesystems.default'))
                     ->acceptedFileTypes(['text/csv', '.csv'])
-                    ->panelLayout('grid')
                     ->visibility('private')
-                    ->columnSpanFull()
                     ->required(),
             ]);
     }
