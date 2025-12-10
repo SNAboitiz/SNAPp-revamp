@@ -19,7 +19,7 @@
 
             <flux:field>
                 <flux:label badge="Required">Short Name</flux:label>
-                <flux:input name="sein" value="{{ old('sein') }}" placeholder="Enter sein" />
+                <flux:input name="sein" value="{{ old('sein') }}" placeholder="Enter short name" />
                 @error('sein')
                     <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
                 @enderror
