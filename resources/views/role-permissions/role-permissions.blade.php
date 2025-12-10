@@ -50,12 +50,6 @@
                                     <div class="flex justify-between items-center">
                                         <span>{{ $permission->name }}</span>
                                         <div class="flex gap-1">
-                                            <flux:modal.trigger name="permission-modal">
-                                                <flux:button icon="edit" variant="primary"
-                                                    class="flux-btn flux-btn-xs flux-btn-info">
-                                                </flux:button>
-                                            </flux:modal.trigger>
-
                                             <flux:modal.trigger name="delete-permission">
                                                 <flux:button icon="trash-2" variant="danger"
                                                     class="flux-btn flux-btn-xs flux-btn-danger">
