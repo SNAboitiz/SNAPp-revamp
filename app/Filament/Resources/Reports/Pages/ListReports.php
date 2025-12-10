@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\Report;
 use App\Models\ReportFile;
 use Filament\Actions\Action;
+use Filament\Actions\CreateAction;
 use Filament\Forms\Components\FileUpload;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
@@ -21,21 +22,22 @@ class ListReports extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('import_reports')
-                ->databaseTransaction()
-                ->label('Import Reports')
-                ->schema([
-                    FileUpload::make('files')
-                        ->label('Select Report CSV Files')
-                        // ->multiple()
-                        // ->maxFiles(50)
-                        // ->storeFiles(false)
-                        // ->disk(config('filesystems.default'))
-                        // ->acceptedFileTypes(['text/csv', '.csv'])
-                        ->panelLayout('grid')
-                        // ->visibility('private')
-                        ->required(),
-                ]),
+            CreateAction::make(),
+            // Action::make('import_reports')
+            //     ->databaseTransaction()
+            //     ->label('Import Reports')
+            //     ->schema([
+            //         FileUpload::make('files')
+            //             ->label('Select Report CSV Files')
+            //             ->multiple()
+            //             ->maxFiles(50)
+            //             ->storeFiles(false)
+            //             ->disk(config('filesystems.default'))
+            //             ->acceptedFileTypes(['text/csv', '.csv'])
+            //             ->panelLayout('grid')
+            //             ->visibility('private')
+            //             ->required(),
+            //     ]),
             // ->action(function (array $data) {
             //     DB::beginTransaction();
 
