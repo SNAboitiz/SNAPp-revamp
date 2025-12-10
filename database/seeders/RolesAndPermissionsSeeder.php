@@ -26,6 +26,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'can view advisories',
             'profile-editable-AE',
             'profile-editable-customer',
+            'can view econ',
         ];
 
         // Create permissions
