@@ -29,7 +29,6 @@ class ListReports extends ListRecords
                         ->label('Select Report CSV Files')
                         ->multiple()
                         ->maxFiles(50)
-                        // ->directory('reports')
                         ->storeFiles(false)
                         ->disk(config('filesystems.default'))
                         ->acceptedFileTypes(['text/csv', '.csv'])
