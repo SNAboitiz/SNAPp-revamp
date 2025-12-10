@@ -15,8 +15,7 @@ use Illuminate\Support\Facades\Storage;
 class BillingService
 {
     public function __construct(
-        protected OracleInvoiceService $oracleService,
-        protected GcsService $gcsService
+        protected OracleInvoiceService $oracleService
     ) {}
 
     public function getPaginatedUploadedBills(Request $request): LengthAwarePaginator
@@ -120,7 +119,7 @@ class BillingService
 
             if ($customerShortname && $billingPeriodForFile && $documentNumber) {
                 $objectPath = "snapp_bills/{$customerShortname}_{$billingPeriodForFile}_{$documentNumber}.pdf";
-                $gcsPdfUrl = $this->gcsService->generateSignedUrl($objectPath);
+                $gcsPdfUrl = Storage::temporaryUrl($objectPath, now()->addMinutes(30));
             }
 
             return [
@@ -241,10 +240,6 @@ class BillingService
             return null;
         }
 
-        if ($disk === 'gcs') {
-            return $this->gcsService->generateSignedUrl($path);
-        }
-
-        return Storage::disk($disk)->url($path);
+        return Storage::temporaryUrl($path, now()->addMinutes(30));
     }
 }

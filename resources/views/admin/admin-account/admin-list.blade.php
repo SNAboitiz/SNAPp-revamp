@@ -56,19 +56,19 @@
                 </thead>
                 <tbody>
                     @foreach ($admins as $admin)
-                    <tr class="cursor-pointer hover:bg-gray-100 transition flux-btn-info"
-                        data-id="{{ $admin->id }}" data-name="{{ $admin->name }}"
-                        data-email="{{ $admin->email }}" data-customer-id="{{ $admin->customer_id }}"
-                        data-account-name="{{ $admin->customer?->account_name }}"
-                        data-facility-name="{{ $admin->facility?->name }}"
-                        data-account-name="{{ $admin->customer?->account_name }}"
-                        onclick="document.getElementById('open-edit-modal').click()">
+                        <tr class="cursor-pointer hover:bg-gray-100 transition flux-btn-info"
+                            data-id="{{ $admin->id }}" data-name="{{ $admin->name }}"
+                            data-email="{{ $admin->email }}" data-customer-id="{{ $admin->customer_id }}"
+                            data-account-name="{{ $admin->customer?->account_name }}"
+                            data-facility-name="{{ $admin->facility?->name }}"
+                            data-account-name="{{ $admin->customer?->account_name }}"
+                            onclick="document.getElementById('open-edit-modal').click()">
 
-                        <td>{{ $admin->name }}</td>
-                        <td>{{ $admin->email }}</td>
-                        <td>{{ $admin->customer?->account_name ?? '-' }}</td>
-                        <td>{{ $admin->facility?->name ?? '-' }}</td>
-                    </tr>
+                            <td>{{ $admin->name }}</td>
+                            <td>{{ $admin->email }}</td>
+                            <td>{{ $admin->customer?->account_name ?? '-' }}</td>
+                            <td>{{ $admin->facility?->name ?? '-' }}</td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
@@ -76,9 +76,9 @@
 
         {{-- Pagination Links --}}
         @if ($admins->hasPages())
-        <div class="mt-4 px-4 py-3 bg-white border-t border-gray-200">
-            {{ $admins->links() }}
-        </div>
+            <div class="mt-4 px-4 py-3 bg-white border-t border-gray-200">
+                {{ $admins->links() }}
+            </div>
         @endif
 
         <!-- Hidden Modal Trigger for Edit -->

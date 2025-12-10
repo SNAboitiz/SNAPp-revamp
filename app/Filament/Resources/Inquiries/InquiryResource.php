@@ -16,6 +16,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class InquiryResource extends Resource
 {
@@ -40,6 +41,7 @@ class InquiryResource extends Resource
                     ->columnSpanFull()
                     ->fileAttachmentsDisk(config('filesystems.default'))
                     ->fileAttachmentsDirectory('inquiries')
+                    ->fileAttachmentsVisibility('private')
                     ->fileAttachmentsAcceptedFileTypes(['image/png', 'image/jpeg'])
                     ->toolbarButtons([
                         ['bold', 'italic', 'underline', 'strike', 'link', 'attachFiles'],
@@ -60,8 +62,6 @@ class InquiryResource extends Resource
                     ->placeholder('-'),
 
                 TextEntry::make('message')
-                    ->html()
-                    ->prose()
                     ->columnSpanFull(),
 
                 TextEntry::make('created_at')
@@ -114,5 +114,15 @@ class InquiryResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->where('user_id', auth()->id());
+    }
+
+    public static function canAccess(): bool
+    {
+        return auth()->user()->hasRole('customer');
+    }
+
+    public static function can(string $action, ?Model $record = null): bool
+    {
+        return auth()->user()->hasRole('customer');
     }
 }

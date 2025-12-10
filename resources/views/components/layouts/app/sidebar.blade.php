@@ -61,14 +61,26 @@
                     <flux:icon name="gauge" class="w-6 h-6 text-white" />
                     <span x-show="!collapsed" class="text-white">{{ __('Dashboard') }}</span>
                 </a> -->
-                    @can('can view bills')
-                        <a href="{{ route('bills.show') }}"
+                    @role('customer')
+                        @can('can view bills')
+                            <a href="{{ route('bills.show') }}"
+                                class="group flex items-center p-2 rounded-md hover:bg-blue-500 transition-colors"
+                                :class="{ 'justify-center': collapsed, 'space-x-2': !collapsed }">
+                                <flux:icon name="scroll" class="w-6 h-6 text-white" />
+                                <span x-show="!collapsed" class="text-white">{{ __('Bills and Payment History') }}</span>
+                            </a>
+                        @endcan
+                    @endrole
+
+                    @role('admin')
+                        <a href="{{ route('manage-payments') }}"
                             class="group flex items-center p-2 rounded-md hover:bg-blue-500 transition-colors"
                             :class="{ 'justify-center': collapsed, 'space-x-2': !collapsed }">
                             <flux:icon name="scroll" class="w-6 h-6 text-white" />
-                            <span x-show="!collapsed" class="text-white">{{ __('Bills and Payment History') }}</span>
+                            <span x-show="!collapsed" class="text-white">{{ __('Manage Payments') }}</span>
                         </a>
-                    @endcan
+                    @endrole
+
                     @can('can view contracts')
                         <a href="{{ route('my-contracts') }}"
                             class="group flex items-center p-2 rounded-md hover:bg-blue-500 transition-colors"
@@ -77,31 +89,35 @@
                             <span x-show="!collapsed" class="text-white">{{ __('Contracts') }}</span>
                         </a>
                     @endcan
-                    @can('can view econ')
-                        <a href="{{ route('energy-consumption') }}"
-                            class="group flex items-center p-2 rounded-md hover:bg-blue-500 transition-colors"
-                            :class="{ 'justify-center': collapsed, 'space-x-2': !collapsed }">
-                            <flux:icon name="lightbulb" class="w-6 h-6 text-white" />
-                            <span x-show="!collapsed" class="text-white">{{ __('Energy Consumption Report') }}</span>
-                        </a>
-                    @endcan
-                    @can('can view advisories')
-                        <a href="{{ route('advisories.index') }}"
-                            class="group flex items-center p-2 rounded-md hover:bg-blue-500 transition-colors"
-                            :class="{ 'justify-center': collapsed, 'space-x-2': !collapsed }">
-                            <flux:icon name="megaphone" class="w-6 h-6 text-white" />
-                            <span x-show="!collapsed" class="text-white">{{ __('Advisories') }}</span>
-                        </a>
-                    @endcan
-                    @can('can view profile')
-                        <a href="{{ route('profiles.index') }}"
-                            class="group flex items-center p-2 rounded-md hover:bg-blue-500 transition-colors"
-                            :class="{ 'justify-center': collapsed, 'space-x-2': !collapsed }">
-                            <flux:icon name="id-card" class="w-6 h-6 text-white" />
-                            <span x-show="!collapsed" class="text-white">{{ __('Profile') }}</span>
-                        </a>
-                    @endcan
 
+                    @role('customer')
+                        @can('can view econ')
+                            <a href="{{ route('energy-consumption') }}"
+                                class="group flex items-center p-2 rounded-md hover:bg-blue-500 transition-colors"
+                                :class="{ 'justify-center': collapsed, 'space-x-2': !collapsed }">
+                                <flux:icon name="lightbulb" class="w-6 h-6 text-white" />
+                                <span x-show="!collapsed" class="text-white">{{ __('Energy Consumption Report') }}</span>
+                            </a>
+                        @endcan
+
+                        @can('can view advisories')
+                            <a href="{{ route('advisories.index') }}"
+                                class="group flex items-center p-2 rounded-md hover:bg-blue-500 transition-colors"
+                                :class="{ 'justify-center': collapsed, 'space-x-2': !collapsed }">
+                                <flux:icon name="megaphone" class="w-6 h-6 text-white" />
+                                <span x-show="!collapsed" class="text-white">{{ __('Advisories') }}</span>
+                            </a>
+                        @endcan
+
+                        @can('can view profile')
+                            <a href="{{ route('profiles.index') }}"
+                                class="group flex items-center p-2 rounded-md hover:bg-blue-500 transition-colors"
+                                :class="{ 'justify-center': collapsed, 'space-x-2': !collapsed }">
+                                <flux:icon name="id-card" class="w-6 h-6 text-white" />
+                                <span x-show="!collapsed" class="text-white">{{ __('Profile') }}</span>
+                            </a>
+                        @endcan
+                    @endrole
 
                     @role('customer')
                         <a href="{{ route('help') }}"

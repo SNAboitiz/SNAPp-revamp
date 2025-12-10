@@ -17,10 +17,7 @@
                 <flux:button variant="ghost">Cancel</flux:button>
             </flux:modal.close>
 
-            <flux:button 
-                type="submit"
-                variant="danger"
-                id="confirm-delete-button">
+            <flux:button type="submit" variant="danger" id="confirm-delete-button">
                 Delete
             </flux:button>
         </div>
@@ -28,38 +25,38 @@
 </flux:modal>
 
 <script>
-(() => {
-    const baseUrl = "{{ url('admin/customers') }}";
-    const form = document.getElementById('delete-customer-form');
-    const nameEl = document.getElementById('delete-customer-name');
-    const deleteBtn = document.getElementById('confirm-delete-button');
+    (() => {
+        const baseUrl = "{{ url('admin/customers') }}";
+        const form = document.getElementById('delete-customer-form');
+        const nameEl = document.getElementById('delete-customer-name');
+        const deleteBtn = document.getElementById('confirm-delete-button');
 
-    if (!form) return;
+        if (!form) return;
 
-    // 🔹 Set up delete trigger
-    document.addEventListener('click', (e) => {
-        const trigger = e.target.closest('[data-customer-id]');
-        if (!trigger) return;
+        // 🔹 Set up delete trigger
+        document.addEventListener('click', (e) => {
+            const trigger = e.target.closest('[data-customer-id]');
+            if (!trigger) return;
 
-        const id = trigger.dataset.customerId;
-        const name = trigger.dataset.customerName || 'this customer';
+            const id = trigger.dataset.customerId;
+            const name = trigger.dataset.customerName || 'this customer';
 
-        form.action = `${baseUrl}/${id}`;
-        if (nameEl) nameEl.textContent = name;
+            form.action = `${baseUrl}/${id}`;
+            if (nameEl) nameEl.textContent = name;
 
-        // Reset button state each time modal opens
-        deleteBtn.disabled = false;
-        deleteBtn.textContent = 'Delete';
-    }, true);
+            // Reset button state each time modal opens
+            deleteBtn.disabled = false;
+            deleteBtn.textContent = 'Delete';
+        }, true);
 
-    // 🔹 Prevent double-clicks
-    form.addEventListener('submit', (e) => {
-        // Disable button immediately
-        deleteBtn.disabled = true;
-        deleteBtn.textContent = 'Deleting...';
-        
-        // Optional: if delete happens via full page reload, no need to re-enable
-        // If handled by AJAX, re-enable manually after success/failure
-    });
-})();
+        // 🔹 Prevent double-clicks
+        form.addEventListener('submit', (e) => {
+            // Disable button immediately
+            deleteBtn.disabled = true;
+            deleteBtn.textContent = 'Deleting...';
+
+            // Optional: if delete happens via full page reload, no need to re-enable
+            // If handled by AJAX, re-enable manually after success/failure
+        });
+    })();
 </script>

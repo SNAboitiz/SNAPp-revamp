@@ -32,12 +32,6 @@
                                     <div class="flex flex-col items-center">
                                         <span>{{ $role->name }}</span>
                                         <div class="flex gap-1 mt-1">
-                                            <flux:modal.trigger name="role-modal">
-                                                <flux:button class="flux-btn flux-btn-secondary">
-                                                    Edit
-                                                </flux:button>
-                                            </flux:modal.trigger>
-
                                             <flux:modal.trigger name="delete-role">
                                                 <flux:button icon="trash-2" variant="danger"
                                                     class="flux-btn flux-btn-xs flux-btn-danger">

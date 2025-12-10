@@ -6,25 +6,23 @@
     loadingFacilities: false,
     filterFacilities(customerId) {
         console.log('Filtering facilities for customer:', customerId);
-        
+
         if (!customerId) {
             this.filteredFacilities = [];
             return;
         }
-        
+
         // Filter facilities by customer_id
         this.filteredFacilities = this.allFacilities.filter(f => f.customer_id == customerId);
         console.log('Filtered facilities:', this.filteredFacilities);
     }
-}" x-init="
-    console.log('All facilities loaded:', allFacilities);
-    if (showModal) {
-        $nextTick(() => $flux.modal('upload-contract').show());
-    }
-    if (selectedCustomer) {
-        filterFacilities(selectedCustomer);
-    }
-">
+}" x-init="console.log('All facilities loaded:', allFacilities);
+if (showModal) {
+    $nextTick(() => $flux.modal('upload-contract').show());
+}
+if (selectedCustomer) {
+    filterFacilities(selectedCustomer);
+}">
     <flux:modal name="upload-contract" class="md:max-w-3xl">
         <form action="{{ route('contracts.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6"
             id="create-form">
@@ -40,11 +38,7 @@
             {{-- Customer Dropdown --}}
             <flux:field>
                 <flux:label badge="Required">Select Customer</flux:label>
-                <flux:select 
-                    name="customer_id" 
-                    placeholder="— Select customer —" 
-                    required
-                    x-model="selectedCustomer"
+                <flux:select name="customer_id" placeholder="— Select customer —" required x-model="selectedCustomer"
                     @change="filterFacilities($event.target.value); $el.form.querySelector('[name=facility_id]').value = ''"
                     :error="$errors->first('customer_id')">
                     @foreach ($customers as $customer)
@@ -62,10 +56,8 @@
             {{-- Facility Dropdown (Filtered) --}}
             <flux:field>
                 <flux:label>Select Facility</flux:label>
-                <flux:select 
-                    name="facility_id" 
-                    placeholder="— Select facility —">
-                    
+                <flux:select name="facility_id" placeholder="— Select facility —">
+
                     <template x-if="!selectedCustomer">
                         <option value="">Select customer first</option>
                     </template>
@@ -75,12 +67,10 @@
                     <template x-if="selectedCustomer && filteredFacilities.length > 0">
                         <option value="">— Select facility —</option>
                     </template>
-                    
+
                     {{-- Dynamically filtered facilities --}}
                     <template x-for="facility in filteredFacilities" :key="facility.id">
-                        <option 
-                            :value="facility.id" 
-                            x-text="`${facility.name} (SEIN: ${facility.sein})`"
+                        <option :value="facility.id" x-text="`${facility.name} (SEIN: ${facility.sein})`"
                             :selected="'{{ old('facility_id') }}' == facility.id">
                         </option>
                     </template>
@@ -110,7 +100,8 @@
 
                 <flux:field class="md:col-span-2">
                     <flux:label badge="Required">Description</flux:label>
-                    <flux:input name="description" value="{{ old('description') }}" placeholder="Enter description" required />
+                    <flux:input name="description" value="{{ old('description') }}" placeholder="Enter description"
+                        required />
                     @error('description')
                         <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror

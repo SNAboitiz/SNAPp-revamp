@@ -16,19 +16,12 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
-Route::get('account/deactivated', function () {
-    return view('auth.deactivated');
-})->name('account.deactivated');
+Route::view('account/deactivated', 'auth.deactivated')->name('account.deactivated');
 
 Route::redirect('/', '/login');
 
 Route::middleware(['auth'])->group(function () {
-    // ALL ACCESS
     Route::middleware(['role:admin|account executive|customer'])->group(function () {
-        Route::get('/help', function () {
-            return view('help');
-        })->name('help');
-        Route::get('profiles', [ProfileController::class, 'index'])->name('profiles.index');
         Route::get('profiles/edit', [ProfileController::class, 'edit'])->name('profiles.edit');
         Route::post('profiles', [ProfileController::class, 'store'])->name('profiles.store');
         Route::put('profiles/{id}', [ProfileController::class, 'update'])->name('profiles.update');
@@ -37,15 +30,24 @@ Route::middleware(['auth'])->group(function () {
         Route::post('contracts/store', [ContractController::class, 'store'])->name('contracts.store');
         Route::get('contracts', [ContractController::class, 'showContractsPage'])->name('my-contracts');
         Route::get('/dashboard', [DashboardController::class, 'showDashboardFields'])->name('dashboard');
-        Route::get('/advisories', [AdvisoryController::class, 'index'])->name('advisories.index');
         Route::get('/advisories/load-more', [AdvisoryController::class, 'loadMore'])->name('advisories.load-more');
     });
-    Route::middleware(['role:admin|customer'])->group(function () {
+
+    Route::middleware(['role:account executive|customer'])->group(function () {
+        Route::view('help', 'help')->name('help');
+    });
+
+    Route::middleware(['role:customer'])->group(function () {
         Route::get('/my-bills', [BillController::class, 'showBillsPage'])->name('bills.show');
         Route::get('/payment-history', [BillController::class, 'showPaymentHistory'])->name('payments.history');
+        Route::get('/energy-consumption', [GhgController::class, 'calculateEmissions'])->name('energy-consumption');
+        Route::get('/advisories', [AdvisoryController::class, 'index'])->name('advisories.index');
+        Route::get('profiles', [ProfileController::class, 'index'])->name('profiles.index');
         Route::get('/bills/export', [BillController::class, 'exportBills'])->name('bills.export');
         Route::get('/payments/export', [BillController::class, 'exportPayments'])->name('payments.export');
-        Route::get('/energy-consumption', [GhgController::class, 'calculateEmissions'])->name('energy-consumption');
+    });
+
+    Route::middleware(['role:admin|customer'])->group(function () {
         Route::post('/admin/customers/{customer}/tax-documents/{facility?}', [CustomerTaxDocumentController::class, 'store'])->name('tax-documents.store');
     });
 
@@ -69,8 +71,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/role-permission', [RolePermission::class, 'index'])->name('role.permission.list');
         Route::post('/role-permission', [RolePermission::class, 'store'])->name('role.permission.store');
-        Route::resource('permission', PermissionController::class)->except(['destroy']);
-        Route::resource('role', RoleController::class);
+        Route::resource('permission', PermissionController::class)->except(['destroy', 'index', 'show']);
+        Route::resource('role', RoleController::class)->except(['index', 'show', 'destroy']);
         Route::delete('roles/{id}', [RolePermission::class, 'destroyRole'])->name('roles.destroy');
         Route::delete('permissions/{id}', [RolePermission::class, 'destroyPermission'])->name('permission.destroy');
 
@@ -93,6 +95,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('facilities', FacilityController::class);
 
         Route::view('reports', 'admin.reports')->name('reports');
+        Route::view('manage-payments', 'admin.manage-payments')->name('manage-payments');
     });
 });
 

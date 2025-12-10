@@ -17,6 +17,10 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
+        if ($user->cant('can view profile')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         if (! $user || ! $user->customer_id) {
             abort(403, 'No customer assigned.');
         }
@@ -64,6 +68,10 @@ class ProfileController extends Controller
     public function store(StoreProfileRequest $request)
     {
         $user = Auth::user();
+
+        if ($user->cant('can view profile')) {
+            abort(403, 'Unauthorized action.');
+        }
 
         if (! $user->customer_id) {
             abort(403, 'No customer assigned.');
@@ -137,6 +145,10 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
+        if ($user->cant('can view profile')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         if (! $user->customer_id) {
             abort(403, 'No customer assigned.');
         }
@@ -161,9 +173,23 @@ class ProfileController extends Controller
     }
 
     // Admin
-    public function profileList()
+    public function profileList(Request $request)
     {
-        $profiles = Profile::with('customer', 'facility')->orderBy('created_at', 'desc')->paginate(15);
+        $search = $request->search;
+
+        $profiles = Profile::with('customer', 'facility')
+            ->when($search, function ($query, $search) {
+                $query->whereHas('customer', function ($q) use ($search) {
+                    $q->where('account_name', 'like', "%{$search}%")
+                        ->orWhere('customer_number', 'like', "%{$search}%")
+                        ->orWhere('short_name', 'like', "%{$search}%");
+                })->orWhereHas('facility', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('sein', 'like', "%{$search}%");
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
         $customers = Customer::with('facilities')->orderBy('account_name')->get();
 
         return view('admin.customer-profile.customer-profile-list', compact('profiles', 'customers'));

@@ -7,13 +7,6 @@ use Illuminate\Support\Facades\Storage;
 
 class ContractService
 {
-    protected GcsService $gcsService;
-
-    public function __construct(GcsService $gcsService)
-    {
-        $this->gcsService = $gcsService;
-    }
-
     /**
      * Upload file to storage (GCS or local)
      */
@@ -29,21 +22,7 @@ class ContractService
      */
     public function getFileUrl(string $path): ?string
     {
-        $disk = config('filesystems.default');
-
-        if ($disk === 'gcs') {
-            // Use GCS service to generate signed URL
-            $url = $this->gcsService->generateSignedUrl($path);
-
-            return $url ?: null;
-        }
-
-        // For local storage, check if file exists and return URL
-        if (Storage::disk($disk)->exists($path)) {
-            return Storage::disk($disk)->url($path);
-        }
-
-        return null;
+        return Storage::temporaryUrl($path, now()->addMinutes(30));
     }
 
     /**
@@ -51,9 +30,7 @@ class ContractService
      */
     public function fileExists(string $path): bool
     {
-        $disk = config('filesystems.default');
-
-        return Storage::disk($disk)->exists($path);
+        return Storage::exists($path);
     }
 
     /**
@@ -61,8 +38,6 @@ class ContractService
      */
     public function deleteFile(string $path): bool
     {
-        $disk = config('filesystems.default');
-
-        return Storage::disk($disk)->delete($path);
+        return Storage::delete($path);
     }
 }

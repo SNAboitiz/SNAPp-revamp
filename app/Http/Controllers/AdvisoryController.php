@@ -9,15 +9,65 @@ use Illuminate\Http\Request;
 
 class AdvisoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $latestAdvisory = Advisory::where('is_archive', false)
-            ->orderBy('created_at', 'desc')
-            ->first();
+        if (auth()->user()->cant('can view advisories')) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $filter = $request->date;
+        $sort = $request->sort;
+
+        $advisoriesQuery = Advisory::where('is_archive', false);
+
+        // Apply filter
+        switch ($filter) {
+            case 'last_7_days':
+                $advisoriesQuery->where('created_at', '>=', now()->subDays(7));
+                break;
+            case 'last_30_days':
+                $advisoriesQuery->where('created_at', '>=', now()->subDays(30));
+                break;
+            case 'this_month':
+                $advisoriesQuery->whereYear('created_at', now()->year)
+                    ->whereMonth('created_at', now()->month);
+                break;
+            case 'last_month':
+                $advisoriesQuery->whereYear('created_at', now()->subMonth()->year)
+                    ->whereMonth('created_at', now()->subMonth()->month);
+                break;
+        }
+
+        // Apply sorting
+        switch ($sort) {
+            case 'date_asc':
+                $advisoriesQuery->orderBy('created_at', 'asc');
+                break;
+            case 'date_desc':
+                $advisoriesQuery->orderBy('created_at', 'desc');
+                break;
+            case 'headline_asc':
+                $advisoriesQuery->orderBy('headline', 'asc');
+                break;
+            case 'headline_desc':
+                $advisoriesQuery->orderBy('headline', 'desc');
+                break;
+            default:
+                $advisoriesQuery->orderBy('created_at', 'desc');
+                break;
+        }
+
+        $latestAdvisory = $advisoriesQuery->first();
 
         $moreAdvisories = Advisory::where('is_archive', false)
             ->where('id', '!=', optional($latestAdvisory)->id)
-            ->orderBy('created_at', 'desc')
+            ->when($filter === 'last_7_days', fn ($q) => $q->where('created_at', '>=', now()->subDays(7)))
+            ->when($filter === 'last_30_days', fn ($q) => $q->where('created_at', '>=', now()->subDays(30)))
+            ->when($sort === 'date_asc', fn ($q) => $q->orderBy('created_at', 'asc'))
+            ->when($sort === 'date_desc', fn ($q) => $q->orderBy('created_at', 'desc'))
+            ->when($sort === 'headline_asc', fn ($q) => $q->orderBy('headline', 'asc'))
+            ->when($sort === 'headline_desc', fn ($q) => $q->orderBy('headline', 'desc'))
+            ->when(! $sort, fn ($q) => $q->orderBy('created_at', 'desc'))
             ->take(3)
             ->get();
 

@@ -17,6 +17,11 @@ class GhgController extends Controller
     public function calculateEmissions()
     {
         $user = Auth::user();
+
+        if ($user->cant('can view econ')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $accountName = $user->customer?->account_name;
         $customerId = $user->customer?->customer_number;
 

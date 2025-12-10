@@ -14,7 +14,7 @@
                 <flux:label badge="Required">Name</flux:label>
                 <flux:input name="name" value="{{ old('name') }}" placeholder="Enter account executive name" />
                 @error('name')
-                <p class="mt-2 text-red-500 dark:text-red-400 text-xs">{{ $message }}</p>
+                    <p class="mt-2 text-red-500 dark:text-red-400 text-xs">{{ $message }}</p>
                 @enderror
             </flux:field>
 
@@ -23,25 +23,19 @@
                 <flux:input name="email" type="email" value="{{ old('email') }}"
                     placeholder="Enter account executive email" />
                 @error('email')
-                <p class="mt-2 text-red-500 dark:text-red-400 text-xs">{{ $message }}</p>
+                    <p class="mt-2 text-red-500 dark:text-red-400 text-xs">{{ $message }}</p>
                 @enderror
             </flux:field>
 
             <!-- Assign Customer -->
             <flux:field>
                 <flux:label>Customer</flux:label>
-                <flux:select
-                    id="customer_id"
-                    name="customer_id"
-                    placeholder="— Select account —"
-                    required
+                <flux:select id="customer_id" name="customer_id" placeholder="— Select account —" required
                     :error="$errors->first('customer_id')">
                     @foreach ($customers as $customer)
-                    <option value="{{ $customer->id }}"
-                        class="text-black"
-                        @selected(old('customer_id')==$customer->id)>
-                        {{ $customer->account_name }} ({{ $customer->short_name }})
-                    </option>
+                        <option value="{{ $customer->id }}" class="text-black" @selected(old('customer_id') == $customer->id)>
+                            {{ $customer->account_name }} ({{ $customer->short_name }})
+                        </option>
                     @endforeach
                 </flux:select>
             </flux:field>
@@ -49,22 +43,17 @@
             <!-- Assign Facility -->
             <flux:field>
                 <flux:label>Facility</flux:label>
-                <flux:select
-                    id="facility_id"
-                    name="facility_id"
-                    placeholder="— Select facility (optional) —">
+                <flux:select id="facility_id" name="facility_id" placeholder="— Select facility (optional) —">
                     <option value="">— No facility —</option>
                     @foreach ($facilities as $facility)
-                    <option
-                        value="{{ $facility->id }}"
-                        data-customer-id="{{ $facility->customer_id }}"
-                        @selected(old('facility_id')==$facility->id)>
-                        {{ $facility->name }}
-                    </option>
+                        <option value="{{ $facility->id }}" data-customer-id="{{ $facility->customer_id }}"
+                            @selected(old('facility_id') == $facility->id)>
+                            {{ $facility->name }}
+                        </option>
                     @endforeach
                 </flux:select>
                 @error('facility_id')
-                <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
+                    <p class="mt-2 text-red-500 text-xs">{{ $message }}</p>
                 @enderror
             </flux:field>
 

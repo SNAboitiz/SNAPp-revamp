@@ -66,7 +66,7 @@ return [
             'project_id' => env('GOOGLE_CLOUD_PROJECT_ID'),
             'bucket' => env('GOOGLE_CLOUD_STORAGE_BUCKET'),
             'path_prefix' => env('GOOGLE_CLOUD_STORAGE_PATH_PREFIX', ''),
-            'visibility' => 'public',
+            'visibility' => 'private',
             'metadata' => ['cacheControl' => 'public,max-age=86400'],
             'throw' => true,
         ],
