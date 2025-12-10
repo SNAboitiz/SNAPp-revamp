@@ -69,6 +69,7 @@ return [
             'visibility' => 'private',
             'metadata' => ['cacheControl' => 'public,max-age=86400'],
             'throw' => true,
+            'visibility_handler' => \League\Flysystem\GoogleCloudStorage\UniformBucketLevelAccessVisibility::class,
         ],
 
     ],
