@@ -51,8 +51,8 @@ php artisan migrate --force 2>/dev/null || echo "Migration failed or database no
 # php artisan db:seed --force 2>/dev/null || echo "Seeding failed or not needed"
 
 # Optionally, run dummy seeder for testing (uncomment if needed)
-# echo "Running dummy database seeder..."
-php artisan db:seed --class=DummySeeder --force 2>/dev/null || echo "Dummy seeding failed or not needed"
+# # echo "Running dummy database seeder..."
+# php artisan db:seed --class=DummySeeder --force 2>/dev/null || echo "Dummy seeding failed or not needed"
 
 # Run Laravel optimization
 echo "Running Laravel optimization..."
