@@ -27,13 +27,13 @@ class ListReports extends ListRecords
                 ->schema([
                     FileUpload::make('files')
                         ->label('Select Report CSV Files')
-                        ->multiple()
-                        ->maxFiles(50)
-                        ->storeFiles(false)
-                        ->disk(config('filesystems.default'))
-                        ->acceptedFileTypes(['text/csv', '.csv'])
+                        // ->multiple()
+                        // ->maxFiles(50)
+                        // ->storeFiles(false)
+                        // ->disk(config('filesystems.default'))
+                        // ->acceptedFileTypes(['text/csv', '.csv'])
                         ->panelLayout('grid')
-                        ->visibility('private')
+                        // ->visibility('private')
                         ->required(),
                 ]),
             // ->action(function (array $data) {
