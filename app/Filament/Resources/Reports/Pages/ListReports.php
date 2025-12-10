@@ -6,12 +6,12 @@ use App\Filament\Resources\Reports\ReportResource;
 use App\Models\Customer;
 use App\Models\Report;
 use App\Models\ReportFile;
-use Filament\Actions\Action;
-use Filament\Forms\Components\FileUpload;
+use Filament\Actions\CreateAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ListReports extends ListRecords
@@ -21,20 +21,12 @@ class ListReports extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('import_reports')
+            CreateAction::make()
+                ->modalSubmitActionLabel('Import')
+                ->modalHeading('Import Reports')
+                ->createAnother(false)
                 ->databaseTransaction()
                 ->label('Import Reports')
-                ->schema([
-                    FileUpload::make('files')
-                        ->label('Select Report CSV Files')
-                        ->multiple()
-                        ->directory('reports')
-                        ->maxFiles(50)
-                        ->storeFiles(false)
-                        ->disk(config('filesystems.default'))
-                        ->acceptedFileTypes(['text/csv', '.csv'])
-                        ->required(),
-                ])
                 ->action(function (array $data) {
                     DB::beginTransaction();
 
@@ -42,63 +34,72 @@ class ListReports extends ListRecords
                         $files = $data['files'] ?? [];
 
                         foreach ($files as $file) {
-                            // Get the real path from the TemporaryUploadedFile object
-                            $filePath = $file->getRealPath();
+                            $handle = Storage::readStream($file->getRealPath());
 
                             $uuid = Str::uuid()->toString();
 
-                            if (($handle = fopen($filePath, 'r')) !== false) {
-                                // Skip header row
-                                $name = fgetcsv($handle)[0];
+                            // Skip header row
+                            $name = fgetcsv($handle)[0];
 
-                                $customer = Customer::where('short_name', $name)->first()?->id;
+                            $customer = Customer::where('short_name', $name)->first()?->id;
 
-                                if (! $customer) {
-                                    fclose($handle);
-                                    throw new \Exception("Customer '{$name}' not found");
-                                }
-
-                                fgetcsv($handle); // skip second row
-
-                                $period = fgetcsv($handle)[0];
-
-                                fgetcsv($handle); // skip fourth row
-                                fgetcsv($handle); // skip fifth row
-                                fgetcsv($handle); // skip sixth row
-
-                                $records = [];
-
-                                $reportFile = ReportFile::create([
-                                    'customer_id' => $customer,
-                                    'uuid' => $uuid,
-                                    'filename' => $file->getClientOriginalName(),
-                                    'period' => $period,
-                                ]);
-
-                                while (($row = fgetcsv($handle)) !== false) {
-                                    $records[] = [
-                                        'report_file_id' => $reportFile->id,
-                                        'data' => json_encode([
-                                            'interval_start' => trim($row[0]),
-                                            'interval_end' => trim($row[1]),
-                                            'day' => trim($row[2]),
-                                            'hour' => trim($row[3]),
-                                            'gesq' => trim($row[4]) === '-' ? 0.0 : (float) $row[4],
-                                        ]),
-                                        'created_at' => now(),
-                                        'updated_at' => now(),
-                                    ];
-                                }
-
+                            if (! $customer) {
                                 fclose($handle);
+                                throw new \Exception("Customer '{$name}' not found");
+                            }
 
-                                array_pop($records);
+                            fgetcsv($handle); // skip second row
 
-                                // Bulk insert all records at once
-                                if (! empty($records)) {
+                            $period = fgetcsv($handle)[0];
+
+                            fgetcsv($handle); // skip fourth row
+                            fgetcsv($handle); // skip fifth row
+                            fgetcsv($handle); // skip sixth row
+
+                            $records = [];
+
+                            $reportFile = ReportFile::create([
+                                'customer_id' => $customer,
+                                'uuid' => $uuid,
+                                'filename' => $file->getClientOriginalName(),
+                                'period' => $period,
+                            ]);
+
+                            $records = [];
+                            $batchSize = 1000;
+
+                            while (($row = fgetcsv($handle)) !== false) {
+                                if (count($row) < 5) {
+                                    continue;
+                                }
+
+                                $records[] = [
+                                    'report_file_id' => $reportFile->id,
+                                    'data' => json_encode([
+                                        'interval_start' => trim($row[0]),
+                                        'interval_end' => trim($row[1]),
+                                        'day' => trim($row[2]),
+                                        'hour' => trim($row[3]),
+                                        'gesq' => trim($row[4]) === '-' ? 0.0 : (float) $row[4],
+                                    ]),
+                                    'created_at' => now(),
+                                    'updated_at' => now(),
+                                ];
+
+                                if (count($records) >= $batchSize) {
                                     Report::insert($records);
+                                    $records = []; // Reset array
                                 }
                             }
+
+                            if (! empty($records)) {
+                                array_pop($records);
+                                Report::insert($records);
+                            }
+
+                            fclose($handle);
+
+                            Storage::delete($file->getRealPath());
                         }
 
                         DB::commit();
