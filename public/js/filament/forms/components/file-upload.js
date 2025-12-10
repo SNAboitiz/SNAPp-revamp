@@ -15217,13 +15217,15 @@ function Mg({
             (this.destroyEditor(), ft(this.$refs.input), (this.pond = null));
         },
         dispatchFormEvent(V, k = {}) {
-            this.$el.closest("form")?.dispatchEvent(
-                new CustomEvent(V, {
-                    composed: !0,
-                    cancelable: !0,
-                    detail: k,
-                }),
-            );
+            this.$el
+                .closest("form")
+                ?.dispatchEvent(
+                    new CustomEvent(V, {
+                        composed: !0,
+                        cancelable: !0,
+                        detail: k,
+                    }),
+                );
         },
         async getUploadedFiles() {
             let V = await s();
