@@ -31,7 +31,8 @@ class ListReports extends ListRecords
                         ->directory('reports')
                         ->maxFiles(50)
                         ->storeFiles(false)
-                        ->disk(config('filesystems.default'))
+                        // ->disk(config('filesystems.default'))
+                        ->disk('local')
                         ->acceptedFileTypes(['text/csv', '.csv'])
                         ->required(),
                 ])
@@ -107,7 +108,7 @@ class ListReports extends ListRecords
 
                         Notification::make()
                             ->title('Import Failed')
-                            ->body('An error occurred during import: '.$th->getMessage())
+                            ->body('An error occurred during import: ' . $th->getMessage())
                             ->danger()
                             ->send();
 
