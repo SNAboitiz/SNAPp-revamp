@@ -28,12 +28,12 @@ class ListReports extends ListRecords
                     FileUpload::make('files')
                         ->label('Select Report CSV Files')
                         ->multiple()
-                        ->directory('reports')
                         ->maxFiles(50)
                         ->storeFiles(false)
                         ->disk(config('filesystems.default'))
                         ->acceptedFileTypes(['text/csv', '.csv'])
                         ->panelLayout('grid')
+                        ->visibility('private')
                         ->required(),
                 ]),
             // ->action(function (array $data) {
