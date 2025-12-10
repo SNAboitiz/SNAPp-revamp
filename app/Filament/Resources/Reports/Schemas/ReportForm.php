@@ -10,8 +10,19 @@ class ReportForm
     public static function configure(Schema $schema): Schema
     {
         return $schema
+            ->columns(1)
             ->components([
-                //
+                FileUpload::make('files')
+                    ->label('Select Report CSV Files')
+                    ->multiple()
+                    ->maxFiles(50)
+                    ->storeFiles(false)
+                    ->disk(config('filesystems.default'))
+                    ->acceptedFileTypes(['text/csv', '.csv'])
+                    ->panelLayout('grid')
+                    ->visibility('private')
+                    ->columnSpanFull()
+                    ->required(),
             ]);
     }
 }
