@@ -23,7 +23,6 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->validateCsrfTokens(except: [
             'webhook/inquiry',
-            'livewire/upload',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
