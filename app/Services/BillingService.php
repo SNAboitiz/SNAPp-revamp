@@ -107,7 +107,7 @@ class BillingService
                 // Check if we have two parts, as expected
                 if (count($parts) === 2) {
                     // Uppercase each date part individually and join them back with a lowercase " to "
-                    $billingPeriodForFile = strtoupper(trim($parts[0])).' to '.strtoupper(trim($parts[1]));
+                    $billingPeriodForFile = strtoupper(trim($parts[0])).' TO '.strtoupper(trim($parts[1]));
                 } else {
                     // Fallback for any unexpected format
                     $billingPeriodForFile = strtoupper($item['Comments']);

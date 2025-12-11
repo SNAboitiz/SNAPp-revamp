@@ -304,7 +304,7 @@ class UserController extends Controller
             return redirect()->back()->with('success', $successMessage);
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error(ucfirst($role).' Creation Failed: '.$e->getMessage());
+            Log::error(ucfirst($role) . ' Creation Failed: ' . $e->getMessage());
 
             return redirect()->back()->with('error', $errorMessage);
         }
@@ -328,9 +328,9 @@ class UserController extends Controller
         try {
             $this->sendNewPassword($user);
 
-            return redirect()->back()->with('success', 'A new password has been sent to '.$user->email);
+            return redirect()->back()->with('success', 'A new password has been sent to ' . $user->email);
         } catch (\Exception $e) {
-            Log::error('Admin Password Reset Failed for user '.$user->id.': '.$e->getMessage());
+            Log::error('Admin Password Reset Failed for user ' . $user->id . ': ' . $e->getMessage());
 
             return redirect()->back()->with('error', 'Failed to send a new password.');
         }
