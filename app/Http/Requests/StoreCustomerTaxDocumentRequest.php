@@ -43,6 +43,10 @@ class StoreCustomerTaxDocumentRequest extends FormRequest
                 'mimes:pdf',
                 'max:10240',
             ],
+            'billing_period' => [
+                'required',
+                'string',
+            ],
         ];
     }
 }
