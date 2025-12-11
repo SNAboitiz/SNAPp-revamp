@@ -74,7 +74,7 @@ class BillingService
             });
         }
 
-        $allBills = $this->prepareBillData($allOracleItems, $customerShortname, $user);
+        $allBills = $this->prepareBillData($allOracleItems, $customerShortname);
 
         // Optional search filter
         if ($search = strtolower($request->input('search'))) {
@@ -94,9 +94,9 @@ class BillingService
         return $this->paginate($allBills, 5, $request, 'bills.show');
     }
 
-    protected function prepareBillData(Collection $items, ?string $customerShortname, $user): Collection
+    protected function prepareBillData(Collection $items, ?string $customerShortname): Collection
     {
-        return $items->map(function ($item) use ($customerShortname, $user) {
+        return $items->map(function ($item) use ($customerShortname) {
 
             $billingPeriodForFile = null;
 
@@ -118,8 +118,7 @@ class BillingService
             $gcsPdfUrl = null;
 
             if ($customerShortname && $billingPeriodForFile && $documentNumber) {
-                $sein = $user?->facility?->sein ?? 'NOFAC';
-                $objectPath = "snapp_bills/BILL_{$customerShortname}_{$sein}_{$billingPeriodForFile}_{$documentNumber}.pdf";
+                $objectPath = "snapp_bills/{$customerShortname}_{$billingPeriodForFile}_{$documentNumber}.pdf";
                 $gcsPdfUrl = Storage::temporaryUrl($objectPath, now()->addMinutes(30));
             }
 

@@ -21,8 +21,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        \DB::table('customer_tax_documents')->whereNull('official_receipt')->update(['official_receipt' => '']);
+
         Schema::table('customer_tax_documents', function (Blueprint $table) {
-            $table->string('official_receipt')->change();
+            $table->string('official_receipt')->nullable(false)->change();
         });
     }
 };

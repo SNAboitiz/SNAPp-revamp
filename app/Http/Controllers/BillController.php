@@ -93,9 +93,8 @@ class BillController extends Controller
         $billingPeriod = strtoupper("{$start} to {$end}");
 
         // Build filename
-        $sein = $facility?->sein ?? 'NOFAC';
         $ext = $request->file('file_path')->getClientOriginalExtension();
-        $filename = "BILL_{$customer->short_name}_{$sein}_{$billingPeriod}_{$validated['bill_number']}.{$ext}";
+        $filename = "{$customer->short_name}_{$billingPeriod}_{$validated['bill_number']}.{$ext}";
 
         // Store file
         $path = $request->file('file_path')->storeAs('snapp_bills', $filename, config('filesystems.default'));
