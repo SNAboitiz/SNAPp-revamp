@@ -119,7 +119,10 @@ class BillingService
 
             if ($customerShortname && $billingPeriodForFile && $documentNumber) {
                 $objectPath = "snapp_bills/{$customerShortname}_{$billingPeriodForFile}_{$documentNumber}.pdf";
-                $gcsPdfUrl = Storage::temporaryUrl($objectPath, now()->addMinutes(30));
+
+                if (Storage::exists($objectPath)) {
+                    $gcsPdfUrl = Storage::temporaryUrl($objectPath, now()->addMinutes(30));
+                }
             }
 
             return [
