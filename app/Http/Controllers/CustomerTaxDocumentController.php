@@ -33,6 +33,7 @@ class CustomerTaxDocumentController extends Controller
             'facility_id' => $facility?->id,
             'document_number' => $validated['document_number'],
             'file_path' => $path,
+            'billing_period' => $validated['billing_period'],
         ]);
 
         return redirect()->back()->with('success', '2307 document uploaded successfully.');
