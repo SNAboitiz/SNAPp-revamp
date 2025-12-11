@@ -17,8 +17,7 @@
         <input type="hidden" name="billing_period" id="billing_period">
 
         <flux:field>
-            <flux:input type="file" name="file" label="2307 Document" badge="Required" accept=".pdf,.doc,.docx"
-                required />
+            <flux:input type="file" name="file" label="2307 Document" badge="Required" accept=".pdf" required />
             @error('file')
                 <p class="mt-2 text-xs text-red-5 00">{{ $message }}</p>
             @enderror

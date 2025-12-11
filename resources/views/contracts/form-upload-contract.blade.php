@@ -31,7 +31,7 @@ if (selectedCustomer) {
             <div>
                 <flux:heading size="lg">Upload Contract</flux:heading>
                 <flux:text class="mt-2">
-                    Contract upload accepts pdf, doc, and docx formats.
+                    Contract upload accepts pdf format.
                 </flux:text>
             </div>
 
@@ -108,8 +108,8 @@ if (selectedCustomer) {
                 </flux:field>
 
                 <flux:field class="md:col-span-2">
-                    <flux:input type="file" name="document" label="Document" badge="Required"
-                        accept=".pdf,.doc,.docx" required />
+                    <flux:input type="file" name="document" label="Document" badge="Required" accept=".pdf"
+                        required />
                     @error('document')
                         <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
