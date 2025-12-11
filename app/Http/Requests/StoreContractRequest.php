@@ -43,7 +43,7 @@ class StoreContractRequest extends FormRequest
             'document' => [
                 'required',
                 'file',
-                'mimes:pdf,doc,docx',
+                'mimes:pdf',
                 'max:10240',
             ],
             'description' => [

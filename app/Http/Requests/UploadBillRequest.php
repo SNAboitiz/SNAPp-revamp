@@ -65,7 +65,7 @@ class UploadBillRequest extends FormRequest
             'file_path' => [
                 'required',
                 'file',
-                'mimes:pdf,doc,docx',
+                'mimes:pdf',
                 'max:10240', // 10 MB
             ],
         ];
