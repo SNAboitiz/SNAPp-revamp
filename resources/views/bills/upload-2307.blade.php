@@ -14,10 +14,10 @@
         <input type="hidden" name="customer_id" id="tax_customer_id">
         <input type="hidden" name="facility_id" id="tax_facility_id">
         <input type="hidden" name="document_number" id="tax_document_number">
+        <input type="hidden" name="billing_period" id="billing_period">
 
         <flux:field>
-            <flux:input type="file" name="file" label="2307 Document" badge="Required" accept=".pdf,.doc,.docx"
-                required />
+            <flux:input type="file" name="file" label="2307 Document" badge="Required" accept=".pdf" required />
             @error('file')
                 <p class="mt-2 text-xs text-red-5 00">{{ $message }}</p>
             @enderror
@@ -44,10 +44,12 @@
         console.log('Customer ID:', ds.customerId);
         console.log('Facility ID:', ds.facilityId);
         console.log('Document Number:', ds.documentNumber);
+        console.log('Billing Period:', ds.billingPeriod);
 
         // Build route - if no facility, don't include it in the URL at all
         const customerId = ds.customerId;
         const facilityId = ds.facilityId && ds.facilityId !== 'null' && ds.facilityId !== '' ? ds.facilityId : null;
+        const billingPeriod = ds.billingPeriod;
 
         let route;
         if (facilityId) {
@@ -64,6 +66,7 @@
         document.getElementById('tax_facility_id').value = facilityId || '';
         document.getElementById('tax_document_number').value = ds.documentNumber;
         document.getElementById('modal-document-number').textContent = ds.documentNumber;
+        document.getElementById('billing_period').value = billingPeriod;
     }
 
     // Reset form after modal closes

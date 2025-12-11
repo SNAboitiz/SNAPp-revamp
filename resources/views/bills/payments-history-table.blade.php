@@ -27,9 +27,10 @@
                         @else
                             <flux:modal.trigger name="upload-2307">
                                 <button class="text-indigo-600 hover:text-indigo-900 font-semibold"
+                                    data-billing-period="{{ $item['Billing Period'] }}"
                                     data-document-number="{{ $item['Payment Reference'] }}"
-                                    data-customer-id="{{ $item['customer_id'] ?? auth()->user()->customer_id }}"
-                                    data-facility-id="{{ $item['facility_id'] ?? auth()->user()->facility_id }}"
+                                    data-customer-id="{{ !empty($item['customer_id']) ? $item['customer_id'] : auth()->user()->customer_id }}"
+                                    data-facility-id="{{ !empty($item['facility_id']) ? $item['facility_id'] : auth()->user()->facility_id }}"
                                     onclick="prepare2307Upload(this)">
                                     Upload 2307
                                 </button>

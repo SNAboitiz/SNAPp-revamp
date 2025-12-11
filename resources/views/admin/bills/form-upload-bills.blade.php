@@ -22,7 +22,7 @@ if (selectedCustomer) { filterFacilities(selectedCustomer); }">
             <div>
                 <flux:heading size="lg">Upload Bill</flux:heading>
                 <flux:text class="mt-2">
-                    Bill upload accepts pdf, doc, and docx formats.
+                    Bill upload accepts pdf format.
                 </flux:text>
             </div>
 
@@ -97,8 +97,8 @@ if (selectedCustomer) { filterFacilities(selectedCustomer); }">
                 </flux:field>
 
                 <flux:field class="md:col-span-2">
-                    <flux:input type="file" name="file_path" label="Document" badge="Required"
-                        accept=".pdf,.doc,.docx" required />
+                    <flux:input type="file" name="file_path" label="Document" badge="Required" accept=".pdf"
+                        required />
                     @error('file_path')
                         <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                     @enderror
