@@ -53,6 +53,7 @@ class CustomerTaxDocumentResource extends Resource
             ])
             ->recordActions([
                 Action::make('Download 2307')
+                    ->label('Download 2307')
                     ->color('secondary')
                     ->icon(Heroicon::OutlinedArrowDownTray)
                     ->action(fn (Model $record) => Storage::download($record->file_path, $record->customer->short_name.'_'.$record->billing_period.'_2307'.'.pdf')),
@@ -60,6 +61,7 @@ class CustomerTaxDocumentResource extends Resource
                 Action::make('Download Official Receipt')
                     ->color('secondary')
                     ->icon(Heroicon::OutlinedArrowDownTray)
+                    ->disabled(fn (Model $record) => ! $record->official_receipt)
                     ->action(fn (Model $record) => Storage::download($record->official_receipt, $record->customer->short_name.'_'.$record->billing_period.'_official_receipt'.'.pdf')),
 
                 Action::make('Upload Official Receipt')
