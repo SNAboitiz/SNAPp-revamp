@@ -79,6 +79,13 @@
                             <flux:icon name="scroll" class="w-6 h-6 text-white" />
                             <span x-show="!collapsed" class="text-white">{{ __('Manage Payments') }}</span>
                         </a>
+
+                        <a href="{{ route('bills.manage') }}"
+                            class="group flex items-center p-2 rounded-md hover:bg-blue-500 transition-colors"
+                            :class="{ 'justify-center': collapsed, 'space-x-2': !collapsed }">
+                            <flux:icon name="scroll" class="w-6 h-6 text-white" />
+                            <span x-show="!collapsed" class="text-white">{{ __('Manage Bills') }}</span>
+                        </a>
                     @endrole
 
                     @can('can view contracts')
@@ -144,12 +151,6 @@
                             <span x-show="!collapsed" class="text-white">{{ __('Facilities') }}</span>
                         </a>
 
-                        <a href="{{ route('bills.manage') }}"
-                            class="group flex items-center p-2 rounded-md hover:bg-blue-500 transition-colors"
-                            :class="{ 'justify-center': collapsed, 'space-x-2': !collapsed }">
-                            <flux:icon name="scroll" class="w-6 h-6 text-white" />
-                            <span x-show="!collapsed" class="text-white">{{ __('Manage Bills') }}</span>
-                        </a>
                         <flux:dropdown position="right-start" class="w-full">
                             <button
                                 class="group flex items-center w-full p-2 rounded-md hover:bg-blue-500 transition-colors"
